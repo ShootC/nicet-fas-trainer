@@ -194,3 +194,11 @@ td.num,th.num{text-align:right}
 
 /* Print: tab checklist */
 @media print{.appbar,.foot,.noprint,.toasts{display:none!important}body{background:#fff;color:#000}.card{border:0;padding:0}main{padding:0}}
+
+/* Badges */
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:10px}
+.badge-card{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:start;background:var(--surface);border:1px solid var(--line);padding:12px;min-width:0}
+.badge-card:not(.got) .badge-ico{filter:grayscale(1);opacity:.35}
+.badge-card.got{border-color:var(--gold);box-shadow:inset 0 3px 0 var(--gold)}
+.badge-ico{font-size:30px;line-height:1;text-align:center}
+.badge-pop{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:center;text-align:left;margin-top:10px}

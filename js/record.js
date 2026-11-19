@@ -26,6 +26,7 @@ export function recordReview(key, res) {
   const S = state();
   const right = res.right && res.tries === 1;
   const outcome = reviewAnswer(key, right);
+  if (outcome === 'graduated') { S.stats = S.stats || {}; S.stats.graduated = (S.stats.graduated || 0) + 1; }
   if (right) { S.bonus = (S.bonus || 0) + CONFIG.xp.review; toast('+' + CONFIG.xp.review + ' XP · review'); }
   // Keep the underlying record's "last" flag in step so task mastery reflects review work.
   const [kind, id] = [key.slice(0, key.indexOf(':')), key.slice(key.indexOf(':') + 1)];
@@ -54,6 +55,14 @@ export function recordLookup(id, mode, res) {
     else if (S.review[key]) reviewAnswer(key, true);
   }
   markStudyDay(); save();
+}
+
+// A full task session with every question right on the first try.
+export function recordPerfectSession() {
+  const S = state();
+  S.stats = S.stats || {};
+  S.stats.perfect = (S.stats.perfect || 0) + 1;
+  save();
 }
 
 export function recordExam(levelId, result) {

@@ -3,7 +3,8 @@ import { el, esc, pct, fmtInt } from '../util.js';
 import { LEVELS } from '../../data/levels.js';
 import { CONFIG } from '../../data/config.js';
 import { QUESTIONS } from '../../data/questions/index.js';
-import { totalXP, rankFor, levelStats, taskStats, isUnlocked, lookupStats, labPoints, streak } from '../xp.js';
+import { totalXP, rankFor, levelStats, taskStats, isUnlocked, lookupStats, labPoints, streak, earnedBadges } from '../xp.js';
+import { BADGES } from '../../data/badges.js';
 import { dueReviews } from '../store.js';
 
 function nextStep() {
@@ -56,6 +57,9 @@ export function render(main) {
     '<a class="card copper" href="#/lookup"><span class="eyebrow">Code lookup</span><h3 style="margin-top:4px">' + lk.exact + ' of ' + lk.total + ' sections found</h3><p class="small muted">The exam is open book. Speed in the book is points.</p></a>' +
     '<a class="card copper" href="#/review"><span class="eyebrow">Review</span><h3 style="margin-top:4px">' + (due ? due + ' due now' : 'Nothing due') + '</h3><p class="small muted">Missed questions come back until they stick.</p></a>' +
     '<a class="card copper" href="#/lab"><span class="eyebrow">Circuit lab</span><h3 style="margin-top:4px">' + fmtInt(labPoints()) + ' of 1,160 points</h3><p class="small muted">Ohm’s law to strobe spacing, hands-on.</p></a>' +
+    (() => { const got = earnedBadges(); const last = got[got.length - 1];
+      return '<a class="card copper" href="#/progress"><span class="eyebrow">Badges</span><h3 style="margin-top:4px">' + got.length + ' of ' + BADGES.length + ' earned</h3><p class="small muted">' +
+        (got.length ? '<span aria-hidden="true">' + got.map(b => b.icon).join(' ') + '</span>' : 'First one: answer a question. ' + esc(BADGES[0].name) + ' is waiting.') + '</p></a>'; })() +
     '</div>'));
 
   main.append(el('div', { class: 'section callout warn small' }, '<b>Code editions.</b> ' + esc(CONFIG.editionNote)));

@@ -48,12 +48,21 @@ function showNextModal() {
   const [html, onClose] = modalQueue[0];
   const d = $('#modal');
   d.innerHTML = '<div class="card">' + html + '<div class="row" style="justify-content:center;margin-top:16px"><button class="btn primary" data-close>OK</button></div></div>';
-  d.querySelector('[data-close]').addEventListener('click', () => d.close());
-  d.addEventListener('close', () => {
+  // Advance the queue from the OK button itself: some browsers deliver the dialog "close"
+  // event late or not at all. The close event still covers the Escape key; a stale one that
+  // arrives while the next modal is already open is ignored.
+  let done = false;
+  const onCloseEvent = () => { if (!d.open) finish(); };
+  const finish = () => {
+    if (done) return;
+    done = true;
+    d.removeEventListener('close', onCloseEvent);
     modalQueue.shift();
     if (onClose) onClose();
     if (modalQueue.length) showNextModal();
-  }, { once: true });
+  };
+  d.querySelector('[data-close]').addEventListener('click', () => { d.close(); finish(); });
+  d.addEventListener('close', onCloseEvent);
   d.showModal();
 }
 // Normalize a typed code reference so "§ 17.15.6", "17.15.6 " and "Sec. 17.15.6" compare equal.

@@ -5,6 +5,7 @@ import { LEVELS } from '../data/levels.js';
 import { LAB_STATIONS } from '../data/lab.js';
 import { QUESTIONS } from '../data/questions/index.js';
 import { LOOKUPS } from '../data/lookups/index.js';
+import { BADGES, BADGE_XP } from '../data/badges.js';
 import { state, labState } from './store.js';
 import { today } from './util.js';
 
@@ -27,7 +28,8 @@ export function xpBreakdown() {
   for (const k in S.lk) b.lookups += S.lk[k].pts || 0;
   for (const k in S.lkc) b.lookups += S.lkc[k].pts || 0;
   for (const lv in S.exams) if ((S.exams[lv] || []).some(e => e.pass)) b.exams += CONFIG.xp.examPass[lv] || 0;
-  b.total = b.questions + b.lookups + b.review + b.exams + b.lab;
+  b.badges = earnedBadges().length * BADGE_XP;
+  b.total = b.questions + b.lookups + b.review + b.exams + b.lab + b.badges;
   return b;
 }
 export const totalXP = () => xpBreakdown().total;
@@ -82,4 +84,31 @@ export function streak() {
   if (!days.has(today(d))) d.setDate(d.getDate() - 1); // a streak survives until the end of today
   while (days.has(today(d))) { n++; d.setDate(d.getDate() - 1); }
   return n;
+}
+
+/* ---- Badges ---- */
+export function badgeStats() {
+  const S = state(); const st = S.stats || {};
+  let tasksMastered = 0, l1TasksMastered = 0;
+  for (const L of LEVELS) for (const D of L.domains || []) for (const T of D.tasks) {
+    if (taskStats(T.id).mastered) { tasksMastered++; if (L.id === 'l1') l1TasksMastered++; }
+  }
+  const times = Object.values(S.lk).map(r => r.ms).filter(ms => typeof ms === 'number' && ms > 0);
+  return {
+    answered: Object.keys(S.q).length,
+    perfect: st.perfect || 0,
+    tasksMastered, l1TasksMastered,
+    l1Pass: levelStats('l1').passed, l2Pass: levelStats('l2').passed,
+    exact: Object.values(S.lk).filter(r => r.last).length,
+    chapters: Object.values(S.lkc).filter(r => r.last).length,
+    fastestMs: times.length ? Math.min(...times) : null,
+    graduated: st.graduated || 0,
+    streak: streak(),
+    lab: labPoints(),
+    labStations: LAB_STATIONS.filter(x => labStation(x).pts > 0).length
+  };
+}
+export function earnedBadges() {
+  const s = badgeStats();
+  return BADGES.filter(b => { try { return !!b.test(s); } catch (e) { return false; } });
 }

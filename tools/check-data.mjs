@@ -4,6 +4,7 @@ import { QUESTIONS } from '../data/questions/index.js';
 import { LOOKUPS } from '../data/lookups/index.js';
 import { BOOKS } from '../data/books.js';
 import { LEVELS } from '../data/levels.js';
+import { BADGES } from '../data/badges.js';
 
 const errors = [], warns = [];
 const err = (where, msg) => errors.push(where + ': ' + msg);
@@ -54,7 +55,15 @@ LOOKUPS.forEach((x, i) => {
   if (!Array.isArray(x.levels) || !x.levels.length || x.levels.some(l => !LEVELS.find(L => L.id === l))) err(w, 'levels must list l1 and/or l2');
 });
 
+const bids = new Set();
+BADGES.forEach((b, i) => {
+  const w = 'badge #' + (i + 1) + (b && b.id ? ' (' + b.id + ')' : '');
+  if (!b.id) err(w, 'missing id'); else if (bids.has(b.id)) err(w, 'duplicate id'); else bids.add(b.id);
+  if (!b.name || !b.desc || !b.icon) err(w, 'needs icon, name and desc');
+  if (typeof b.test !== 'function') err(w, 'test must be a function');
+});
+
 for (const w of warns) console.log('warn  ' + w);
 for (const e of errors) console.log('ERROR ' + e);
-console.log(qn + ' questions in ' + Object.keys(QUESTIONS).length + ' tasks, ' + LOOKUPS.length + ' lookups. ' + errors.length + ' error(s), ' + warns.length + ' warning(s).');
+console.log(qn + ' questions in ' + Object.keys(QUESTIONS).length + ' tasks, ' + LOOKUPS.length + ' lookups, ' + BADGES.length + ' badges. ' + errors.length + ' error(s), ' + warns.length + ' warning(s).');
 process.exit(errors.length ? 1 : 0);
