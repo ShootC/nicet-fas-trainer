@@ -7,7 +7,7 @@ import { CONFIG } from '../../data/config.js';
 import { state } from '../store.js';
 import { known, taskStats, isUnlocked } from '../xp.js';
 import { askQuestion, answerText } from './askq.js';
-import { recordQuestion } from '../record.js';
+import { recordQuestion, recordPerfectSession } from '../record.js';
 
 const SESSION = 10;
 
@@ -79,6 +79,7 @@ export function renderTask(main, taskId) {
     const res = set.map((_, k) => answered[k] || { right: false, tries: 0, pts: 0 });
     const first = res.filter(r => r.right && r.tries === 1).length;
     const second = res.filter(r => r.right && r.tries === 2).length;
+    if (set.length >= 10 && first === set.length) recordPerfectSession();
     const st = taskStats(taskId);
     const missed = set.map((q, k) => ({ q, r: res[k] })).filter(x => !(x.r.right && x.r.tries === 1));
     wrap.innerHTML = '';

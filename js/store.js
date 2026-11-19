@@ -14,6 +14,7 @@ const blank = () => ({
   bonus: 0,     // XP from review answers
   exams: {},    // level id    -> [{ at, n, right, pct, pass, secs }]
   days: [],     // study days, yyyy-mm-dd
+  stats: { perfect: 0, graduated: 0 }, // counters badges need that are not derivable from answers
   seenRank: 1,
   settings: { theme: 'auto' }
 });

@@ -1,8 +1,10 @@
-# On every push to main: check the question and lookup data, and publish to GitHub Pages
-# only if the check passes. A typo in a question file never reaches trainees.
+# Pull requests: run the data check, so a PR shows a green check (or what to fix) before merging.
+# Pushes to main: check, then publish to GitHub Pages only if the check passes.
 name: Check and publish
 on:
   push:
+    branches: [main]
+  pull_request:
     branches: [main]
   workflow_dispatch:
 permissions:
@@ -23,6 +25,7 @@ jobs:
       - run: node tools/check-data.mjs
   deploy:
     needs: check
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     environment:
       name: github-pages

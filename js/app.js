@@ -1,7 +1,8 @@
 // Boot, hash router, app bar.
 import { $, $$, modal, esc } from './util.js';
 import { state, save, onChange, dueReviews } from './store.js';
-import { totalXP, rankFor, isUnlocked } from './xp.js';
+import { totalXP, rankFor, isUnlocked, earnedBadges } from './xp.js';
+import { BADGE_XP } from '../data/badges.js';
 import * as home from './views/home.js';
 import * as level from './views/level.js';
 import * as quiz from './views/quiz.js';
@@ -70,6 +71,22 @@ function paintBar() {
       (r.next ? ' · next: ' + esc(r.next.name) + ' at ' + r.next.xp.toLocaleString('en-US') + ' XP' : ' · top rank') + '</p>');
   }
   lastRank = r.n;
+  checkBadges();
+}
+
+// Celebrate badges earned since last time. Profiles from before badges existed are
+// caught up silently on first load, so nobody gets a pile of pop-ups for old work.
+function checkBadges() {
+  const S = state();
+  const ids = earnedBadges().map(b => b.id);
+  if (!Array.isArray(S.seenBadges)) { S.seenBadges = ids; save(); return; }
+  const fresh = earnedBadges().filter(b => !S.seenBadges.includes(b.id));
+  if (!fresh.length) return;
+  S.seenBadges = S.seenBadges.concat(fresh.map(b => b.id));
+  save();
+  modal('<div class="eyebrow">Badge' + (fresh.length > 1 ? 's' : '') + ' earned</div>' +
+    fresh.map(b => '<div class="badge-pop"><span class="badge-ico" aria-hidden="true">' + b.icon + '</span><div><b>' + esc(b.name) + '</b><br><span class="small muted">' + esc(b.desc) + '</span></div></div>').join('') +
+    '<p class="small muted" style="margin-top:10px">+' + BADGE_XP * fresh.length + ' XP · <a href="#/progress">see all badges</a></p>');
 }
 
 onChange(paintBar);

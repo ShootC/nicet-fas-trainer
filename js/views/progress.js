@@ -3,7 +3,8 @@ import { el, esc, pct, fmtInt, modal } from '../util.js';
 import { LEVELS } from '../../data/levels.js';
 import { CONFIG } from '../../data/config.js';
 import { state, save, exportBlob, importData, resetAll } from '../store.js';
-import { xpBreakdown, rankFor, taskStats, levelStats, isUnlocked, streak } from '../xp.js';
+import { xpBreakdown, rankFor, taskStats, levelStats, isUnlocked, streak, earnedBadges } from '../xp.js';
+import { BADGES, BADGE_XP } from '../../data/badges.js';
 
 export function render(main) {
   const S = state(); const b = xpBreakdown(); const r = rankFor(b.total);
@@ -12,7 +13,7 @@ export function render(main) {
   const top = el('div', { class: 'grid g2' });
   top.append(el('div', { class: 'card accent' },
     '<h3>XP · ' + fmtInt(b.total) + '</h3><table style="margin-top:6px"><tbody>' +
-    [['Task questions', b.questions], ['Lookups', b.lookups], ['Review', b.review], ['Practice exams', b.exams], ['Circuit lab', b.lab]]
+    [['Task questions', b.questions], ['Lookups', b.lookups], ['Review', b.review], ['Practice exams', b.exams], ['Badges', b.badges], ['Circuit lab', b.lab]]
       .map(([k, v]) => '<tr><td>' + k + '</td><td class="num mono">' + fmtInt(v) + '</td></tr>').join('') +
     '</tbody></table><p class="small muted" style="margin:8px 0 0">' + streak() + '-day streak · ' + S.days.length + ' study day' + (S.days.length === 1 ? '' : 's') + '</p>'));
   top.append(el('div', { class: 'card' },
@@ -20,6 +21,13 @@ export function render(main) {
     CONFIG.ranks.map((k, i) => '<tr' + (i + 1 === r.n ? ' style="font-weight:600"' : '') + '><td class="mono">' + (i + 1) + '</td><td>' + esc(k.name) + (i + 1 === r.n ? ' ← you' : '') + '</td><td class="num mono">' + fmtInt(k.xp) + '</td></tr>').join('') +
     '</tbody></table>'));
   main.append(top);
+
+  const got = new Set(earnedBadges().map(x => x.id));
+  const shelf = el('div', { class: 'section', id: 'badges' }, '<div class="spread"><h2>Badges</h2><span class="pill gold">' + got.size + ' of ' + BADGES.length + ' · ' + BADGE_XP + ' XP each</span></div>');
+  shelf.append(el('div', { class: 'badges' }, BADGES.map(x =>
+    '<div class="badge-card' + (got.has(x.id) ? ' got' : '') + '"><span class="badge-ico" aria-hidden="true">' + x.icon + '</span>' +
+    '<div><b>' + esc(x.name) + '</b>' + (got.has(x.id) ? ' <span class="pill ok">Earned</span>' : '') + '<br><span class="small muted">' + esc(x.desc) + '</span></div></div>').join('')));
+  main.append(shelf);
 
   for (const L of LEVELS) {
     if (L.comingSoon) continue;
