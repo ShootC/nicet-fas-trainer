@@ -61,7 +61,7 @@ export function render(main) {
     seg.append(bt);
   }
   theme.append(seg);
-  const file = el('div', {}, '<span class="eyebrow">Save file</span><p class="small muted" style="margin:4px 0 8px">Includes Circuit Lab progress. Importing replaces what is on this device.</p>');
+  const file = el('div', {}, '<span class="eyebrow">Save file</span><p class="small muted" style="margin:4px 0 8px">Includes Circuit Lab progress. Importing replaces what is on this device. To move to a new phone, export here and import there (<a href="#/install">install steps</a>).</p>');
   const row = el('div', { class: 'row' });
   const exp = el('button', { type: 'button', class: 'btn sm' }, 'Export progress');
   exp.addEventListener('click', () => {

@@ -11,6 +11,8 @@ import * as lookup from './views/lookup.js';
 import * as review from './views/review.js';
 import * as lab from './views/lab.js';
 import * as progress from './views/progress.js';
+import * as install from './views/install.js';
+import './pwa.js'; // starts listening for the browser's install prompt right away
 
 const main = $('#main');
 let cleanup = null;
@@ -27,7 +29,8 @@ const ROUTES = [
   [/^\/lookup\/book\/(\w+)$/, m => lookup.renderBook(main, m[1]), 'lookup'],
   [/^\/review$/, () => review.render(main), 'review'],
   [/^\/lab$/, () => lab.render(main), 'lab'],
-  [/^\/progress$/, () => progress.render(main), 'progress']
+  [/^\/progress$/, () => progress.render(main), 'progress'],
+  [/^\/install$/, () => install.render(main), 'install']
 ];
 
 function route() {

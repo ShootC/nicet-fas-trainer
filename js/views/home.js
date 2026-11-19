@@ -6,6 +6,7 @@ import { QUESTIONS } from '../../data/questions/index.js';
 import { totalXP, rankFor, levelStats, taskStats, isUnlocked, lookupStats, labPoints, streak, earnedBadges } from '../xp.js';
 import { BADGES } from '../../data/badges.js';
 import { dueReviews } from '../store.js';
+import { isInstalled } from '../pwa.js';
 
 function nextStep() {
   const due = dueReviews().length;
@@ -62,5 +63,8 @@ export function render(main) {
         (got.length ? '<span aria-hidden="true">' + got.map(b => b.icon).join(' ') + '</span>' : 'First one: answer a question. ' + esc(BADGES[0].name) + ' is waiting.') + '</p></a>'; })() +
     '</div>'));
 
+  if (!isInstalled()) {
+    main.append(el('div', { class: 'section callout small' }, '<b>Study on the job.</b> Install the trainer on your phone or computer. It works offline. <a href="#/install">Get the app →</a>'));
+  }
   main.append(el('div', { class: 'section callout warn small' }, '<b>Code editions.</b> ' + esc(CONFIG.editionNote)));
 }
