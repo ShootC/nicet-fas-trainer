@@ -1,0 +1,11 @@
+{
+  "name": "nicet-fas-trainer",
+  "private": true,
+  "type": "module",
+  "description": "Study app for NICET Fire Alarm Systems Levels I and II. Static site, no build step.",
+  "scripts": {
+    "serve": "node tools/serve.mjs",
+    "check": "node tools/check-data.mjs",
+    "sync-lab": "node tools/sync-lab.mjs"
+  }
+}

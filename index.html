@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NICET FAS Trainer</title>
+<meta name="description" content="Study app for NICET Fire Alarm Systems Levels I and II: task quizzes, code-book lookup drills, a circuit lab and practice exams.">
+<meta name="theme-color" content="#C41E3A">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/app.css">
+<script>
+  /* Apply the saved theme before first paint so there is no flash. */
+  try { var t = JSON.parse(localStorage.getItem('nicet-trainer-v1') || '{}').settings; if (t && t.theme && t.theme !== 'auto') document.documentElement.setAttribute('data-theme', t.theme); } catch (e) {}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="appbar">
+  <div class="wrap appbar-in">
+    <a class="brand" href="#/home" aria-label="NICET FAS Trainer home">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-t">NICET FAS <b>Trainer</b></span>
+    </a>
+    <a class="rankchip" href="#/progress" id="rankChip" aria-label="Your rank and XP">
+      <span class="rc-rank" id="rcRank">Rank 1</span>
+      <span class="rc-bar"><i id="rcBar"></i></span>
+      <span class="rc-xp" id="rcXp">0 XP</span>
+    </a>
+  </div>
+  <nav class="wrap tabs" aria-label="Sections" id="tabs">
+    <a href="#/home" data-tab="home">Home</a>
+    <a href="#/level/l1" data-tab="l1">Level I</a>
+    <a href="#/level/l2" data-tab="l2">Level II <span class="lock" id="l2Lock" aria-label="locked">🔒</span></a>
+    <a href="#/lookup" data-tab="lookup">Code lookup</a>
+    <a href="#/lab" data-tab="lab">Circuit lab</a>
+    <a href="#/review" data-tab="review">Review <span class="badge" id="reviewBadge" hidden></span></a>
+    <a href="#/progress" data-tab="progress">Progress</a>
+  </nav>
+</header>
+<main id="main" class="wrap" tabindex="-1"></main>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<dialog id="modal" class="modal"></dialog>
+<footer class="wrap foot">
+  <p>Study aid for NICET Fire Alarm Systems candidates. Not affiliated with NICET or NFPA. Code references point you to the book; they do not reproduce it. Your progress is saved only in this browser — use <a href="#/progress">Progress → Export</a> to move it.</p>
+</footer>
+<noscript><p class="wrap">This app needs JavaScript.</p></noscript>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
