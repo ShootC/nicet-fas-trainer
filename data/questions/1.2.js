@@ -138,6 +138,143 @@ export default {
       tol: 0,
       ex: "Reacceptance after a software change needs 10 percent of the initiating devices not directly affected, up to a maximum of 50 devices. 640 × 0.10 = 64, which is over the cap, so 50 are tested. Forgetting the 50 device cap is the trap. This sample shows the change did not disturb parts of the program nobody meant to touch.",
       ref: "NFPA 72-2022 14.4.2.4"
+    },
+    {
+      id: "1.2.1-16",
+      type: "mc",
+      q: "A small local fire alarm system is <b>not</b> monitored for alarm, supervisory and trouble signals. How often does NFPA 72-2022 call for a visual inspection of its control unit fuses, lamps and LEDs, primary power supply and trouble signals?",
+      opts: ["Annually","Semiannually","Weekly","Monthly"],
+      a: 2,
+      ex: "When nobody off site is watching the panel, a person has to look at it, so the visual inspection table sets a weekly check of the control equipment on an unmonitored system. Annually is the trap: that is the interval for the fuses, lamps and primary power on a <i>monitored</i> system, where a fault is reported automatically. Either way the check is the same: confirm the panel shows a normal condition.",
+      ref: "NFPA 72-2022 Table 14.3.1(2)"
+    },
+    {
+      id: "1.2.1-17",
+      type: "multi",
+      q: "You are doing the visual inspection of a set of VRLA (sealed lead-acid) batteries. Which TWO conditions call for replacing the battery unit on the spot?",
+      opts: ["The case is bulged or distorted","The month and year of manufacture show the unit is 18 months old","Electrolyte has leaked from the unit","There is dust on top of the unit","The unit has a lower amp-hour rating printed on it than the unit beside it"],
+      a: [0,2],
+      ex: "The visual inspection looks for corrosion at the terminals, a distorted or cracked case and leaking electrolyte, and a unit showing any of these is replaced. A swollen case means the unit has overheated or overcharged, and it can fail without warning. Age alone at 18 months is not a reason, but you do verify that the month and year of manufacture are marked on every unit. Mismatched ratings are a design problem to report, not a visual replacement item.",
+      ref: "NFPA 72-2022 Table 14.3.1(9)"
+    },
+    {
+      id: "1.2.1-18",
+      type: "mc",
+      q: "At a semiannual test the batteries are fully charged and on the charger. You measure 28.4 V across the 24 V battery set. The manufacturer's float range is 27.0 V to 27.6 V. Each 12 V unit reads 14.2 V. What does the charger test call for?",
+      opts: ["Adjust the charger to bring it within the limits, or replace the charger","Replace both batteries, because the voltage is abnormal","Nothing, because a higher charge voltage keeps the batteries fuller","Replace the batteries only if one unit is under 13.26 V, and leave the charger alone"],
+      a: 0,
+      ex: "The charger test compares the voltage across the battery with the battery or equipment manufacturer's recommended range. 28.4 V is above 27.6 V, so the charger is adjusted to within limits or replaced. The trap is blaming the batteries: both units pass the 13.26 V unit test, and the fault is the charger. Left alone, overcharging cooks the batteries and shortens their life.",
+      ref: "NFPA 72-2022 Table 14.4.3.2(9)"
+    },
+    {
+      id: "1.2.1-19",
+      type: "mc",
+      q: "You install a new set of VRLA batteries in a fire alarm control unit. What does the battery test table expect you to do for the ohmic test at that time?",
+      opts: ["Nothing, because an ohmic test only applies after the batteries are 3 years old","Discharge the batteries completely to prove their capacity","Measure the resistance of the battery leads and the fuse","Establish a baseline ohmic value for each unit, or use the manufacturer's baseline, and record it on each unit"],
+      a: 3,
+      ex: "An ohmic test (internal resistance, impedance or conductance) only means something when it is compared with a starting value. So when the battery is installed, a baseline is established for each unit, or the baseline from the battery or test equipment manufacturer is used, and it is recorded on the unit. Later readings are compared with that baseline to spot a unit that is wearing out. The table also allows a load test in place of the ohmic test.",
+      ref: "NFPA 72-2022 Table 14.4.3.2(9)"
+    },
+    {
+      id: "1.2.1-20",
+      type: "mc",
+      q: "Most initiating devices are functionally tested once a year. Which of these is tested <b>semiannually</b> under NFPA 72-2022?",
+      opts: ["A manual fire alarm box","A spot-type system smoke detector","A restorable spot-type heat detector","A vane-type (mechanical) sprinkler waterflow switch"],
+      a: 3,
+      ex: "Waterflow devices are tested semiannually. Manual fire alarm boxes, system smoke detectors and restorable heat detectors are on an annual functional test. The usual mix-up is with the visual inspection table, where all of these devices are looked at semiannually. Inspection frequency and test frequency are two different lookups.",
+      ref: "NFPA 72-2022 Table 14.4.3.2(17)"
+    },
+    {
+      id: "1.2.1-21",
+      type: "mc",
+      q: "You are testing the supervisory (tamper) switch on an outside stem and yoke sprinkler control valve. When must the signal be received as the valve is closed?",
+      opts: ["Only when the valve is fully closed","Within the first two revolutions of the handwheel, or within one-fifth of the valve's travel","Within the first half of the valve's travel","At any point, as long as the signal clears when the valve is reopened"],
+      a: 1,
+      ex: "The switch must signal early: within the first two revolutions of the handwheel or one-fifth of the travel distance, unless the manufacturer's instructions say otherwise. A valve that is only partly closed already cuts the water supply, so a switch that waits for full closure is no protection. Keep closing the valve after the signal and confirm the switch does not reset anywhere in the full travel. This test is semiannual.",
+      ref: "NFPA 72-2022 Table 14.4.3.2(17)"
+    },
+    {
+      id: "1.2.1-22",
+      type: "mc",
+      q: "How is a vane-type waterflow switch on a wet-pipe sprinkler system tested under NFPA 72-2022?",
+      opts: ["Flow water through the inspector's test connection, at a flow equal to one sprinkler of the smallest orifice size on the system","Open the main drain fully and confirm the alarm","Remove the switch cover and push the paddle lever by hand","Jumper the switch terminals at the device and confirm the alarm at the panel"],
+      a: 0,
+      ex: "The test must show that the flow from a single sprinkler will operate the switch, so water is flowed through the inspector's test connection (or another listed and approved waterflow test method). The main drain moves far more water than one sprinkler, so a switch that is set too stiff would still pass. A jumper or a finger on the lever only tests the wiring and the panel, not the device's ability to sense flow. Dry-pipe, pre-action and deluge systems use the alarm test bypass connection instead.",
+      ref: "NFPA 72-2022 Table 14.4.3.2(17)"
+    },
+    {
+      id: "1.2.1-23",
+      type: "mc",
+      q: "An initiating device circuit has 10 restorable, fixed-temperature spot-type heat detectors. Which schedule meets the heat detector testing rule in NFPA 72-2022?",
+      opts: ["Send 2 detectors per 100 to a laboratory every 15 years","Test at least 2 detectors on the circuit each year, different ones each year, so that every detector is tested within 5 years","Test 10 percent of the detectors each year, with no other limit","Test one detector on the circuit each year and rotate through them"],
+      a: 1,
+      ex: "For restorable spot-type heat detectors, two or more detectors on each initiating circuit are tested every year, different ones each time, and every detector must have been tested within 5 years. The owner keeps records showing which ones were done. Here that is 2 a year for 5 years. The laboratory rule (2 per 100 after 15 years) belongs to <i>nonrestorable</i> spot-type detectors, which cannot be heat tested.",
+      ref: "NFPA 72-2022 14.4.4.5; Table 14.4.3.2(17)"
+    },
+    {
+      id: "1.2.1-24",
+      type: "num",
+      q: "A dry-pipe sprinkler system has a required (normal) air pressure of 40 psi. When you bleed air to test the low-air pressure supervisory switch, the signal must be received before the pressure has dropped below what value? Use the limit in the NFPA 72 test table, and assume the manufacturer gives no other figure.",
+      unit: "psi",
+      a: 30,
+      tol: 0,
+      ex: "A high- or low-air pressure switch must signal by the time the pressure has changed a maximum of 10 psi from the required level. 40 − 10 = 30 psi. If the signal does not arrive until 25 psi, the switch is out of adjustment even though it 'works'. This is an annual test, and the signal is supervisory, not trouble.",
+      ref: "NFPA 72-2022 Table 14.4.3.2(17)"
+    },
+    {
+      id: "1.2.1-25",
+      type: "num",
+      q: "The annual secondary power test includes checking that the battery's rated capacity still exceeds the system's demand, with the safety margin. Manufacturer's data gives 0.150 A in standby and 2.0 A in alarm. The system needs 24 hours of standby and then 5 minutes of alarm. Using the NFPA 72-2022 correction factor, what is the minimum battery capacity? Round to two decimals.",
+      unit: "Ah",
+      a: 4.71,
+      tol: 0.05,
+      ex: "Standby: 0.150 A × 24 h = 3.60 Ah. Alarm: 2.0 A × (5 ÷ 60) h = 0.167 Ah. Total 3.767 Ah, and × 1.25 = 4.71 Ah. A 7 Ah battery set passes this check. Using the old 20 percent margin gives 4.52 Ah, which is the 2019 edition's answer, not the 2022 answer. Forgetting to turn 5 minutes into hours is the other common slip.",
+      ref: "NFPA 72-2022 Table 14.4.3.2(8); 10.6.7.2.14"
+    },
+    {
+      id: "1.2.1-26",
+      type: "multi",
+      q: "Which TWO checks does NFPA 72-2022 call for at the <b>periodic</b> (annual) test of notification appliances?",
+      opts: ["Confirm that every visual appliance (strobe) flashes","Measure the sound level in every room with a sound level meter","Confirm that the audible appliances operate","Measure each strobe's light output with a light meter","Compare every strobe's candela setting with the approved drawings"],
+      a: [0,2],
+      ex: "The periodic test is an operation check: each strobe flashes and the audible appliances sound. Sound level meter readings belong to initial and reacceptance testing, and so does comparing candela settings with the approved drawings. Nobody measures strobe output in the field. If the building has been remodeled since acceptance, that is a reason to raise coverage with the owner, but it is not part of the routine annual test.",
+      ref: "NFPA 72-2022 Table 14.4.3.2(22)"
+    },
+    {
+      id: "1.2.1-27",
+      type: "multi",
+      q: "To test detectors without recalling the elevators or dropping the fire doors, the elevator recall and door release interface relays are disabled for the day. Which TWO statements match NFPA 72-2022?",
+      opts: ["The emergency control function interface devices must still have their activation verified as part of the annual test","Emergency control functions are tested at acceptance only","Once disabled, an interface may stay disabled until the next annual test","Before you leave, verify that every disabled or disconnected interface device has been properly restored, including magnetic door holders","Restoring the interfaces is always the elevator contractor's job, not the fire alarm technician's"],
+      a: [0,3],
+      ex: "Emergency control function interface devices are verified at initial, reacceptance and periodic (annual) testing. Disabling them while you test detectors is normal practice, but the table then requires you to verify that each one is properly restored, door release devices included. A recall relay left bypassed is a hidden impairment: the detectors still alarm, but the elevators and doors do nothing.",
+      ref: "NFPA 72-2022 Table 14.4.3.2(24)"
+    },
+    {
+      id: "1.2.1-28",
+      type: "mc",
+      q: "The control unit's <b>primary (main) power supply</b> is tested annually. How is that test done?",
+      opts: ["Disconnect the AC power and run the system in alarm for 5 minutes","Measure the AC voltage at the panel terminals and record it","Disconnect all secondary (standby) power and operate the system under maximum load, then reconnect the batteries","Turn the breaker off and on, and confirm the panel restarts"],
+      a: 2,
+      ex: "To prove the main power supply can carry the system by itself, the batteries are disconnected and the system is run at maximum load, with all the alarm appliances that must operate together. Then the batteries are reconnected. Pulling the AC is the mirror-image test for the <i>secondary</i> supply, and that is the tempting wrong answer. If the supply only holds up the load with the batteries helping, it has failed.",
+      ref: "NFPA 72-2022 Table 14.4.3.2(2)"
+    },
+    {
+      id: "1.2.1-29",
+      type: "mc",
+      q: "A heat detector is mounted above energized switchgear and cannot be reached safely while the plant is running. What does NFPA 72-2022 permit?",
+      opts: ["Skipping its test permanently if the owner signs a waiver","Testing it during a scheduled shutdown if the AHJ approves, with the interval not more than 18 months","Testing it once every 5 years with the other heat detectors","Marking it 'tested' because the rest of the circuit passed"],
+      a: 1,
+      ex: "Devices that are inaccessible for safety reasons, such as energized equipment, continuous processes, radiation or excessive height, may be tested during scheduled shutdowns when the AHJ approves. The stretched interval may not exceed 18 months. The owner cannot waive the test, and a device is never recorded as tested when it was not.",
+      ref: "NFPA 72-2022 14.4.4.1"
+    },
+    {
+      id: "1.2.1-30",
+      type: "mc",
+      q: "An apartment building has single-station smoke alarms with a date of manufacture of March 2018. They were installed in January 2019 and every one still passes its test. With no longer period given in the manufacturer's instructions, what is the latest they may stay in service?",
+      opts: ["March 2028","January 2029","Until one fails its test","March 2033"],
+      a: 0,
+      ex: "Smoke alarms are replaced when they fail a test, and in any case they may not stay in service longer than 10 years from the date of <b>manufacture</b>, unless the manufacturer's published instructions provide otherwise. March 2018 + 10 years = March 2028. Counting from the installation date is the trap, and here it would add 10 months. Read the date code on the back of the alarm, not the job file.",
+      ref: "NFPA 72-2022 14.4.5.6"
     }
   ],
   "1.2.2": [
@@ -277,6 +414,143 @@ export default {
       a: [1,3],
       ex: "Returning to normal means nothing is left bypassed, disabled or on test, and the people who receive the signals know that the next one is real. An account left on test, or a zone left disabled, is an impairment nobody knows about: a real alarm would go nowhere. A silenced trouble is still a trouble, so it is either cleared or reported in writing.",
       ref: "NFPA 72-2022 Ch 14 (notification at the end of testing); 10.21 (impairments)"
+    },
+    {
+      id: "1.2.2-16",
+      type: "mc",
+      q: "An addressable panel reports 'missing device' (no response) for one smoke detector on a Class B signaling line circuit. The devices wired <b>after</b> it on the same circuit are still communicating normally. Where is the problem most likely to be?",
+      opts: ["An open in the circuit wiring between the panel and that detector","A short across the circuit near the panel","At that detector: the head is removed or failed, or its address is wrong","A ground fault on the circuit"],
+      a: 2,
+      ex: "On a Class B circuit, an open in the wire cuts off everything past the break. Here the devices downstream still answer, so the wire is intact through that location. That points to the one device: a head removed from its base, a failed unit or an address set wrong. A short would take down the whole circuit (or everything between isolators), and a ground fault reports as a ground fault, not as one missing device.",
+      ref: "Field practice (missing device on an addressable circuit); NFPA 72-2022 Ch 12 (Class B pathways)"
+    },
+    {
+      id: "1.2.2-17",
+      type: "num",
+      q: "A conventional zone uses a 3.9 kΩ end-of-line resistor. The panel shows a trouble on the zone. You find that someone added a 2.2 kΩ resistor across the pair at a new detector in the middle of the run, and left the original 3.9 kΩ resistor at the end. With the circuit disconnected from the panel, what resistance do you read across the pair? Ignore the wire resistance and round to the nearest ohm.",
+      unit: "Ω",
+      a: 1407,
+      tol: 5,
+      ex: "The two resistors are in parallel across the same pair, so use product over sum: (3,900 × 2,200) ÷ (3,900 + 2,200) = 8,580,000 ÷ 6,100 = 1,407 Ω. A parallel group always reads lower than its smallest resistor. The panel expects about 3.9 kΩ, so it reports the zone as off-normal. Adding the two values (6,100 Ω) is the series answer, and it is the usual mistake. A zone gets exactly one end-of-line device, at the end of the circuit.",
+      ref: "Ugly's Electrical References 2020 (parallel resistance); Field practice (end-of-line resistors)"
+    },
+    {
+      id: "1.2.2-18",
+      type: "num",
+      q: "Strobes at the end of a notification appliance circuit are flashing weakly. In alarm you measure 24.0 V at the panel's circuit terminals, 19.2 V at the last appliance, and 1.5 A of circuit current. Treat all the appliances as one load at the end of the run. What is the total resistance of the wiring loop, out and back?",
+      unit: "Ω",
+      a: 3.2,
+      tol: 0.05,
+      ex: "The wiring is dropping 24.0 − 19.2 = 4.8 V. By Ohm's law, R = E ÷ I = 4.8 ÷ 1.5 = 3.2 Ω. Now compare that with what the wire should be. If this run is 250 ft one-way of 14 AWG solid, the loop should be about 500 ft × 3.07 Ω per 1,000 ft (NEC Chapter 9, Table 8) = 1.5 Ω. Twice the expected resistance points to a loose terminal or a bad splice, not to wire that is too small.",
+      ref: "Ugly's Electrical References 2020 (Ohm's law)"
+    },
+    {
+      id: "1.2.2-19",
+      type: "mc",
+      q: "A control unit shows a ground fault. Six field circuits are connected to it and nothing tells you which one is at fault. What is the most efficient first step?",
+      opts: ["Disconnect the field circuits at the panel one at a time, giving the panel time to respond, until the ground fault clears","Replace the control unit's main board","Remove every end-of-line resistor in the building","Replace the batteries, because a weak battery causes most ground faults"],
+      a: 0,
+      ex: "Lifting one circuit at a time splits the problem. When the ground fault indication clears, the circuit you just removed is the one touching ground. Then use the same idea on that circuit: open it at the halfway point and see which half still reads to ground. Give the panel time after each step, because a ground fault can take a while to clear from the display. Swapping parts before isolating the fault is guessing with the customer's money.",
+      ref: "Field practice (isolating a ground fault)"
+    },
+    {
+      id: "1.2.2-20",
+      type: "mc",
+      q: "Before taking resistance readings on a circuit you have disconnected from the panel, you check it for voltage and find 3.8 V AC between one conductor and ground. What does this mean under the conductor tests in NFPA 72-2022?",
+      opts: ["It is normal, because anything under 5 V is ignored","It is above the 1 V maximum for stray voltage, so find and remove the source before you go on","It proves the circuit has a dead short","It means the end-of-line resistor is missing"],
+      a: 1,
+      ex: "Installation conductors should carry no stray (unwanted) voltage, either conductor-to-conductor or conductor-to-ground. The limit is 1 volt AC or DC unless the equipment manufacturer gives a different threshold. Stray voltage usually comes from fire alarm cable run alongside power wiring, or from contact with another system's wiring. It also makes your ohmmeter readings worthless, so check for voltage first and resistance second.",
+      ref: "NFPA 72-2022 Table 14.4.3.2(15)"
+    },
+    {
+      id: "1.2.2-21",
+      type: "mc",
+      q: "To check that a circuit is supervised, you lift one conductor off a device terminal. What is the longest the system may take to indicate the trouble?",
+      opts: ["10 seconds","90 seconds","24 hours","200 seconds"],
+      a: 3,
+      ex: "A single open or a single ground fault on a monitored pathway must be indicated automatically within 200 seconds. So wait a full 3 minutes and 20 seconds before you decide a circuit is not supervised. 10 seconds is the limit for alarm notification to start, and 90 seconds comes from waterflow and supervisory timing. 24 hours is the re-sound interval for a silenced trouble, which is a different rule.",
+      ref: "NFPA 72-2022 12.6"
+    },
+    {
+      id: "1.2.2-22",
+      type: "mc",
+      q: "A Class A signaling line circuit shows an open-circuit trouble at the panel, but a walk test proves every device on the circuit still reports. What is going on?",
+      opts: ["There is a real break in the loop, and the panel is reaching the devices from both ends","The trouble is false, because all the devices work","The circuit has a short, and the isolators have cleared it","The end-of-line resistor has failed"],
+      a: 0,
+      ex: "A Class A pathway has a redundant path, so it keeps operating past a single open and reports the open as a trouble. The devices work because they are now fed from both ends of the loop. Calling it a false trouble is the trap: the circuit has used up its spare path, and a second break would cut off every device between the two breaks. Find and repair the open now. A Class A circuit has no end-of-line resistor.",
+      ref: "NFPA 72-2022 12.3 (Class A pathways)"
+    },
+    {
+      id: "1.2.2-23",
+      type: "mc",
+      q: "You replace one horn-strobe on a conventional Class B notification appliance circuit. The circuit was normal before. Now the panel shows a trouble on that circuit in standby, and in an alarm test the new appliance is the only one that does not operate. What do you check first?",
+      opts: ["The panel's battery charger","The end-of-line resistor value","The candela setting on the new appliance","The polarity of the wires on the new appliance"],
+      a: 3,
+      ex: "A conventional NAC is supervised with a small current at one polarity, and the panel reverses polarity to drive the appliances in alarm. Each appliance blocks the supervisory current, so the panel sees only the end-of-line resistor. An appliance wired backwards passes supervisory current in standby, so the panel no longer sees the correct end-of-line value, and in alarm that appliance stays dark. The fault appeared with your work, so start where you just had the wires off.",
+      ref: "Field practice (reversed polarity on a notification appliance)"
+    },
+    {
+      id: "1.2.2-24",
+      type: "mc",
+      q: "On a conventional Class B zone you remove a smoke detector from its base to test supervision, and the panel never shows a trouble. The other detectors on the zone do cause a trouble when removed. What is the most likely reason?",
+      opts: ["The panel's trouble sounder has been silenced","That detector is on a T-tap (a parallel branch), so the circuit to the end-of-line resistor is not broken when it is removed","The end-of-line resistor is the wrong value","The detector is listed as self-supervising, so no trouble is expected"],
+      a: 1,
+      ex: "Supervision works because the monitoring current must pass in and out through every device on its way to the end-of-line resistor. A device hung on a branch off the main run is outside that path. Remove it, or cut the branch, and the panel still sees the resistor and stays normal. So nobody would know if that detector were disconnected. T-taps are not acceptable on a conventional Class B initiating device circuit: rewire it in and out.",
+      ref: "NFPA 72-2022 12.6 (monitoring for integrity)"
+    },
+    {
+      id: "1.2.2-25",
+      type: "multi",
+      q: "Which TWO of these conditions should show at the panel as a <b>supervisory</b> signal?",
+      opts: ["The room temperature switch in the dry-pipe valve room operates at 40°F","A battery lead has come off its terminal","The water level switch on a fire protection water tank reports low level","A manual fire alarm box is operated","A ground fault on a signaling line circuit"],
+      a: [0,2],
+      ex: "Supervisory signals report an off-normal condition in another fire protection system that could stop it from working, such as a cold valve room that could freeze or a tank that is low on water. A loose battery lead and a ground fault are faults in the fire alarm system itself, so they are troubles. The pull station is an alarm. Sorting the signal correctly tells you who to call: the sprinkler contractor for the two supervisory conditions, and you for the troubles.",
+      ref: "NFPA 72-2022 10.14 (supervisory signals); Table 14.4.3.2(17)"
+    },
+    {
+      id: "1.2.2-26",
+      type: "mc",
+      q: "A panel is showing a ground fault trouble and a valve supervisory signal when a waterflow alarm comes in. How does NFPA 72 rank these three signals?",
+      opts: ["The first signal received keeps priority until it is cleared","Trouble first, because a faulted system cannot be trusted","Fire alarm first, then supervisory, then trouble","Supervisory first, because it involves the sprinkler system"],
+      a: 2,
+      ex: "Fire alarm signals take priority over supervisory and trouble signals, and supervisory ranks ahead of trouble. An existing trouble must never hide or delay an alarm. For you on a service call, it means this: if an alarm comes in while you are chasing a trouble, treat it as real until it is proven otherwise.",
+      ref: "NFPA 72-2022 Ch 10 (signal priority)"
+    },
+    {
+      id: "1.2.2-27",
+      type: "mc",
+      q: "The owner has you remove an unneeded horn from a notification appliance circuit and splice the circuit through. What test does NFPA 72-2022 call for afterwards?",
+      opts: ["None, because nothing was added","A full reacceptance test of the entire system","A new battery calculation only","A functional test of another appliance on that same circuit"],
+      a: 3,
+      ex: "When a device, appliance or control relay is deleted, another one on that circuit is operated to show the circuit still works. Removing a device means opening and re-making the circuit, and that is where a reversed pair or a loose splice gets left behind. Testing nothing is the tempting shortcut. A full system retest is more than the rule asks for.",
+      ref: "NFPA 72-2022 14.4.2.2"
+    },
+    {
+      id: "1.2.2-28",
+      type: "mc",
+      q: "A system was out of service over a weekend, and the outage was reported to the AHJ. On Monday the repair is finished and tested. Who must be notified that the impairment period has ended?",
+      opts: ["The system owner or the owner's designated representative, and the AHJ","Only the supervising station","Only the owner, because the AHJ is told only when an outage starts","Nobody, because the panel showing normal is the notice"],
+      a: 0,
+      ex: "When an impairment ends, the owner or the owner's representative and the authority having jurisdiction are both notified. The AHJ may have a fire watch or other mitigating measures in place, and those keep running until someone says the system is back. Telling the supervising station to take the account off test is still needed, but it does not replace this notice.",
+      ref: "NFPA 72-2022 10.21.6"
+    },
+    {
+      id: "1.2.2-29",
+      type: "mc",
+      q: "A panel shows a battery trouble. The charger output is within the manufacturer's range at 27.3 V across the 24 V set. With the set fully charged and on the charger, unit A reads 14.5 V and unit B reads 12.8 V. What is the correct repair?",
+      opts: ["Replace unit B only, because unit A is healthy","Replace the battery set, check that the new units are marked with their month and year of manufacture, and confirm the trouble clears","Turn the charger up until unit B reads 13.26 V","Swap the positions of the two units and retest"],
+      a: 1,
+      ex: "The unit voltage test says to replace the battery when any unit measures below 13.26 V, and unit B is at 12.8 V. The two units in series make up one battery, and they should be replaced together: a new unit paired with an old one charges unevenly, which is exactly what these readings show. The charger is in range, so turning it up would only overcharge unit A further.",
+      ref: "NFPA 72-2022 Table 14.4.3.2(9)"
+    },
+    {
+      id: "1.2.2-30",
+      type: "multi",
+      q: "A conventional Class B initiating device circuit with a 4.7 kΩ end-of-line resistor is disconnected from the panel. No detector is in alarm. Which TWO ohmmeter readings would you expect if the circuit is healthy?",
+      opts: ["About 0 Ω across the pair","About 4.7 kΩ across the pair, plus a few ohms of wire","Open (OL) across the pair","Open (OL) from each conductor to the grounded cabinet","About 4.7 kΩ from each conductor to ground"],
+      a: [1,3],
+      ex: "Across the pair, the meter sees the end-of-line resistor through the wire, so about 4.7 kΩ. To ground, the conductors should be isolated, so the meter reads open. About 0 Ω across the pair is a short, and open across the pair is a break or a missing resistor. Any measurable resistance from a conductor to ground is a ground fault. Knowing the healthy readings first is what lets you read the faulty ones.",
+      ref: "Field practice (ohmmeter readings on a healthy circuit); NFPA 72-2022 Ch 14 (conductor tests)"
     }
   ]
 };

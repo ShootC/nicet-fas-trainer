@@ -137,6 +137,143 @@ export default {
       a: 0,
       ex: "At initial acceptance, the visual inspection of visual appliances includes checking that the candela marking or setting agrees with the approved drawings. (The table lists this candela check for acceptance only; the semiannual inspection covers location and condition.) The designer chose 75 cd to cover that room, and at 15 cd the strobe covers a much smaller room. Turning it up to maximum is not the fix either: more candela draws more current and can overload the circuit or upset the voltage drop calculation.",
       ref: "NFPA 72-2022 Table 14.3.1(22)"
+    },
+    {
+      id: "1.3.1-16",
+      type: "multi",
+      q: "NFPA 72 lists things that each floor plan sheet in the system documentation must show. Which THREE are on that list?",
+      opts: ["A graphic representation of the scale used","The installer's hourly labor rate","The point of compass (north arrow)","Room use identification","The cable manufacturer's lot number"],
+      a: [0,2,3],
+      ex: "Each floor plan sheet shows a north arrow, a graphic scale, what each room is used for, and the building features that affect where devices and appliances go. A graphic scale (a drawn bar) stays true when a sheet is printed at a reduced size, when the words '1/8 in. = 1 ft' would no longer be right. Room use matters because it drives the detector type and the notification needed. Labor rates and lot numbers describe the job's paperwork, not the system.",
+      ref: "NFPA 72-2022 7.2.1"
+    },
+    {
+      id: "1.3.1-17",
+      type: "mc",
+      q: "Two sets of fire alarm shop drawings are in the gang box, and they show different device counts on the third floor. How do you tell which set to install from?",
+      opts: ["Use the cleaner set, because it was printed last","Check the issue and revision dates in the title block, use the latest approved revision, and confirm with your supervisor","Use the set with more sheets","Use either one, because both are for the same job"],
+      a: 1,
+      ex: "Shop drawings are required to carry their date of issue and any revision dates, along with the premises, the installer, and the symbol legend. The title block and revision block are how you tell a current sheet from a superseded one. A clean print proves nothing: an old revision can be printed yesterday. Mark or remove superseded sets so nobody builds from them.",
+      ref: "NFPA 72-2022 7.4 (shop drawings)"
+    },
+    {
+      id: "1.3.1-18",
+      type: "mc",
+      q: "You are landing a notification appliance circuit at a booster power supply and need to know which terminals it goes on and how the circuit is identified. Which part of the shop drawings shows this?",
+      opts: ["The floor plan","The sequence of operations matrix","The battery calculations","The control unit diagram for that power supply"],
+      a: 3,
+      ex: "Shop drawings include a diagram for each piece of control equipment, including power supplies, battery chargers and annunciators. It shows the field wiring terminals with their identifications and the circuits connected to them. The floor plan shows where devices are and how the circuit runs, but not the terminals. Check the diagram against the manufacturer's installation sheet before you terminate.",
+      ref: "NFPA 72-2022 7.4 (shop drawings, control unit diagrams)"
+    },
+    {
+      id: "1.3.1-19",
+      type: "mc",
+      q: "The installing contractor fills out the record of completion. Who must receive it when the job is finished?",
+      opts: ["The authority having jurisdiction and the owner","The authority having jurisdiction only, who keeps the only copy","The equipment manufacturer and the owner's insurance company","Nobody. It stays in the contractor's job file unless someone asks for it"],
+      a: 0,
+      ex: "The record of completion is completed by the installing contractor and submitted to the authority having jurisdiction and to the owner at the end of the job. The AHJ reviews and accepts it but is not the only one who gets it: the owner needs a copy, because it becomes part of the system's permanent records. Where more than one contractor did the installation, each completes the part it was responsible for. As a trainee you will often gather the information for it, such as device counts and circuit details, so make sure your counts match what is really installed.",
+      ref: "NFPA 72-2022 7.5.6"
+    },
+    {
+      id: "1.3.1-20",
+      type: "mc",
+      q: "A project specification is organized by CSI MasterFormat divisions. Which division normally holds the fire detection and alarm sections?",
+      opts: ["Division 21, Fire Suppression","Division 26, Electrical","Division 28, Electronic Safety and Security","Division 27, Communications"],
+      a: 2,
+      ex: "Fire detection and alarm is specified in Division 28, Electronic Safety and Security, which also holds access control, intrusion detection and video surveillance. Division 21 covers sprinklers and other suppression, Division 26 covers power wiring and raceways, and Division 27 covers voice, data and audio-video. The trap is Division 26: fire alarm is electrical work, but it has its own division. Section numbers inside Division 28 have moved between MasterFormat editions (fire detection and alarm is 28 46 00 in current editions and 28 31 00 in older ones), and specifications written before 2004 put fire alarm in Division 16. Read the related sections too, because conduit, firestopping and sprinkler switches are often specified outside Division 28.",
+      ref: "CSI MasterFormat, Division 28 (specification divisions); field practice"
+    },
+    {
+      id: "1.3.1-21",
+      type: "mc",
+      q: "At the end of a new installation you have the record drawings, the record of completion and the owner's manuals to leave on site. Where does NFPA 72 say record documentation is stored?",
+      opts: ["Rolled up inside the fire alarm control unit cabinet","On top of the control unit, where they are easy to see","In the electrical room, in any unlabeled drawer","In the system's documentation cabinet, and not in the control unit"],
+      a: 3,
+      ex: "Record documentation is stored in the documentation cabinet and is not stored in the control unit. Paper stuffed in a panel is a fire load next to live electronics, blocks the batteries and wiring, and gets damaged or lost. Folding the drawings into the panel door is the old habit to unlearn. The cabinet keeps one known, protected place for the documents the next technician and the AHJ will ask for.",
+      ref: "NFPA 72-2022 7.7.2.3"
+    },
+    {
+      id: "1.3.1-22",
+      type: "mc",
+      q: "A new addressable system is programmed with a site-specific database: device addresses, labels and the input-to-output programming. What does NFPA 72 require to be done with a copy of that site-specific software?",
+      opts: ["It is provided to the system owner or the owner's designated representative","It stays only on the programmer's laptop","It is sent to the AHJ, and nobody else gets one","It is deleted once the system passes acceptance"],
+      a: 0,
+      ex: "For a software-based system, a copy of the site-specific software goes to the system owner or the owner's designated representative. The program is part of the system's documentation: without it, a failed control unit means reprogramming the building from nothing. Keeping it only with the installing company leaves the owner stuck if that company closes or loses the file. The documentation list also calls for instructions on how to get the access means, such as the password.",
+      ref: "NFPA 72-2022 7.5.7"
+    },
+    {
+      id: "1.3.1-23",
+      type: "mc",
+      q: "You are asked to find NFPA 72's own record of inspection and testing forms in the 2022 edition. Where are they printed?",
+      opts: ["In Chapter 14, right after the test method table","In Chapter 10, with the power supply rules","In Chapter 7, with the other documentation forms at the end of the chapter","In Chapter 3, with the definitions"],
+      a: 2,
+      ex: "All the forms live in Chapter 7. The figures at the end of the chapter start with the record of completion forms, Figure 7.8.2(a) through (f), and the record of inspection and testing forms follow them as Figure 7.8.2(g) through (l). Chapter 14 tells you what to inspect and test, how, and how often, and then points back to Chapter 7 for the record. Looking for the forms in Chapter 14 is the usual wrong turn in an open-book exam.",
+      ref: "NFPA 72-2022 7.6.6"
+    },
+    {
+      id: "1.3.1-24",
+      type: "mc",
+      q: "Your company keeps all of a customer's fire alarm records as electronic files. The AHJ asks to examine them. Does NFPA 72 allow records to be kept this way?",
+      opts: ["No. Only paper originals with ink signatures count","Yes. Records may be archived by any means, as long as hard copies can be provided promptly when requested","Yes, and the AHJ has no right to see them without a court order","No. Electronic records are allowed only for systems with fewer than 50 devices"],
+      a: 1,
+      ex: "Records must be available for examination and, if required, reported to the AHJ. They may be archived by any means, including electronically, provided hard copies can be produced promptly on request. So electronic storage is fine, but 'the file is on a laptop somewhere' is not. Know where your company's records are and how to print them.",
+      ref: "NFPA 72-2022 7.7.1.2"
+    },
+    {
+      id: "1.3.1-25",
+      type: "mc",
+      q: "A building's fire alarm system is monitored off premises. For how long must the monitoring provider keep its records of the signals, tests and operations recorded at the supervising station, as a minimum?",
+      opts: ["Not less than 1 year","30 days","Until the next annual test, then they may be erased","For the life of the system"],
+      a: 0,
+      ex: "The off-premises monitoring provider keeps its signal, test and operation records for not less than 1 year. That history is how you check that the signals from your test really arrived, and how an investigator rebuilds what happened in a fire. 'Life of the system' is the retention rule for the documents on system design and function, a different set of records. Do not mix the two.",
+      ref: "NFPA 72-2022 7.7.1.3"
+    },
+    {
+      id: "1.3.1-26",
+      type: "mc",
+      q: "During commissioning, the engineer has the programmer change the system so that a duct smoke detector gives a supervisory signal where the design matrix showed an alarm. What must the sequence of operations that is turned over with the record drawings show?",
+      opts: ["The original design matrix, because it is the approved one","The actual programming at the time of completion","Nothing. A sequence of operations is only needed for the permit","Both versions, with no note saying which one is live"],
+      a: 1,
+      ex: "The sequence of operations delivered with the record drawings must reflect the system's actual programming when the job is completed. The next technician tests against that document, and a matrix that shows an alarm where the panel gives a supervisory signal makes a correct system look broken. The approved design is the starting point, but approved changes have to be carried into the record set.",
+      ref: "NFPA 72-2022 7.5.5"
+    },
+    {
+      id: "1.3.1-27",
+      type: "num",
+      q: "A site plan is drawn at an engineer's scale of 1 in. = 20 ft. An underground conduit run between two buildings measures 4.25 in. on the drawing. How long is the real run?",
+      unit: "ft",
+      a: 85,
+      tol: 0,
+      ex: "At 1 in. = 20 ft, multiply the inches on the paper by 20: 4.25 × 20 = 85 ft. Site plans normally use an engineer's scale (1 in. = 10, 20, 30 ft and so on), while floor plans use an architect's scale such as 1/8 in. = 1 ft. Using the wrong side of the scale ruler is the common mistake. If the sheet has been reduced, measure against its drawn graphic scale.",
+      ref: "Ugly's Electrical References (measurement and conversion); field practice (drawing scales)"
+    },
+    {
+      id: "1.3.1-28",
+      type: "num",
+      q: "You are estimating cable for one circuit. The horizontal route scales to 132 ft on the floor plan. Add a 9 ft drop at the control unit and a 4 ft drop at the last device. Your company then adds 10 percent to the total for slack and waste. How many feet of cable do you figure for this circuit?",
+      unit: "ft",
+      a: 159.5,
+      tol: 0.5,
+      ex: "A plan only shows the horizontal run, so add the vertical drops first: 132 + 9 + 4 = 145 ft. Then add the 10 percent allowance: 145 × 1.10 = 159.5 ft. Forgetting the drops gives 145.2 ft, which looks close on one circuit and comes up hundreds of feet short over a whole building. For a two-conductor cable this is the cable length. The conductor length for a voltage drop calculation is twice the one-way run.",
+      ref: "Ugly's Electrical References (measurement and conversion); field practice (cable takeoff)"
+    },
+    {
+      id: "1.3.1-29",
+      type: "multi",
+      q: "Your company is hired to add devices to an existing system. Which TWO statements about the record of completion are correct?",
+      opts: ["The revised record of completion includes a revision date","Once the revision is written, the original record of completion is destroyed so that only one version exists","If the original or latest record of completion cannot be obtained, a new one is provided that documents the system as it is found during the current project","No paperwork is needed if fewer than 10 devices are added","Only the AHJ is allowed to write the revision"],
+      a: [0,2],
+      ex: "A revision to the completion documents carries its date, and it supplements the original, which is kept unaltered so the history of the system can be followed. On older buildings the original record is often missing. That does not excuse the paperwork: a new record of completion is written that documents the system configuration as discovered during the current project's scope of work. There is no small-job exemption, because a handful of added strobes can change circuit loading and battery size. The contractor who does the work writes the record, not the AHJ.",
+      ref: "NFPA 72-2022 7.5.6.6"
+    },
+    {
+      id: "1.3.1-30",
+      type: "mc",
+      q: "The floor plan shows where the manual pull stations and wall strobes go, but not how high to mount them. Which item in NFPA 72's minimum documentation list is meant to give you that?",
+      opts: ["The riser diagram","The battery capacity calculations","The mounting height elevation for wall-mounted devices and appliances","The written narrative of system intent"],
+      a: 2,
+      ex: "The minimum documentation includes a mounting height elevation for wall-mounted devices and appliances. It is usually a typical detail on the shop drawings showing each device type with its height above the finished floor. The riser shows how things connect, not how high they hang. If the detail is missing, ask before you mount: do not copy the heights from the last job.",
+      ref: "NFPA 72-2022 7.2.1"
     }
   ]
 };
