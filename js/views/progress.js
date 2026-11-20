@@ -23,10 +23,12 @@ export function render(main) {
   main.append(top);
 
   const got = new Set(earnedBadges().map(x => x.id));
+  const when = S.badges || {};
+  const earnedOn = id => when[id] ? ' ' + new Date(when[id]).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : '';
   const shelf = el('div', { class: 'section', id: 'badges' }, '<div class="spread"><h2>Badges</h2><span class="pill gold">' + got.size + ' of ' + BADGES.length + ' · ' + BADGE_XP + ' XP each</span></div>');
   shelf.append(el('div', { class: 'badges' }, BADGES.map(x =>
     '<div class="badge-card' + (got.has(x.id) ? ' got' : '') + '"><span class="badge-ico" aria-hidden="true">' + x.icon + '</span>' +
-    '<div><b>' + esc(x.name) + '</b>' + (got.has(x.id) ? ' <span class="pill ok">Earned</span>' : '') + '<br><span class="small muted">' + esc(x.desc) + '</span></div></div>').join('')));
+    '<div><b>' + esc(x.name) + '</b>' + (got.has(x.id) ? ' <span class="pill ok">Earned' + earnedOn(x.id) + '</span>' : '') + '<br><span class="small muted">' + esc(x.desc) + '</span></div></div>').join('')));
   main.append(shelf);
 
   for (const L of LEVELS) {

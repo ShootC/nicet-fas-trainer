@@ -77,16 +77,27 @@ function paintBar() {
   checkBadges();
 }
 
-// Celebrate badges earned since last time. Profiles from before badges existed are
-// caught up silently on first load, so nobody gets a pile of pop-ups for old work.
+// Celebrate badges earned since last time and record them for good. A recorded badge stays
+// earned even if new questions later pull a task back under mastery. Profiles from before
+// badges existed are caught up silently on first load, so nobody gets a pile of pop-ups for old work.
 function checkBadges() {
   const S = state();
-  const ids = earnedBadges().map(b => b.id);
-  if (!Array.isArray(S.seenBadges)) { S.seenBadges = ids; save(); return; }
-  const fresh = earnedBadges().filter(b => !S.seenBadges.includes(b.id));
-  if (!fresh.length) return;
-  S.seenBadges = S.seenBadges.concat(fresh.map(b => b.id));
-  save();
+  let changed = false;
+  if (!S.badges && Array.isArray(S.seenBadges)) {
+    // The first badge release kept a "seen" list. It becomes the permanent record (no dates known).
+    S.badges = {};
+    for (const id of S.seenBadges) S.badges[id] = 0;
+    delete S.seenBadges;
+    changed = true;
+  }
+  const catchUp = !S.badges;
+  if (catchUp) { S.badges = {}; changed = true; }
+  const fresh = earnedBadges().filter(b => !(b.id in S.badges));
+  const now = Date.now();
+  for (const b of fresh) S.badges[b.id] = now;
+  if (fresh.length) changed = true;
+  if (changed) save();
+  if (catchUp || !fresh.length) return;
   modal('<div class="eyebrow">Badge' + (fresh.length > 1 ? 's' : '') + ' earned</div>' +
     fresh.map(b => '<div class="badge-pop"><span class="badge-ico" aria-hidden="true">' + b.icon + '</span><div><b>' + esc(b.name) + '</b><br><span class="small muted">' + esc(b.desc) + '</span></div></div>').join('') +
     '<p class="small muted" style="margin-top:10px">+' + BADGE_XP * fresh.length + ' XP · <a href="#/progress">see all badges</a></p>');

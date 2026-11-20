@@ -108,7 +108,11 @@ export function badgeStats() {
     labStations: LAB_STATIONS.filter(x => labStation(x).pts > 0).length
   };
 }
+// Earned = recorded in the profile (kept for good, see checkBadges in app.js) or passing its test now.
 export function earnedBadges() {
-  const s = badgeStats();
-  return BADGES.filter(b => { try { return !!b.test(s); } catch (e) { return false; } });
+  const s = badgeStats(); const kept = state().badges || {};
+  return BADGES.filter(b => {
+    if (b.id in kept) return true;
+    try { return !!b.test(s); } catch (e) { return false; }
+  });
 }
