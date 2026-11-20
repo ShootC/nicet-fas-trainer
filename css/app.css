@@ -152,6 +152,15 @@ a.card:hover{border-color:var(--fg)}
 .fb.bad{border-left-color:var(--bad)}
 .fb .v{font-family:var(--font-display);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:18px;display:block;margin-bottom:4px}
 .fb.ok .v{color:var(--ok)} .fb.half .v{color:var(--warn)} .fb.bad .v{color:var(--bad)}
+.cite{margin-top:12px;padding:12px 14px;border:1px dashed var(--line);background:var(--surface)}
+.cite-h{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
+.cite-q{display:block;font-weight:600}
+.cite select{font:inherit;padding:6px 8px;border:1px solid var(--line);background:var(--bg);color:var(--fg);min-width:0;max-width:100%;flex:1 1 220px}
+.cite .numin{flex-wrap:wrap}
+.cite-fb{margin-top:6px}
+.cite-fb.ok{color:var(--ok)} .cite-fb.half{color:var(--warn)} .cite-fb.bad{color:var(--bad)}
+.cite-log:empty{display:none}
+.cite-log{margin-top:4px}
 .ref{display:inline-flex;gap:6px;align-items:center;margin-top:8px;font-family:var(--font-mono);font-size:13px;background:var(--chip);padding:3px 8px}
 .qactions{display:flex;justify-content:space-between;gap:10px;margin-top:14px;flex-wrap:wrap}
 .timer{font-family:var(--font-mono);font-size:20px}

@@ -57,6 +57,18 @@ export function recordLookup(id, mode, res) {
   markStudyDay(); save();
 }
 
+// Cite it bonus for one step ('ch' chapter or 'ex' exact section). Paid once per question and step;
+// a 0 records a missed cite so the step is not offered again.
+export function recordCite(qid, kind, pts) {
+  const S = state();
+  S.cite = S.cite || {};
+  const c = S.cite[qid] = S.cite[qid] || {};
+  if (c[kind] !== undefined) return;
+  c[kind] = pts;
+  if (pts) toast('+' + pts + ' XP · ' + (kind === 'ch' ? 'chapter' : 'exact section'));
+  markStudyDay(); save();
+}
+
 // A full task session with every question right on the first try.
 export function recordPerfectSession() {
   const S = state();

@@ -20,6 +20,9 @@ export function answerText(q) {
 /**
  * Render a question into `host`. Calls onDone({ right, tries, pts }) once it is resolved.
  * opts.tag: small label above the question (task name, "Review", ...).
+ * opts.onAnswer(res): called as soon as the answer is known (before any cite step).
+ * opts.cite(host, res, done): optional bonus step shown after the verdict and before the
+ *   explanation (which can name the section); call done() to show the explanation.
  */
 export function askQuestion(host, q, opts = {}) {
   host.innerHTML = '';
@@ -36,17 +39,24 @@ export function askQuestion(host, q, opts = {}) {
   const finish = (right) => {
     done = true;
     const pts = right ? (tries === 1 ? CONFIG.xp.firstTry : CONFIG.xp.secondTry) : 0;
-    showExplain(right, pts);
-    opts.onDone && opts.onDone({ right, tries, pts });
+    const res = { right, tries, pts };
+    opts.onAnswer && opts.onAnswer(res);
+    const explain = () => { showExplain(right, pts, true); opts.onDone && opts.onDone(res); };
+    if (opts.cite) {
+      showExplain(right, pts, false);
+      const citeHost = el('div');
+      card.append(citeHost);
+      opts.cite(citeHost, res, explain);
+    } else explain();
   };
-  const showExplain = (right, pts) => {
+  // full = false: verdict and answer only, so the explanation and reference don't give away a cite.
+  const showExplain = (right, pts, full) => {
     fb.hidden = false;
     fb.className = 'fb ' + (right ? (tries === 1 ? 'ok' : 'half') : 'bad');
     const verdict = right ? (tries === 1 ? 'Correct' : 'Correct on the second try') : 'Not this time';
     fb.innerHTML = '<span class="v">' + verdict + (opts.showPts !== false && pts ? ' · +' + pts : '') + '</span>' +
       (right ? '' : '<p><b>Answer:</b> ' + rich(answerText(q)) + '</p>') +
-      '<div>' + rich(q.ex || '') + '</div>' +
-      (q.ref ? '<span class="ref">📖 ' + esc(q.ref) + '</span>' : '');
+      (full ? '<div>' + rich(q.ex || '') + '</div>' + (q.ref ? '<span class="ref">📖 ' + esc(q.ref) + '</span>' : '') : '');
   };
   const tryAgain = (msg) => {
     fb.hidden = false; fb.className = 'fb half';

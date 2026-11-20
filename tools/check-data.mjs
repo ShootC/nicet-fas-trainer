@@ -6,6 +6,7 @@ import { BOOKS } from '../data/books.js';
 import { LEVELS } from '../data/levels.js';
 import { BADGES } from '../data/badges.js';
 import { CONFIG } from '../data/config.js';
+import { citeFor } from '../js/cite.js';
 
 const errors = [], warns = [];
 const err = (where, msg) => errors.push(where + ': ' + msg);
@@ -74,5 +75,12 @@ if (!(LC.start > 0 && LC.a >= 0 && LC.p >= 0)) err('config', 'levelCurve needs s
 
 for (const w of warns) console.log('warn  ' + w);
 for (const e of errors) console.log('ERROR ' + e);
+// Cite it coverage, and overrides that would break the step.
+let citeCh = 0, citeEx = 0;
+for (const q of Object.values(QUESTIONS).flat()) {
+  if (q.cite && typeof q.cite === 'object' && !(Array.isArray(q.cite.chapters) && q.cite.chapters.length)) err(q.id, 'cite override needs a chapters list');
+  const c = citeFor(q); if (c) { citeCh++; if (c.exact.length) citeEx++; }
+}
+console.log('Cite it: ' + citeCh + ' questions have a chapter step, ' + citeEx + ' also an exact-section step.');
 console.log(qn + ' questions in ' + Object.keys(QUESTIONS).length + ' tasks, ' + LOOKUPS.length + ' lookups, ' + BADGES.length + ' badges. ' + errors.length + ' error(s), ' + warns.length + ' warning(s).');
 process.exit(errors.length ? 1 : 0);

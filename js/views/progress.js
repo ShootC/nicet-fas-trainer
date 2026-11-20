@@ -13,7 +13,7 @@ export function render(main) {
   const top = el('div', { class: 'grid g2' });
   top.append(el('div', { class: 'card accent' },
     '<h3>XP · ' + fmtInt(b.total) + '</h3><table style="margin-top:6px"><tbody>' +
-    [['Task questions', b.questions], ['Lookups', b.lookups], ['Review', b.review], ['Practice exams', b.exams], ['Badges', b.badges], ['Circuit lab', b.lab]]
+    [['Task questions', b.questions], ['Cite it bonus', b.cites], ['Lookups', b.lookups], ['Review', b.review], ['Practice exams', b.exams], ['Badges', b.badges], ['Circuit lab', b.lab]]
       .map(([k, v]) => '<tr><td>' + k + '</td><td class="num mono">' + fmtInt(v) + '</td></tr>').join('') +
     '</tbody></table><p class="small muted" style="margin:8px 0 0">' + streak() + '-day streak · ' + S.days.length + ' study day' + (S.days.length === 1 ? '' : 's') + '</p>'));
   // Tech Level: one row per title band up to the cap.
