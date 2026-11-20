@@ -10,6 +10,7 @@ const blank = () => ({
   q: {},        // question id -> { pts (first attempt), n (attempts), last (true = right on first try last time), at }
   lk: {},       // lookup id   -> { pts, n, last, ms (best time) } for exact-section drills
   lkc: {},      // lookup id   -> { pts, n, last } for which-chapter drills
+  cite: {},     // question id -> { ch: pts, ex: pts } from the Cite it bonus (0 = tried and missed)
   review: {},   // item key    -> { box 1-4, due (ms) }
   bonus: 0,     // XP from review answers
   exams: {},    // level id    -> [{ at, n, right, pct, pass, secs }]

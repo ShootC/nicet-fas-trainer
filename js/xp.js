@@ -27,9 +27,11 @@ export function xpBreakdown() {
   for (const k in S.q) b.questions += S.q[k].pts || 0;
   for (const k in S.lk) b.lookups += S.lk[k].pts || 0;
   for (const k in S.lkc) b.lookups += S.lkc[k].pts || 0;
+  b.cites = 0;
+  for (const k in S.cite || {}) b.cites += (S.cite[k].ch || 0) + (S.cite[k].ex || 0);
   for (const lv in S.exams) if ((S.exams[lv] || []).some(e => e.pass)) b.exams += CONFIG.xp.examPass[lv] || 0;
   b.badges = earnedBadges().length * BADGE_XP;
-  b.total = b.questions + b.lookups + b.review + b.exams + b.lab + b.badges;
+  b.total = b.questions + b.cites + b.lookups + b.review + b.exams + b.lab + b.badges;
   return b;
 }
 export const totalXP = () => xpBreakdown().total;
@@ -137,6 +139,8 @@ export function badgeStats() {
     tasksMastered, l1TasksMastered,
     l1Pass: levelStats('l1').passed, l2Pass: levelStats('l2').passed,
     exact: Object.values(S.lk).filter(r => r.last).length,
+    citesChapter: Object.values(S.cite || {}).filter(r => r.ch > 0).length,
+    citesExact: Object.values(S.cite || {}).filter(r => r.ex > 0).length,
     chapters: Object.values(S.lkc).filter(r => r.last).length,
     fastestMs: times.length ? Math.min(...times) : null,
     graduated: st.graduated || 0,

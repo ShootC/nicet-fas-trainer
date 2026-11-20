@@ -11,6 +11,12 @@ export const CONFIG = {
     lookupExact: 10,   // exact section on the first try
     lookupClose: 5,    // right section family (parent number) or second try
     lookupChapter: 4,  // which-chapter drill, first try
+    citeChapter: 3,    // Cite it bonus after a task question: right chapter, NEC article or IBC section group
+    citeExact: 5,      // Cite it bonus: right exact section or table
+    // The cite bonus is paid only for a right cite, once per question. It is multiplied by citeHalf when the
+    // answer was missed or right only on the second try, and by citeHalf again when the cite takes a second
+    // try. Rounded to whole XP, never below 1. With 3 and 5: full 3 / 5, half 2 / 3, quarter 1 / 1.
+    citeHalf: 0.5,
     examPass: { l1: 150, l2: 200 }
   },
 

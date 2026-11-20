@@ -7,7 +7,9 @@ import { CONFIG } from '../../data/config.js';
 import { state } from '../store.js';
 import { known, taskStats, isUnlocked } from '../xp.js';
 import { askQuestion, answerText } from './askq.js';
-import { recordQuestion, recordPerfectSession } from '../record.js';
+import { askCite } from './askcite.js';
+import { citeFor } from '../cite.js';
+import { recordQuestion, recordPerfectSession, recordCite } from '../record.js';
 
 const SESSION = 10;
 
@@ -59,12 +61,24 @@ export function renderTask(main, taskId) {
       count.textContent = 'Question ' + (i + 1) + ' of ' + set.length;
       [...dots.children].forEach((d, k) => d.classList.toggle('cur', k === i));
       next.hidden = true;
-      askQuestion(host, set[i], {
+      const q = set[i];
+      // Cite it: offered until each step (chapter, exact section) has been tried once for this question.
+      const cite = citeFor(q); const paid = state().cite[q.id] || {};
+      const needChapter = !!cite && paid.ch === undefined;
+      const needExact = !!cite && cite.exact.length > 0 && paid.ex === undefined;
+      askQuestion(host, q, {
         tag: task.id + ' · ' + task.name,
-        onDone: r => {
+        onAnswer: r => {
           res[i] = r;
-          recordQuestion(set[i].id, r);
+          recordQuestion(q.id, r);
           dots.children[i].className = r.right ? (r.tries === 1 ? 'r' : 'h') : 'w';
+        },
+        cite: (needChapter || needExact) ? (citeHost, r, done) => askCite(citeHost, cite, {
+          answer: r, levelId: level.id, needChapter, needExact,
+          onPoints: (kind, pts) => recordCite(q.id, kind, pts),
+          onDone: done
+        }) : null,
+        onDone: () => {
           next.hidden = false;
           next.textContent = i + 1 < set.length ? 'Next' : 'See results';
           next.focus({ preventScroll: true });
