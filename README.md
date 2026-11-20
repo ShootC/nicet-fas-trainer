@@ -6,7 +6,7 @@ A study app for NICET Fire Alarm Systems candidates, starting with Levels I and 
 
 - **Level tracks** built on NICET's own content outline. Each level has its domains, weights and tasks, a question bank per task, and a timed practice exam at the real exam's pace.
 - **Leveling.** Every right answer earns XP. Ten ranks run from Trainee to Master Tech. Level II stays locked until the Level I practice exam is passed.
-- **Badges.** Thirteen milestones (a perfect session, a mastered task, a fast lookup, a 7-day streak and more) are worth 25 XP each. Edit them in `data/badges.js`.
+- **Badges.** Thirteen milestones (a perfect session, a mastered task, a fast lookup, a 7-day streak and more) are worth 25 XP each. Once earned, a badge is kept, even if new questions later pull a task back under mastery. Edit them in `data/badges.js`.
 - **Code lookup drills** for NFPA 72-2022, NEC 2020 and IBC 2021. There are two drill types, "which chapter?" and "exact section", each timed against exam pace. A book map and a printable tab list come from the same data.
 - **Review.** Spaced repetition brings back every miss after 1, 3 and 7 days until it sticks.
 - **Circuit Lab.** These are the 11 hands-on stations from `FAS-Circuit-Lab.html`, and their points count as XP.

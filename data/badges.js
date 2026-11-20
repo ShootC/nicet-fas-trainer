@@ -1,6 +1,7 @@
 // Badges: milestones worth celebrating. Each one is worth BADGE_XP.
-// test(s) reads the stats object built in js/xp.js (badgeStats). Badges are computed from progress,
-// so adding, renaming or re-ordering them never breaks a saved profile. Keep ids stable.
+// test(s) reads the stats object built in js/xp.js (badgeStats). Once a test passes, the badge id is
+// recorded in the profile and kept, even if later content (more questions in a task) means the test
+// would no longer pass. Adding, renaming or re-ordering badges never breaks a saved profile. Keep ids stable.
 export const BADGE_XP = 25;
 
 export const BADGES = [
