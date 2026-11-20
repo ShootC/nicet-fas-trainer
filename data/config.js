@@ -18,18 +18,31 @@ export const CONFIG = {
   // this is the trainer's bar, deliberately set above a bare pass.
   passMark: 0.75,
 
-  // Rank ladder. Rename or re-space freely; XP is recalculated from progress, so nothing breaks.
-  ranks: [
-    { xp: 0,    name: 'Trainee' },
-    { xp: 150,  name: 'Helper' },
-    { xp: 400,  name: 'Apprentice' },
-    { xp: 750,  name: 'Installer' },
-    { xp: 1200, name: 'Device Tech' },
-    { xp: 1750, name: 'Service Tech' },
-    { xp: 2400, name: 'Inspection Tech' },
-    { xp: 3200, name: 'Lead Tech' },
-    { xp: 4200, name: 'Senior Tech' },
-    { xp: 5500, name: 'Master Tech' }
+  // Tech Level: the player's own level, shown as "Lv 12". NICET Level I-IV keep their Roman numerals.
+  // XP to go from Lv n to Lv n+1 = start + a × (n − 1)^p, rounded to the nearest 5. Early levels come
+  // every few answers and later ones take longer, MMORPG style. With these numbers Lv 2 takes 50 XP,
+  // Lv 40 takes 13,720 in total, Lv 60 36,450 and Lv 80 73,825. Retune freely: XP is recalculated from
+  // saved progress, so nothing breaks.
+  levelCurve: { start: 50, a: 3.2, p: 1.5 },
+
+  // The cap rises as NICET levels are released (a level counts once it is no longer "comingSoon"):
+  // Lv 40 with Levels I-II, 60 with Level III, 80 with Level IV. XP earned past the cap is kept
+  // and counts as soon as the cap rises.
+  levelCap: { l1: 40, l2: 40, l3: 60, l4: 80 },
+
+  // Titles for bands of Tech Levels. Each title starts at the level shown and lasts until the next one.
+  // Add titles past Lv 40 when Level III arrives. Keep them clear of NICET's own grade names.
+  titles: [
+    { lv: 1,  name: 'Trainee' },
+    { lv: 5,  name: 'Helper' },
+    { lv: 9,  name: 'Apprentice' },
+    { lv: 13, name: 'Installer' },
+    { lv: 17, name: 'Device Tech' },
+    { lv: 21, name: 'Service Tech' },
+    { lv: 25, name: 'Inspection Tech' },
+    { lv: 29, name: 'Lead Tech' },
+    { lv: 33, name: 'Senior Tech' },
+    { lv: 40, name: 'Master Tech' }
   ],
 
   // A task counts as mastered when this share of its questions are known

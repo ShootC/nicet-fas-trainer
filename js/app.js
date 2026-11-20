@@ -1,7 +1,7 @@
 // Boot, hash router, app bar.
-import { $, $$, modal, esc } from './util.js';
+import { $, $$, modal, esc, toast } from './util.js';
 import { state, save, onChange, dueReviews } from './store.js';
-import { totalXP, rankFor, isUnlocked, earnedBadges } from './xp.js';
+import { totalXP, levelFor, titleFor, nextTitle, nextNicetLevel, isUnlocked, earnedBadges } from './xp.js';
 import { BADGE_XP } from '../data/badges.js';
 import * as home from './views/home.js';
 import * as level from './views/level.js';
@@ -53,11 +53,11 @@ function route() {
   location.replace('#/home');
 }
 
-let lastRank = null;
+let lastLevel = null;
 function paintBar() {
   const xp = totalXP();
-  const r = rankFor(xp);
-  $('#rcRank').textContent = r.name;
+  const r = levelFor(xp);
+  $('#rcRank').innerHTML = '<b>Lv ' + r.lv + '</b><span class="rc-title"> · ' + esc(r.title) + '</span>';
   $('#rcXp').textContent = xp.toLocaleString('en-US') + ' XP';
   $('#rcBar').style.width = Math.round(r.frac * 100) + '%';
   $('#l2Lock').hidden = isUnlocked('l2');
@@ -66,14 +66,22 @@ function paintBar() {
   b.hidden = !due;
   b.textContent = due;
   const S = state();
-  if (lastRank !== null && r.n > lastRank && r.n > (S.seenRank || 1)) {
-    S.seenRank = r.n;
+  // Level-ups: a toast for an ordinary level, a pop-up for a new title or reaching the cap.
+  if (lastLevel !== null && r.lv > lastLevel && r.lv > (S.seenLevel || 1)) {
+    const before = Math.max(lastLevel, S.seenLevel || 1);
+    S.seenLevel = r.lv;
     save();
-    modal('<div class="eyebrow">Rank up</div><div class="rankbadge">' + r.n + '</div><div class="rankname">' + esc(r.name) +
-      '</div><p class="muted" style="margin-top:8px">' + xp.toLocaleString('en-US') + ' XP' +
-      (r.next ? ' · next: ' + esc(r.next.name) + ' at ' + r.next.xp.toLocaleString('en-US') + ' XP' : ' · top rank') + '</p>');
+    if (r.title !== titleFor(before) || r.atCap) {
+      const nt = nextTitle(r.lv); const nn = nextNicetLevel();
+      modal('<div class="eyebrow">Level up' + (r.title !== titleFor(before) ? ' · new title' : '') + '</div><div class="rankbadge">' + r.lv + '</div><div class="rankname">' + esc(r.title) +
+        '</div><p class="muted" style="margin-top:8px">Tech Level ' + r.lv + ' · ' + xp.toLocaleString('en-US') + ' XP' +
+        (nt ? ' · ' + esc(nt.name) + ' at Lv ' + nt.lv : '') + '</p>' +
+        (r.atCap ? '<p class="small muted">Lv ' + r.cap + ' is the top level for now.' + (nn ? ' The cap rises when ' + esc(nn.name) + ' opens, and the XP you earn from here is banked for it.' : '') + '</p>' : ''));
+    } else {
+      toast('Level up · Lv ' + r.lv);
+    }
   }
-  lastRank = r.n;
+  lastLevel = r.lv;
   checkBadges();
 }
 
@@ -110,8 +118,14 @@ window.addEventListener('storage', e => { if (e.key && e.key.startsWith('fas-cir
 window.addEventListener('focus', paintBar);
 document.addEventListener('visibilitychange', () => { if (!document.hidden) paintBar(); });
 
-lastRank = rankFor(totalXP()).n;
-if (!state().seenRank || state().seenRank < lastRank) { state().seenRank = lastRank; save(); }
+// Nothing is celebrated for progress made before this load (or before Tech Levels existed).
+lastLevel = levelFor(totalXP()).lv;
+{
+  const S = state(); let fix = false;
+  if ('seenRank' in S) { delete S.seenRank; fix = true; } // replaced by seenLevel
+  if (!S.seenLevel || S.seenLevel < lastLevel) { S.seenLevel = lastLevel; fix = true; }
+  if (fix) save();
+}
 paintBar();
 route();
 

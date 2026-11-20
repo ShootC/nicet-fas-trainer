@@ -3,7 +3,7 @@ import { el, esc, pct, fmtInt } from '../util.js';
 import { LEVELS } from '../../data/levels.js';
 import { CONFIG } from '../../data/config.js';
 import { QUESTIONS } from '../../data/questions/index.js';
-import { totalXP, rankFor, levelStats, taskStats, isUnlocked, lookupStats, labPoints, streak, earnedBadges } from '../xp.js';
+import { totalXP, levelFor, levelStats, taskStats, isUnlocked, lookupStats, labPoints, streak, earnedBadges } from '../xp.js';
 import { BADGES } from '../../data/badges.js';
 import { dueReviews } from '../store.js';
 import { isInstalled } from '../pwa.js';
@@ -25,14 +25,16 @@ function nextStep() {
 }
 
 export function render(main) {
-  const xp = totalXP(); const r = rankFor(xp); const n = nextStep();
+  const xp = totalXP(); const r = levelFor(xp); const n = nextStep();
   const lk = lookupStats(); const due = dueReviews().length; const days = streak();
 
   main.append(el('div', { class: 'grid g2' },
-    '<div class="card accent"><div class="rankcard"><div class="rankbadge" aria-hidden="true">' + r.n + '</div><div>' +
-      '<span class="eyebrow">Rank ' + r.n + ' of ' + CONFIG.ranks.length + '</span><div class="rankname">' + esc(r.name) + '</div>' +
+    '<div class="card accent"><div class="rankcard"><div class="rankbadge" aria-hidden="true">' + r.lv + '</div><div>' +
+      '<span class="eyebrow">Tech Level ' + r.lv + ' of ' + r.cap + '</span><div class="rankname">' + esc(r.title) + '</div>' +
       '<div class="meter gold big" style="margin-top:8px"><i style="width:' + Math.round(r.frac * 100) + '%"></i></div>' +
-      '<p class="small muted" style="margin:6px 0 0">' + fmtInt(xp) + ' XP' + (r.next ? ' · ' + fmtInt(r.next.xp - xp) + ' to ' + esc(r.next.name) : ' · top rank') + (days ? ' · ' + days + '-day streak' : '') + '</p>' +
+      '<p class="small muted" style="margin:6px 0 0">' + fmtInt(xp) + ' XP' +
+      (r.atCap ? ' · top level for now' + (r.banked ? ' · ' + fmtInt(r.banked) + ' XP banked' : '') : ' · ' + fmtInt(r.next - xp) + ' to Lv ' + (r.lv + 1)) +
+      (days ? ' · ' + days + '-day streak' : '') + '</p>' +
     '</div></div></div>' +
     '<a class="card cool" href="' + n.href + '"><span class="eyebrow">Up next</span><h3 style="margin-top:4px">' + esc(n.title) + '</h3><p class="muted small">' + esc(n.text) + '</p><span class="btn primary sm">Go</span></a>'));
 

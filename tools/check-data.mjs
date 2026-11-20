@@ -5,6 +5,7 @@ import { LOOKUPS } from '../data/lookups/index.js';
 import { BOOKS } from '../data/books.js';
 import { LEVELS } from '../data/levels.js';
 import { BADGES } from '../data/badges.js';
+import { CONFIG } from '../data/config.js';
 
 const errors = [], warns = [];
 const err = (where, msg) => errors.push(where + ': ' + msg);
@@ -62,6 +63,14 @@ BADGES.forEach((b, i) => {
   if (!b.name || !b.desc || !b.icon) err(w, 'needs icon, name and desc');
   if (typeof b.test !== 'function') err(w, 'test must be a function');
 });
+
+// Tech Level settings: titles start at Lv 1 and climb; caps stay within the 80-level curve.
+const TL = CONFIG.titles || [];
+if (!TL.length || TL[0].lv !== 1) err('config', 'titles must start at lv 1');
+TL.forEach((t, i) => { if (!t.name) err('config', 'title #' + (i + 1) + ' needs a name'); if (i && !(t.lv > TL[i - 1].lv)) err('config', 'titles must be in rising lv order'); });
+for (const [lv, cap] of Object.entries(CONFIG.levelCap || {})) if (!(cap >= 1 && cap <= 80)) err('config', 'levelCap.' + lv + ' must be 1-80');
+const LC = CONFIG.levelCurve || {};
+if (!(LC.start > 0 && LC.a >= 0 && LC.p >= 0)) err('config', 'levelCurve needs start > 0, a >= 0, p >= 0');
 
 for (const w of warns) console.log('warn  ' + w);
 for (const e of errors) console.log('ERROR ' + e);

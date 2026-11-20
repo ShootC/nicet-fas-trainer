@@ -15,7 +15,7 @@ const blank = () => ({
   exams: {},    // level id    -> [{ at, n, right, pct, pass, secs }]
   days: [],     // study days, yyyy-mm-dd
   stats: { perfect: 0, graduated: 0 }, // counters badges need that are not derivable from answers
-  seenRank: 1,
+  seenLevel: 1, // highest Tech Level already celebrated
   // badges: { id: time earned in ms, 0 if unknown } is added by app.js on first load. It is left out
   // here on purpose, so a profile without it is caught up silently instead of showing old badges as new.
   settings: { theme: 'auto' }
