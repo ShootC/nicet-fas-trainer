@@ -5,7 +5,7 @@ A study app for NICET Fire Alarm Systems candidates, starting with Levels I and 
 **What's in it**
 
 - **Level tracks** built on NICET's own content outline. Each level has its domains, weights and tasks, a question bank per task, and a timed practice exam at the real exam's pace.
-- **Leveling.** Every right answer earns XP. Ten ranks run from Trainee to Master Tech. Level II stays locked until the Level I practice exam is passed.
+- **Leveling.** Every right answer earns XP toward your Tech Level (shown as Lv 12). Early levels come every few answers; later ones take more XP. The cap is Lv 40 for now and rises to 60 with Level III and 80 with Level IV; XP earned past the cap is banked. Ten titles run from Trainee to Master Tech. Level II stays locked until the Level I practice exam is passed.
 - **Badges.** Thirteen milestones (a perfect session, a mastered task, a fast lookup, a 7-day streak and more) are worth 25 XP each. Once earned, a badge is kept, even if new questions later pull a task back under mastery. Edit them in `data/badges.js`.
 - **Code lookup drills** for NFPA 72-2022, NEC 2020 and IBC 2021. There are two drill types, "which chapter?" and "exact section", each timed against exam pace. A book map and a printable tab list come from the same data.
 - **Review.** Spaced repetition brings back every miss after 1, 3 and 7 days until it sticks.
@@ -60,7 +60,7 @@ Lookups live in `data/lookups/` (`nfpa72.js`, `nec.js`, `ibc.js`). Each item loo
 
 ## Settings a trainer may change
 
-`data/config.js` holds the XP values, rank names and thresholds, the practice-exam pass mark (75%), and the task-mastery bar (80%). XP is recalculated from saved answers, so changing these never breaks anyone's progress.
+`data/config.js` holds the XP values, the Tech Level curve, cap and titles, the practice-exam pass mark (75%), and the task-mastery bar (80%). XP is recalculated from saved answers, so changing these never breaks anyone's progress.
 
 ## Updating the Circuit Lab
 

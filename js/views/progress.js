@@ -3,11 +3,11 @@ import { el, esc, pct, fmtInt, modal } from '../util.js';
 import { LEVELS } from '../../data/levels.js';
 import { CONFIG } from '../../data/config.js';
 import { state, save, exportBlob, importData, resetAll } from '../store.js';
-import { xpBreakdown, rankFor, taskStats, levelStats, isUnlocked, streak, earnedBadges } from '../xp.js';
+import { xpBreakdown, levelFor, levelTotals, nextNicetLevel, taskStats, levelStats, isUnlocked, streak, earnedBadges } from '../xp.js';
 import { BADGES, BADGE_XP } from '../../data/badges.js';
 
 export function render(main) {
-  const S = state(); const b = xpBreakdown(); const r = rankFor(b.total);
+  const S = state(); const b = xpBreakdown(); const r = levelFor(b.total);
   main.append(el('div', { class: 'head' }, '<span class="eyebrow">Your record</span><h1>Progress</h1><p class="lede">Saved in this browser only. Export a file to move it to another device or to show your trainer.</p>'));
 
   const top = el('div', { class: 'grid g2' });
@@ -16,9 +16,16 @@ export function render(main) {
     [['Task questions', b.questions], ['Lookups', b.lookups], ['Review', b.review], ['Practice exams', b.exams], ['Badges', b.badges], ['Circuit lab', b.lab]]
       .map(([k, v]) => '<tr><td>' + k + '</td><td class="num mono">' + fmtInt(v) + '</td></tr>').join('') +
     '</tbody></table><p class="small muted" style="margin:8px 0 0">' + streak() + '-day streak · ' + S.days.length + ' study day' + (S.days.length === 1 ? '' : 's') + '</p>'));
+  // Tech Level: one row per title band up to the cap.
+  const T = levelTotals(); const nn = nextNicetLevel();
+  const bands = CONFIG.titles.filter(t => t.lv <= r.cap).map((t, i, a) => ({ name: t.name, from: t.lv, to: a[i + 1] ? a[i + 1].lv - 1 : r.cap }));
   top.append(el('div', { class: 'card' },
-    '<h3>Ranks</h3><table style="margin-top:6px"><tbody>' +
-    CONFIG.ranks.map((k, i) => '<tr' + (i + 1 === r.n ? ' style="font-weight:600"' : '') + '><td class="mono">' + (i + 1) + '</td><td>' + esc(k.name) + (i + 1 === r.n ? ' ← you' : '') + '</td><td class="num mono">' + fmtInt(k.xp) + '</td></tr>').join('') +
+    '<h3>Tech Level · Lv ' + r.lv + '</h3>' +
+    '<p class="small muted" style="margin:4px 0 8px">' + (r.atCap ? 'Top level for now' + (r.banked ? ', with ' + fmtInt(r.banked) + ' XP banked' : '') : fmtInt(r.next - b.total) + ' XP to Lv ' + (r.lv + 1)) +
+    '. Early levels come quickly; each one after that takes a little more XP. Lv ' + r.cap + ' is the cap' + (nn ? ' until ' + esc(nn.name) + ' opens' : '') + '.</p>' +
+    '<table><thead><tr><th>Title</th><th>Levels</th><th class="num">XP to reach</th></tr></thead><tbody>' +
+    bands.map(x => { const me = r.lv >= x.from && r.lv <= x.to;
+      return '<tr' + (me ? ' style="font-weight:600"' : '') + '><td>' + esc(x.name) + (me ? ' ← you' : '') + '</td><td class="mono">' + (x.from === x.to ? 'Lv ' + x.from : 'Lv ' + x.from + '–' + x.to) + '</td><td class="num mono">' + fmtInt(T[x.from]) + '</td></tr>'; }).join('') +
     '</tbody></table>'));
   main.append(top);
 

@@ -34,11 +34,48 @@ export function xpBreakdown() {
 }
 export const totalXP = () => xpBreakdown().total;
 
-export function rankFor(xp) {
-  const R = CONFIG.ranks; let i = 0;
-  while (i + 1 < R.length && xp >= R[i + 1].xp) i++;
-  const cur = R[i], next = R[i + 1] || null;
-  return { n: i + 1, name: cur.name, floor: cur.xp, next, frac: next ? (xp - cur.xp) / (next.xp - cur.xp) : 1 };
+/* ---- Tech Level ---- */
+export const MAX_LEVEL = 80;
+let TOTALS = null;
+// Total XP needed to reach each Tech Level: levelTotals()[lv], with Lv 1 at 0 XP.
+export function levelTotals() {
+  if (TOTALS) return TOTALS;
+  const { start, a, p } = CONFIG.levelCurve;
+  const step = n => Math.round((start + a * Math.pow(n - 1, p)) / 5) * 5;
+  TOTALS = [0, 0];
+  for (let lv = 2; lv <= MAX_LEVEL; lv++) TOTALS[lv] = TOTALS[lv - 1] + step(lv - 1);
+  return TOTALS;
+}
+// Highest Tech Level reachable right now: the largest cap among the NICET levels that are released.
+export function levelCap() {
+  let cap = 1;
+  for (const L of LEVELS) if (!L.comingSoon) cap = Math.max(cap, CONFIG.levelCap[L.id] || 0);
+  return Math.min(cap, MAX_LEVEL);
+}
+export function titleFor(lv) {
+  let t = CONFIG.titles[0];
+  for (const x of CONFIG.titles) if (lv >= x.lv) t = x;
+  return t.name;
+}
+// The next title above a level, if one exists below the cap: { lv, name } or null.
+export function nextTitle(lv) {
+  return CONFIG.titles.find(x => x.lv > lv && x.lv <= levelCap()) || null;
+}
+// The first NICET level still to come, for "the cap rises when Level III opens".
+export const nextNicetLevel = () => LEVELS.find(L => L.comingSoon) || null;
+
+// Tech Level for an XP total. next is the XP total for the next level (null at the cap);
+// frac is progress through the current level; banked is XP earned past the cap.
+export function levelFor(xp) {
+  const T = levelTotals(); const cap = levelCap();
+  let lv = 1;
+  while (lv < cap && xp >= T[lv + 1]) lv++;
+  const atCap = lv >= cap; const next = atCap ? null : T[lv + 1];
+  return {
+    lv, title: titleFor(lv), floor: T[lv], next, cap, atCap,
+    frac: atCap ? 1 : (xp - T[lv]) / (next - T[lv]),
+    banked: atCap ? xp - T[cap] : 0
+  };
 }
 
 /* ---- Mastery ---- */
