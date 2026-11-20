@@ -4,7 +4,7 @@ import { LEVELS } from '../../data/levels.js';
 import { CONFIG } from '../../data/config.js';
 import { state, save, exportBlob, importData, resetAll } from '../store.js';
 import { xpBreakdown, levelFor, levelTotals, nextNicetLevel, taskStats, levelStats, isUnlocked, streak, earnedBadges } from '../xp.js';
-import { BADGES, BADGE_XP } from '../../data/badges.js';
+import { BADGES, BADGE_GROUPS, badgeXP, badgeTier } from '../../data/badges.js';
 
 export function render(main) {
   const S = state(); const b = xpBreakdown(); const r = levelFor(b.total);
@@ -32,10 +32,21 @@ export function render(main) {
   const got = new Set(earnedBadges().map(x => x.id));
   const when = S.badges || {};
   const earnedOn = id => when[id] ? ' ' + new Date(when[id]).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : '';
-  const shelf = el('div', { class: 'section', id: 'badges' }, '<div class="spread"><h2>Badges</h2><span class="pill gold">' + got.size + ' of ' + BADGES.length + ' · ' + BADGE_XP + ' XP each</span></div>');
-  shelf.append(el('div', { class: 'badges' }, BADGES.map(x =>
-    '<div class="badge-card' + (got.has(x.id) ? ' got' : '') + '"><span class="badge-ico" aria-hidden="true">' + x.icon + '</span>' +
-    '<div><b>' + esc(x.name) + '</b>' + (got.has(x.id) ? ' <span class="pill ok">Earned' + earnedOn(x.id) + '</span>' : '') + '<br><span class="small muted">' + esc(x.desc) + '</span></div></div>').join('')));
+  const earnedXP = BADGES.filter(x => got.has(x.id)).reduce((t, x) => t + badgeXP(x), 0);
+  const shelf = el('div', { class: 'section', id: 'badges' }, '<div class="spread"><h2>Badges</h2><span class="pill gold">' + got.size + ' of ' + BADGES.length + ' · ' + fmtInt(earnedXP) + ' XP</span></div>' +
+    '<p class="small muted" style="margin:4px 0 0">Bronze 10 XP, silver 25, gold 50. Hidden badges show once you earn them.</p>');
+  const badgeCard = x => {
+    const has = got.has(x.id), tier = badgeTier(x);
+    if (x.hidden && !has) return '<div class="badge-card"><span class="badge-ico" aria-hidden="true">❔</span><div><b>Hidden badge</b> <span class="tier ' + tier + '">' + badgeXP(x) + ' XP</span><br><span class="small muted">Keep studying to find it.</span></div></div>';
+    return '<div class="badge-card' + (has ? ' got' : '') + '"><span class="badge-ico" aria-hidden="true">' + x.icon + '</span>' +
+      '<div><b>' + esc(x.name) + '</b> <span class="tier ' + tier + '">' + badgeXP(x) + ' XP</span>' + (has ? ' <span class="pill ok">Earned' + earnedOn(x.id) + '</span>' : '') + '<br><span class="small muted">' + esc(x.desc) + '</span></div></div>';
+  };
+  for (const g of BADGE_GROUPS) {
+    const list = BADGES.filter(x => (x.group || 'Getting started') === g);
+    if (!list.length) continue;
+    shelf.append(el('h3', { class: 'badge-group' }, esc(g) + ' <span class="muted small">' + list.filter(x => got.has(x.id)).length + ' of ' + list.length + '</span>'));
+    shelf.append(el('div', { class: 'badges' }, list.map(badgeCard).join('')));
+  }
   main.append(shelf);
 
   for (const L of LEVELS) {

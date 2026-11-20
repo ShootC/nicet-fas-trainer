@@ -5,7 +5,7 @@ import { LEVELS } from '../data/levels.js';
 import { LAB_STATIONS } from '../data/lab.js';
 import { QUESTIONS } from '../data/questions/index.js';
 import { LOOKUPS } from '../data/lookups/index.js';
-import { BADGES, BADGE_XP } from '../data/badges.js';
+import { BADGES, badgeXP } from '../data/badges.js';
 import { state, labState } from './store.js';
 import { today } from './util.js';
 
@@ -30,7 +30,7 @@ export function xpBreakdown() {
   b.cites = 0;
   for (const k in S.cite || {}) b.cites += (S.cite[k].ch || 0) + (S.cite[k].ex || 0);
   for (const lv in S.exams) if ((S.exams[lv] || []).some(e => e.pass)) b.exams += CONFIG.xp.examPass[lv] || 0;
-  b.badges = earnedBadges().length * BADGE_XP;
+  b.badges = earnedBadges().reduce((t, x) => t + badgeXP(x), 0);
   b.total = b.questions + b.cites + b.lookups + b.review + b.exams + b.lab + b.badges;
   return b;
 }
@@ -128,15 +128,41 @@ export function streak() {
 /* ---- Badges ---- */
 export function badgeStats() {
   const S = state(); const st = S.stats || {};
-  let tasksMastered = 0, l1TasksMastered = 0;
-  for (const L of LEVELS) for (const D of L.domains || []) for (const T of D.tasks) {
-    if (taskStats(T.id).mastered) { tasksMastered++; if (L.id === 'l1') l1TasksMastered++; }
+  let tasksMastered = 0, l1TasksMastered = 0, l2TasksMastered = 0, domainsMastered = 0;
+  for (const L of LEVELS) for (const D of L.domains || []) {
+    let all = D.tasks.length > 0;
+    for (const T of D.tasks) {
+      if (taskStats(T.id).mastered) { tasksMastered++; if (L.id === 'l1') l1TasksMastered++; if (L.id === 'l2') l2TasksMastered++; }
+      else all = false;
+    }
+    if (all) domainsMastered++;
   }
+  // Exact lookups by book.
+  const bookOf = {}; for (const x of LOOKUPS) bookOf[x.id] = x.book;
+  const byBook = {}; for (const [id, r] of Object.entries(S.lk)) if (r.last && bookOf[id]) byBook[bookOf[id]] = (byBook[bookOf[id]] || 0) + 1;
+  // Practice exams: best score, passed on the first attempt, passed with a fifth of the time left, passed after a fail.
+  let examBest = 0, examFirstTry = false, examFast = false, examComeback = false;
+  for (const L of LEVELS) {
+    const ex = S.exams[L.id] || []; if (!ex.length) continue;
+    for (const e of ex) examBest = Math.max(examBest, e.pct || 0);
+    if (ex[0].pass) examFirstTry = true;
+    const lim = L.practice ? L.practice.minutes * 60 : 0;
+    if (lim && ex.some(e => e.pass && e.secs <= lim * 0.8)) examFast = true;
+    const fail = ex.findIndex(e => !e.pass);
+    if (fail >= 0 && ex.slice(fail + 1).some(e => e.pass)) examComeback = true;
+  }
+  const labFull = LAB_STATIONS.filter(x => { const r = labStation(x); return r.pts >= r.max; }).length;
   const times = Object.values(S.lk).map(r => r.ms).filter(ms => typeof ms === 'number' && ms > 0);
   return {
     answered: Object.keys(S.q).length,
     perfect: st.perfect || 0,
-    tasksMastered, l1TasksMastered,
+    tasksMastered, l1TasksMastered, l2TasksMastered, domainsMastered,
+    bestRun: st.bestRun || 0,
+    days: (S.days || []).length,
+    exactNfpa72: byBook.nfpa72 || 0, exactNec: byBook.nec || 0, exactIbc: byBook.ibc || 0,
+    lookupTotal: LOOKUPS.length,
+    examBest, examFirstTry, examFast, examComeback,
+    labFull, labStationCount: LAB_STATIONS.length,
     l1Pass: levelStats('l1').passed, l2Pass: levelStats('l2').passed,
     exact: Object.values(S.lk).filter(r => r.last).length,
     citesChapter: Object.values(S.cite || {}).filter(r => r.ch > 0).length,

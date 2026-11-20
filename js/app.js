@@ -2,7 +2,7 @@
 import { $, $$, modal, esc, toast } from './util.js';
 import { state, save, onChange, dueReviews } from './store.js';
 import { totalXP, levelFor, titleFor, nextTitle, nextNicetLevel, isUnlocked, earnedBadges } from './xp.js';
-import { BADGE_XP } from '../data/badges.js';
+import { badgeXP } from '../data/badges.js';
 import * as home from './views/home.js';
 import * as level from './views/level.js';
 import * as quiz from './views/quiz.js';
@@ -108,7 +108,7 @@ function checkBadges() {
   if (catchUp || !fresh.length) return;
   modal('<div class="eyebrow">Badge' + (fresh.length > 1 ? 's' : '') + ' earned</div>' +
     fresh.map(b => '<div class="badge-pop"><span class="badge-ico" aria-hidden="true">' + b.icon + '</span><div><b>' + esc(b.name) + '</b><br><span class="small muted">' + esc(b.desc) + '</span></div></div>').join('') +
-    '<p class="small muted" style="margin-top:10px">+' + BADGE_XP * fresh.length + ' XP · <a href="#/progress">see all badges</a></p>');
+    '<p class="small muted" style="margin-top:10px">+' + fresh.reduce((t, b) => t + badgeXP(b), 0) + ' XP · <a href="#/progress">see all badges</a></p>');
 }
 
 onChange(paintBar);

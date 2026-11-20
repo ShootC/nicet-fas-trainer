@@ -4,7 +4,7 @@ import { QUESTIONS } from '../data/questions/index.js';
 import { LOOKUPS } from '../data/lookups/index.js';
 import { BOOKS } from '../data/books.js';
 import { LEVELS } from '../data/levels.js';
-import { BADGES } from '../data/badges.js';
+import { BADGES, BADGE_GROUPS } from '../data/badges.js';
 import { CONFIG } from '../data/config.js';
 import { citeFor } from '../js/cite.js';
 
@@ -63,6 +63,9 @@ BADGES.forEach((b, i) => {
   if (!b.id) err(w, 'missing id'); else if (bids.has(b.id)) err(w, 'duplicate id'); else bids.add(b.id);
   if (!b.name || !b.desc || !b.icon) err(w, 'needs icon, name and desc');
   if (typeof b.test !== 'function') err(w, 'test must be a function');
+  if (b.group && !BADGE_GROUPS.includes(b.group)) err(w, 'group "' + b.group + '" is not in BADGE_GROUPS');
+  if (b.xp !== undefined && ![10, 25, 50].includes(b.xp)) err(w, 'xp must be 10, 25 or 50 (bronze, silver, gold)');
+  if (b.hidden !== undefined && typeof b.hidden !== 'boolean') err(w, 'hidden must be true or false');
 });
 
 // Tech Level settings: titles start at Lv 1 and climb; caps stay within the 80-level curve.
