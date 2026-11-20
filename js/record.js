@@ -8,6 +8,10 @@ import { toast } from './util.js';
 export function recordQuestion(qid, res) {
   const S = state();
   const firstTryRight = res.right && res.tries === 1;
+  // First-try run for the On a Roll / Dialed In badges.
+  S.stats = S.stats || {};
+  S.stats.run = firstTryRight ? (S.stats.run || 0) + 1 : 0;
+  S.stats.bestRun = Math.max(S.stats.bestRun || 0, S.stats.run);
   const prev = S.q[qid];
   if (!prev) {
     S.q[qid] = { pts: res.pts, n: 1, last: firstTryRight, at: Date.now() };

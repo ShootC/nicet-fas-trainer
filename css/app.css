@@ -211,4 +211,7 @@ td.num,th.num{text-align:right}
 .badge-card:not(.got) .badge-ico{filter:grayscale(1);opacity:.35}
 .badge-card.got{border-color:var(--gold);box-shadow:inset 0 3px 0 var(--gold)}
 .badge-ico{font-size:30px;line-height:1;text-align:center}
+.badge-group{margin:16px 0 8px;font-size:15px;text-transform:uppercase;letter-spacing:.04em}
+.tier{display:inline-block;font-family:var(--font-mono);font-size:11px;font-weight:400;padding:0 6px;border:1px solid currentColor;border-radius:9px;vertical-align:1px;white-space:nowrap}
+.tier.bronze{color:#B0703C} .tier.silver{color:var(--muted)} .tier.gold{color:var(--gold)}
 .badge-pop{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:center;text-align:left;margin-top:10px}
