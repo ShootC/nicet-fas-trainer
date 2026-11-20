@@ -200,6 +200,8 @@ button.x{font:inherit;width:30px;height:30px;border:1px solid var(--line);backgr
 .tri polygon,.tri line{fill:none;stroke:var(--line);stroke-width:2}
 .led{stroke:var(--line);stroke-width:1.5;fill:var(--chip)}
 .led.on-ok{fill:var(--ok);stroke:var(--ok)} .led.on-warn{fill:var(--warn);stroke:var(--warn)} .led.on-bad{fill:var(--bad);stroke:var(--bad)}
+#drSvg [font-size="11"],#bmSvg [font-size="11"]{font-size:11px}
+#drSvg [font-size="12"],#bmSvg [font-size="12"]{font-size:12px}
 .dev.lost{opacity:.35}
 .dev.active .comp{stroke:var(--bad);stroke-width:3}
 @media (prefers-reduced-motion: reduce){.flow{transition:none}}
@@ -211,7 +213,7 @@ button.x{font:inherit;width:30px;height:30px;border:1px solid var(--line);backgr
   <div class="brand">
     <span class="eyebrow">NICET Level I · Fire Alarm Systems · Companion to the training deck</span>
     <h1>Fire Alarm Circuit Lab</h1>
-    <p class="howto">Eleven stations. Read how it works, try it on the circuit, then prove it in the questions underneath. First try is 10 points, second try is 5. Your progress is saved on this device.</p>
+    <p class="howto">Thirteen stations. Read how it works, try it on the bench, then prove it in the questions underneath. First try is 10 points, second try is 5. Your progress is saved on this device.</p>
   </div>
   <div class="scorebox" aria-live="polite">
     <span class="eyebrow">Score</span>
@@ -231,6 +233,8 @@ button.x{font:inherit;width:30px;height:30px;border:1px solid var(--line);backgr
   <a href="#colors" data-st="colors"><span class="n">9</span><span class="t">Color code</span></a>
   <a href="#wire" data-st="wire"><span class="n">10</span><span class="t">Wire gauge</span></a>
   <a href="#notify" data-st="notify"><span class="n">11</span><span class="t">Strobes &amp; horns</span></a>
+  <a href="#doors" data-st="doors"><span class="n">12</span><span class="t">Door release</span></a>
+  <a href="#beams" data-st="beams"><span class="n">13</span><span class="t">Beam pockets</span></a>
   <a href="#scoreboard" data-st="scoreboard"><span class="n">★</span><span class="t">Scoreboard</span></a>
 </nav>
 
@@ -934,6 +938,97 @@ button.x{font:inherit;width:30px;height:30px;border:1px solid var(--line);backgr
     <div class="insight"><h4>Sleeping rooms</h4><p>At the pillow: at least 75 dBA, measured with the door closed, from a 520 Hz low-frequency tone. A closed door can cost 10 to 24 dB, so the horn goes in the room.</p></div>
   </div>
   <div class="quiz" data-station="notify"><h3>Prove it <span class="pts" id="pts-notify"></span></h3></div>
+  <div class="st-nav"><a href="#doors">Next: Door release →</a></div>
+</section>
+
+<!-- ============ STATION 12: DOOR RELEASE ============ -->
+<section class="station" id="doors">
+  <div class="st-head">
+    <span class="eyebrow">Station 12</span>
+    <h2>Door release: smoke detectors at smoke doors</h2>
+    <p class="lede">Smoke doors held open by magnetic holders close when a door-release smoke detector sees smoke. How many detectors you need, and on which side, depends on the wall above the door and on how the detectors mount. Set up a doorway, place the detectors, then lay out five doors.</p>
+  </div>
+  <div class="howwrap"><span class="eyebrow">How it works</span><ol class="how"><li><b>Door release service</b> (NFPA 72-2022 17.7.6.6): a magnetic holder keeps the door open. When a door-release smoke detector operates, the holder lets go and the door closer shuts the door.</li><li><b>Measure the wall section</b> above the door on each side, from the ceiling down to the top of the door frame. The line that matters is 24 in.</li><li><b>Smoke from either direction</b> (17.7.6.6.4.1): the two depths and the mounting (ceiling, wall or listed door-frame) decide how many detectors and which side. Those are rules (A) to (D).</li><li><b>Ceiling detectors</b> on a smooth ceiling go on the centerline of the doorway, no more than 5 ft out from it (17.7.6.6.5.1).</li></ol></div>
+  <div class="bench">
+    <figure class="scope">
+      <svg viewBox="0 0 760 450" id="drSvg" role="img" aria-label="Section through a smoke door on its centerline, drawn to scale, showing the ceiling on each side, the depth of the wall section above the door against a 24 inch mark, and the detectors you placed. Below it, a plan of the doorway with its centerline and the 5 foot limit."><g id="drG"></g></svg>
+      <figcaption>Section through the doorway on its centerline, drawn to scale, with the floor cut off. On each side a dimension shows the wall section above the door, with a tick at 24 in. The plan below shows the centerline that ceiling detectors sit on.</figcaption>
+    </figure>
+    <aside class="panel">
+      <div class="lcd" aria-live="polite">
+        <div class="lcd-row"><span class="lcd-k">Rule that applies</span><span class="lcd-big" id="drBig"></span></div>
+        <div class="calc" id="drCalc"></div>
+        <div class="lcd-note" id="drMsg"></div>
+      </div>
+      <div class="controls">
+        <div class="ctl"><h4>Jobs</h4>
+          <div class="seg" id="drJobs"><button type="button" data-v="A" aria-pressed="false">Job A</button><button type="button" data-v="B" aria-pressed="false">Job B</button><button type="button" data-v="C" aria-pressed="false">Job C</button><button type="button" data-v="D" aria-pressed="false">Job D</button><button type="button" data-v="E" aria-pressed="false">Job E</button></div>
+          <p class="note" id="drJobDesc"></p>
+          <p class="note" id="drJobNote"></p>
+        </div>
+        <div class="ctl"><label for="drHA"><span>Wall section above the door, side A</span><output id="drOutHA">12 in.</output></label><input type="range" id="drHA" min="0" max="60" step="1" value="12"></div>
+        <div class="ctl"><label for="drHB"><span>Wall section above the door, side B</span><output id="drOutHB">36 in.</output></label><input type="range" id="drHB" min="0" max="60" step="1" value="36"></div>
+        <div class="ctl"><h4>Doorway</h4><div class="seg" id="drLeaf"><button type="button" data-v="single" aria-pressed="true">Single door</button><button type="button" data-v="double" aria-pressed="false">Double door</button></div></div>
+        <div class="ctl"><h4>The doors must stop smoke</h4><div class="seg" id="drDir"><button type="button" data-v="both" aria-pressed="true">From either side</button><button type="button" data-v="A" aria-pressed="false">Leaving side A</button><button type="button" data-v="B" aria-pressed="false">Leaving side B</button></div></div>
+        <div class="ctl"><h4>Detector type</h4><div class="seg" id="drType"><button type="button" data-v="ceiling" aria-pressed="true">Ceiling</button><button type="button" data-v="wall" aria-pressed="false">Wall</button><button type="button" data-v="frame" aria-pressed="false">Listed door-frame</button></div></div>
+        <div class="ctl"><h4>Place detectors</h4><div class="seg" id="drPlace"><button type="button" data-v="A" aria-pressed="false">Side A</button><button type="button" data-v="B" aria-pressed="true">Side B</button></div><p class="note">Each button puts a detector on that side or takes it away.</p></div>
+        <div class="ctl" id="drDACtl" hidden><label for="drDA"><span>Side A detector, out from the doorway</span><output id="drOutDA">3.0 ft</output></label><input type="range" id="drDA" min="0" max="8" step="0.5" value="3"></div>
+        <div class="ctl" id="drDBCtl"><label for="drDB"><span>Side B detector, out from the doorway</span><output id="drOutDB">3.0 ft</output></label><input type="range" id="drDB" min="0" max="8" step="0.5" value="3"></div>
+        <p class="note">The bench assumes a smooth ceiling and one single or double doorway. Other ceiling conditions need an engineering evaluation, so check your book. "Listed door-frame" covers a detector listed for door-frame mounting and a listed combination (integral) detector and door closer.</p>
+      </div>
+    </aside>
+  </div>
+  <div class="insights">
+    <div class="insight"><h4>The header is a smoke dam</h4><p>Smoke fills the ceiling on its own side first. It only reaches the doorway once it has banked down past the wall section above the door. Over 24 in., that takes long enough that a detector on the far side would see the smoke late.</p></div>
+    <div class="insight"><h4>Mounting changes the count</h4><p>At 24 in. or less on both sides, one ceiling detector on either side will do, but wall-mounted detectors need one on each side. The one-detector option under (B), on the higher side, is for ceiling mounting only.</p></div>
+    <div class="insight"><h4>Pairs and groups</h4><p>A pair of doors in one opening is one doorway: same rules, with the detector on the centerline of the pair. Doorways more than 24 in. apart are treated separately. For groups of doorways closer together, see 17.7.6.6.4.3.</p></div>
+    <div class="insight"><h4>Edition notes</h4><p>The 2019 edition numbers these rules 17.7.5.6. The 2025 edition allows 1 ft either side of the centerline; 2022 says on the centerline. Ceilings that are not smooth, and openings other than a single or double doorway, need an engineering evaluation: check your book.</p></div>
+  </div>
+  <div class="quiz" data-station="doors"><h3>Prove it <span class="pts" id="pts-doors"></span></h3></div>
+  <div class="st-nav"><a href="#beams">Next: Beam pockets →</a></div>
+</section>
+
+<!-- ============ STATION 13: BEAM POCKETS ============ -->
+<section class="station" id="beams">
+  <div class="st-head">
+    <span class="eyebrow">Station 13</span>
+    <h2>Beam pockets: smoke detectors on beamed ceilings</h2>
+    <p class="lede">Deep beams hold smoke back like short walls. Two quick tests, beam depth against 10 % of the ceiling height and beam spacing against 40 %, tell you whether to use smooth spacing, half spacing across the beams or a detector in every pocket. Try ceilings on the bench, then make the call on five jobs.</p>
+  </div>
+  <div class="howwrap"><span class="eyebrow">How it works</span><ol class="how"><li><b>H</b> is the ceiling height. <b>Beam depth</b> is how far a beam hangs below the ceiling. <b>Beam spacing</b> is center to center. This is for spot-type smoke detectors on a level ceiling (NFPA 72-2022 17.7.4.2.4.2).</li><li><b>Depth test first.</b> Beams less than 0.1H deep: smooth ceiling spacing, 30 ft nominal, with detectors on the ceiling or the bottom of the beams.</li><li><b>Deep beams, 0.1H or more:</b> spaced 0.4H or more apart, a detector on the ceiling in each pocket. Closer than 0.4H, 30 ft along the beams and half that, 15 ft, across them.</li><li><b>Same tests for waffle and pan ceilings.</b> Corridors 15 ft wide or less with beams across them, and rooms of 900 ft² or less, may use smooth spacing.</li></ol></div>
+  <div class="bench">
+    <figure class="scope">
+      <svg viewBox="0 0 760 290" id="bmSvg" role="img" aria-label="On the left, a section across the beams drawn to scale, with a dashed line at 10 percent of the ceiling height and a bar showing 40 percent of the height next to the beam spacing. On the right, a plan of the space with the beams and the detector layout."><g id="bmG"></g></svg>
+      <figcaption id="bmCap">Left: a close-up of the ceiling across the beams, drawn to scale, with the floor cut off. A beam that hangs past the red dashed 0.1H line is deep. Under it, compare the beam spacing with the 0.4H bar. Right: the plan shows where the detectors go.</figcaption>
+    </figure>
+    <aside class="panel">
+      <div class="lcd" aria-live="polite">
+        <div class="lcd-row"><span class="lcd-k">Rule 17.7.4.2.4.2</span><span class="lcd-big" id="bmBig"></span></div>
+        <div class="calc" id="bmCalc"></div>
+        <div class="lcd-note" id="bmMsg"></div>
+      </div>
+      <div class="controls">
+        <div class="ctl"><h4>Jobs</h4>
+          <div class="seg" id="bmJobs"><button type="button" data-v="A" aria-pressed="false">Job A</button><button type="button" data-v="B" aria-pressed="false">Job B</button><button type="button" data-v="C" aria-pressed="false">Job C</button><button type="button" data-v="D" aria-pressed="false">Job D</button><button type="button" data-v="E" aria-pressed="false">Job E</button></div>
+          <p class="note" id="bmJobDesc"></p>
+          <p class="note" id="bmJobNote"></p>
+        </div>
+        <div class="ctl" id="bmPickCtl" hidden><h4>Your call</h4><div class="seg" id="bmPick"><button type="button" data-v="smooth" aria-pressed="false">Smooth spacing</button><button type="button" data-v="pocket" aria-pressed="false">Every pocket</button><button type="button" data-v="half" aria-pressed="false">Half across the beams</button></div></div>
+        <div class="ctl"><label for="bmH"><span>Ceiling height, H</span><output id="bmOutH">10 ft</output></label><input type="range" id="bmH" min="8" max="30" step="0.5" value="10"></div>
+        <div class="ctl"><label for="bmD"><span>Beam depth below the ceiling</span><output id="bmOutD">18 in.</output></label><input type="range" id="bmD" min="0" max="36" step="1" value="18"></div>
+        <div class="ctl"><label for="bmS"><span>Beam spacing, center to center</span><output id="bmOutS">6 ft</output></label><input type="range" id="bmS" min="2" max="20" step="0.5" value="6"></div>
+        <div class="ctl"><h4>The space</h4><div class="seg" id="bmTog"><button type="button" data-v="x" aria-pressed="false">Beams cross both ways (pockets, waffle)</button><button type="button" data-v="cor" aria-pressed="false">Corridor 15 ft wide or less, beams across it</button><button type="button" data-v="room" aria-pressed="false">Room of 900 ft² or less</button></div><p class="note">Each button turns on or off.</p></div>
+        <p class="note">Spot-type smoke detectors on a level ceiling, at the nominal 30 ft smooth ceiling spacing (17.7.4.2.3.1). With a different listed spacing, use that number and half of it. Sloped ceilings with beams, and heat detectors, have their own beam rules and are not on this bench.</p>
+      </div>
+    </aside>
+  </div>
+  <div class="insights">
+    <div class="insight"><h4>Two tests, in order</h4><p>Compare the depth with 0.1H first. Only beams that deep make the spacing matter, and then it is compared with 0.4H. A 16 ft ceiling has 0.1H = 19.2 in., so 18 in. beams there still count as a smooth ceiling.</p></div>
+    <div class="insight"><h4>Every pocket or half spacing</h4><p>Deep beams far apart make each pocket fill with smoke like a small room, so each pocket gets a detector on its ceiling. Deep beams close together act as channels: smoke runs along them easily but crosses them slowly, so the spacing across is halved.</p></div>
+    <div class="insight"><h4>The waffle trap</h4><p>Older editions had a separate rule for waffle ceilings with beams up to 24 in. deep and 12 ft on center. It is not in 2022. Pockets formed by intersecting beams, waffle and pan ceilings included, use the same 0.1H and 0.4H tests (17.7.4.2.4.2(3)).</p></div>
+    <div class="insight"><h4>Edition notes</h4><p>The 2025 edition adds a rule that a gap above the beams bigger than 15 % of H permits smooth spacing. It is not in 2022, so this bench leaves it out. Sloped ceilings with beams, and heat detectors, follow different beam rules.</p></div>
+  </div>
+  <div class="quiz" data-station="beams"><h3>Prove it <span class="pts" id="pts-beams"></span></h3></div>
   <div class="st-nav"><a href="#scoreboard">See the scoreboard →</a></div>
 </section>
 
@@ -942,7 +1037,7 @@ button.x{font:inherit;width:30px;height:30px;border:1px solid var(--line);backgr
   <div class="st-head">
     <span class="eyebrow">Scoreboard</span>
     <h2>How did you do?</h2>
-    <p class="lede">Every question answered on the first try scores 10, second try 5. The puzzles at Stations 5 and 8, the jobs at Stations 7, 10 and 11, and the five-in-a-row challenge at Station 9 are worth 10 each.</p>
+    <p class="lede">Every question answered on the first try scores 10, second try 5. The puzzles at Stations 5 and 8, the jobs at Stations 7, 10, 11, 12 and 13, and the five-in-a-row challenge at Station 9 are worth 10 each.</p>
   </div>
   <div class="board">
     <div class="cheat">
@@ -969,6 +1064,8 @@ button.x{font:inherit;width:30px;height:30px;border:1px solid var(--line);backgr
         <dt>Wire</dt><dd>bigger AWG number = thinner wire · Table 8 Ω per 1,000 ft, solid: 18 = 7.77 · 16 = 4.89 · 14 = 3.07 · 12 = 1.93 · 10 = 1.21 · NPLFA overcurrent max: 18 AWG 7 A, 16 AWG 10 A (760.43) · on a NAC, voltage drop usually limits first</dd>
         <dt>Strobes</dt><dd>wall lens 80–96 in. above the floor · wall table (one strobe): 20 ft room 15 cd, 30 ft 34, 40 ft 60, 50 ft 94, about 0.0375 × L² · off center: twice the distance to the farthest side wall · corridor ≤ 20 ft wide: 15 cd, ≤ 15 ft from each end, ≤ 100 ft apart, a fire door starts a new corridor · sleeping: 177 cd within 24 in. of the ceiling, else 110 cd · 1 to 2 flashes per second · more than two in view: sync</dd>
         <dt>Horns</dt><dd>public: 15 dB over the average ambient or 5 dB over the 60 s max, whichever is greater · private: 10 dB over · sleeping: also ≥ 75 dBA at the pillow, 520 Hz · 110 dBA max at the closest ear · ambient over 105 dBA: add visible · wall horn top ≥ 90 in. up and ≥ 6 in. below the ceiling · −6 dB per doubling of distance · +3 dB per doubling of identical horns</dd>
+        <dt>Door release</dt><dd>2022 17.7.6.6 · wall section = ceiling down to the top of the door frame, each side · either direction: (A) 24 in. or less both sides: 1 ceiling detector on either side, or 2 wall, one each side · (B) over 24 in. one side: 1 ceiling on the higher side, or 1 wall each side · (C) over 24 in. both sides: 2, ceiling or wall, one each side · (D) listed door-frame or detector-closer: 1, per the manufacturer · one direction: in the space the smoke is kept in, any depth · ceiling: on the centerline, ≤ 5 ft out · doorways more than 24 in. apart: each on its own</dd>
+        <dt>Beams</dt><dd>2022 17.7.4.2.4.2, spot smoke, level ceiling · depth &lt; 0.1H: smooth spacing, ceiling or beam bottoms · depth ≥ 0.1H and spacing ≥ 0.4H: ceiling in every pocket · ≥ 0.1H and &lt; 0.4H: 30 ft along the beams, 15 ft across, ceiling or beam bottoms · waffle or pan: the same tests · corridor ≤ 15 ft wide, beams across: smooth, also sidewalls · room ≤ 900 ft²: smooth · spacing is center to center</dd>
       </dl>
     </div>
   </div>
@@ -2063,6 +2160,381 @@ function ntfJobNotes(){
   requestAnimationFrame(blink);
 })();
 
+/* ---------- on/off buttons: each one flips by itself (seg() is pick-one) ---------- */
+function tog(container,onFlip){
+  container.addEventListener('click',function(e){var b=e.target.closest('button');if(!b||b.disabled)return;var on=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on?'true':'false');onFlip(b.getAttribute('data-v'),on);});
+}
+function togSet(container,map){$$('button',container).forEach(function(b){b.setAttribute('aria-pressed',map[b.getAttribute('data-v')]?'true':'false');});}
+function dimH(g,x1,x2,y,col){svgEl('line',{x1:x1,y1:y,x2:x2,y2:y,stroke:col,'stroke-width':'1.5'},g);svgEl('line',{x1:x1,y1:y-4,x2:x1,y2:y+4,stroke:col,'stroke-width':'1.5'},g);svgEl('line',{x1:x2,y1:y-4,x2:x2,y2:y+4,stroke:col,'stroke-width':'1.5'},g);}
+
+/* ================= STATION 12: DOOR RELEASE ================= */
+/* NFPA 72-2022 17.7.6.6.4 (how many detectors and which side) and 17.7.6.6.5.1 (where a ceiling detector goes).
+   The wall section is measured on each side, from the ceiling down to the top of the door frame. */
+var DR_JOBS={
+  A:{hA:12,hB:12,leaf:'single',dir:'both',type:'ceiling',desc:'Job A: a cross-corridor smoke door, single leaf. The wall section above the door is 12 in. on both sides, and smoke could come from either side. Ceiling-mounted detectors. Place the fewest that meet the code.'},
+  B:{hA:8,hB:36,leaf:'double',dir:'both',type:'ceiling',desc:'Job B: a pair of smoke doors. The wall section is 8 in. on side A and 36 in. on side B. Smoke could come from either side. Ceiling-mounted detectors, the fewest that work.'},
+  C:{hA:8,hB:36,leaf:'double',dir:'both',type:'wall',desc:'Job C: the same pair of doors, but the owner wants wall-mounted detectors. Place the fewest that meet the code.'},
+  D:{hA:30,hB:42,leaf:'single',dir:'both',type:'ceiling',pA:true,pB:true,dA:6,dB:7,fix:true,desc:'Job D: the drawings show ceiling detectors 6 ft and 7 ft out from a smoke door. The wall section is 30 in. on side A and 42 in. on side B, and smoke could come from either side. Fix the layout.'},
+  E:{hA:10,hB:40,leaf:'single',dir:'A',type:'ceiling',desc:'Job E: a door from a storage room (side A) to a corridor (side B). It only has to keep the room\'s smoke out of the corridor. The wall section is 10 in. in the room and 40 in. in the corridor. Ceiling-mounted detectors, the fewest that work.'}
+};
+var DR_IDS=['A','B','C','D','E'];
+var DR_TYPE={ceiling:'ceiling-mounted',wall:'wall-mounted',frame:'listed door-frame'};
+var dr={hA:12,hB:36,leaf:'single',dir:'both',type:'ceiling',pA:false,pB:true,dA:3,dB:3,job:null,picked:false};
+function drOther(s){return s==='A'?'B':'A';}
+/* What the rule asks for: sides is 'either', 'both', 'A' or 'B'; n is the fewest detectors that meet it. */
+function drNeed(p){
+  var deepA=p.hA>24,deepB=p.hB>24,ceil=p.type==='ceiling';
+  if(p.dir!=='both')return {rule:'one',sec:'17.7.6.6.4.2',sides:p.type==='frame'?'either':p.dir,n:1};
+  if(p.type==='frame')return {rule:'D',sec:'17.7.6.6.4.1(D)',sides:'either',n:1};
+  if(!deepA&&!deepB)return {rule:'A',sec:'17.7.6.6.4.1(A)',sides:ceil?'either':'both',n:ceil?1:2};
+  if(deepA&&deepB)return {rule:'C',sec:'17.7.6.6.4.1(C)',sides:'both',n:2};
+  var hi=deepA?'A':'B';
+  return {rule:'B',sec:'17.7.6.6.4.1(B)',sides:ceil?hi:'both',n:ceil?1:2,hi:hi};
+}
+function drSolve(p){
+  var nd=drNeed(p),placed=(p.pA?1:0)+(p.pB?1:0),far=[];
+  var sidesOk=nd.sides==='either'?placed>0:nd.sides==='both'?(p.pA&&p.pB):!!p['p'+nd.sides];
+  if(p.type==='ceiling'){if(p.pA&&p.dA>5)far.push('A');if(p.pB&&p.dB>5)far.push('B');}
+  var pass=sidesOk&&!far.length;
+  return {nd:nd,placed:placed,sidesOk:sidesOk,far:far,pass:pass,best:pass&&placed===nd.n};
+}
+function drRuleTxt(nd){
+  return {A:'24 in. or less on both sides → one ceiling detector on either side, or two wall detectors, one on each side',
+    B:'over 24 in. on side '+nd.hi+' only → one ceiling detector on that side, the higher one, or one wall detector on each side',
+    C:'over 24 in. on both sides → two detectors, ceiling or wall, one on each side',
+    D:'a detector listed for door-frame mounting, or a listed combination detector and closer → only one, per the manufacturer\'s instructions',
+    one:'one direction only → detectors in the space the smoke is kept in, whatever the depth, or one listed door-frame detector'}[nd.rule];
+}
+function drNeedTxt(nd,p){
+  if(nd.rule==='D'||(nd.rule==='one'&&p.type==='frame'))return 'one detector, installed per the manufacturer\'s instructions';
+  if(nd.rule==='one')return 'one detector on side '+nd.sides+', where the smoke is kept';
+  if(nd.sides==='either')return 'one detector, on either side';
+  if(nd.sides==='both')return 'two detectors, one on each side';
+  return 'one detector on side '+nd.sides+', the higher side';
+}
+function drYours(p){
+  var s=[];if(p.pA)s.push('A');if(p.pB)s.push('B');
+  if(!s.length)return 'no detectors';
+  var t={ceiling:'ceiling',wall:'wall',frame:'door-frame'}[p.type];
+  return s.length===2?'two '+t+' detectors, sides A and B':'one '+t+' detector, side '+s[0];
+}
+function drDists(p){var a=[];if(p.pA)a.push('A '+fmt(p.dA,1)+' ft');if(p.pB)a.push('B '+fmt(p.dB,1)+' ft');return a.join(', ');}
+function drWhy(r,p){
+  var nd=r.nd,hi=nd.hi,lo=hi?drOther(hi):null;
+  if(!r.placed)return 'No detector is placed, so nothing would release the doors.';
+  if(!r.sidesOk){
+    if(nd.rule==='one')return 'The detector is on side '+drOther(nd.sides)+', but the smoke is to be kept on side '+nd.sides+'. For one direction only, detectors go in the space the smoke is kept in, whatever the depth of the wall section (17.7.6.6.4.2).';
+    if(nd.rule==='B'&&p.type==='ceiling')return 'The ceiling detector is on side '+lo+', the lower side. Smoke on side '+hi+' has to bank down '+p['h'+hi]+' in. before it reaches the doorway, so that detector would see it late. Rule (B) puts it on side '+hi+', the higher side.';
+    if(nd.rule==='C')return 'Both wall sections are over 24 in., so each side holds its own smoke. A detector on one side could miss smoke on the other until it is too late. Rule (C) puts one on each side.';
+    return 'With wall-mounted detectors, rule ('+nd.rule+') needs one on each side of the doorway. Only a ceiling detector may go on '+(nd.rule==='B'?'the higher side':'one side')+' alone.';
+  }
+  if(r.far.length){var s=r.far[0];return 'The side '+s+' detector is '+fmt(p['d'+s],1)+' ft out from the doorway. A ceiling-mounted door-release detector on a smooth ceiling goes no more than 5 ft out, measured along the ceiling at right angles to the doorway (17.7.6.6.5.1).';}
+  switch(nd.rule){
+    case 'A':return p.type==='ceiling'?'With 24 in. or less on both sides, smoke from either side banks down only a short way before it flows through the doorway. One ceiling detector on either side sees it.':'Rule (A) with wall-mounted detectors: one on each side of the doorway.';
+    case 'B':return p.type==='ceiling'?'The deep wall section holds side '+hi+'\'s smoke on side '+hi+'. Smoke from side '+lo+' banks down only '+p['h'+lo]+' in., flows through the doorway and rises to the side '+hi+' ceiling. One detector on side '+hi+' sees both.':'Rule (B) with wall-mounted detectors: one on each side. Only a ceiling detector may go on the higher side alone.';
+    case 'C':return 'Both wall sections are over 24 in., so each side holds its own smoke and gets its own detector.';
+    case 'D':return 'A detector listed for door-frame mounting, or a listed combination detector and closer, needs only one, installed per the manufacturer\'s instructions, whatever the wall-section depths.';
+    default:return p.type==='frame'?'For one direction, a listed door-frame detector may be used instead of detectors in the space the smoke is kept in.':'Only side '+nd.sides+', where the smoke is to be kept, needs a detector. For one direction the depth of the wall section does not matter.';
+  }
+}
+function drArrow(g,x1,x2,y,col,both){
+  var d=x2>x1?1:-1;svgEl('line',{x1:x1,y1:y,x2:x2-6*d,y2:y,stroke:col,'stroke-width':'2'},g);
+  svgEl('path',{d:'M'+x2+' '+y+' l'+(-9*d)+' -5 v10 z',fill:col},g);
+  if(both)svgEl('path',{d:'M'+x1+' '+y+' l'+(9*d)+' -5 v10 z',fill:col},g);
+}
+function drDraw(r,p,col){
+  var g=$('#drG');g.innerHTML='';
+  var K=26,XC=380,wl=XC-6,wr=XC+6,R=8.5*K,face={A:wl,B:wr},sg={A:-1,B:1},ceil=p.type==='ceiling';
+  function Y(h){return 64+(12.5-h)*K;}
+  var yD=Y(7),yCut=Y(4),yC={A:Y(7+p.hA/12),B:Y(7+p.hB/12)},yTop=Math.min(yC.A,yC.B)-12,y24=Y(9);
+  txt(g,20,20,'Section through the doorway, on its centerline','lbl');
+  ['A','B'].forEach(function(s){
+    var f=face[s],x0=s==='A'?f-R:f,h=p['h'+s],deep=h>24,yc=yC[s],xd=f+sg[s]*16,xm=s==='A'?16:744,an=s==='A'?'start':'end';
+    /* side labels in the margin */
+    txt(g,xm,46,'Side '+s,'lbl',{'text-anchor':an,style:p.dir===s?'fill:var(--accent)':''});
+    txt(g,xm,64,'Wall section','val',{'text-anchor':an,'font-size':'12'});
+    txt(g,xm,80,h+' in. deep','val',{'text-anchor':an,'font-size':'12',style:deep?'fill:var(--accent)':''});
+    txt(g,xm,96,deep?'over 24 in.':'24 in. or less','val',{'text-anchor':an,'font-size':'12',style:deep?'fill:var(--accent)':''});
+    if(p.dir===s)txt(g,xm,112,'smoke kept here','val',{'text-anchor':an,'font-size':'12',style:'fill:var(--accent)'});
+    svgEl('rect',{x:x0,y:yc-10,width:R,height:10,fill:'var(--chip)'},g);
+    svgEl('line',{x1:x0,y1:yc,x2:x0+R,y2:yc,stroke:'var(--fg)','stroke-width':'2.5'},g);
+    /* the wall-section depth, with a tick at 24 in. */
+    svgEl('line',{x1:xd,y1:Math.min(y24,yc),x2:xd,y2:yD,stroke:'var(--muted)','stroke-width':'1','stroke-dasharray':'2 3'},g);
+    if(h>0)svgEl('line',{x1:xd,y1:yc,x2:xd,y2:yD,stroke:deep?'var(--accent)':'var(--fg)','stroke-width':'2'},g);
+    svgEl('line',{x1:xd-4,y1:yD,x2:xd+4,y2:yD,stroke:'var(--fg)','stroke-width':'1.5'},g);
+    svgEl('line',{x1:xd-5,y1:y24,x2:xd+5,y2:y24,stroke:'var(--muted)','stroke-width':'1.5'},g);
+    txt(g,xd+sg[s]*8,y24+4,'24 in.','val halo',{'text-anchor':s==='A'?'end':'start','font-size':'11',style:'fill:var(--muted)'});
+    if(ceil){var x5=f+sg[s]*5*K;svgEl('line',{x1:x5,y1:yc-12,x2:x5,y2:yc+12,stroke:'var(--accent)','stroke-width':'1.5','stroke-dasharray':'3 2'},g);txt(g,x5,yc-16,'5 ft max','val halo',{'text-anchor':'middle','font-size':'11',style:'fill:var(--accent)'});}
+  });
+  /* the wall above the door, the frame head, and the door's closed position (dashed) */
+  svgEl('rect',{x:wl,y:yTop,width:wr-wl,height:yD-yTop,fill:'var(--muted)','fill-opacity':'.4',stroke:'var(--fg)','stroke-width':'1.5'},g);
+  svgEl('rect',{x:wl-3,y:yD,width:wr-wl+6,height:5,fill:'var(--fg)'},g);
+  svgEl('rect',{x:XC-2,y:yD+5,width:4,height:yCut-yD-5,fill:'none',stroke:'var(--muted)','stroke-width':'1.5','stroke-dasharray':'4 3'},g);
+  var ya=yD+54;
+  if(p.dir==='both'){drArrow(g,XC-96,XC+96,ya,'var(--muted)',true);txt(g,XC,ya+16,'smoke either way','val halo',{'text-anchor':'middle','font-size':'11',style:'fill:var(--muted)'});}
+  else{var ks=p.dir,xs=face[ks]+sg[ks]*96;drArrow(g,xs,XC-sg[ks]*6,ya,'var(--accent)',false);svgEl('line',{x1:XC,y1:ya-10,x2:XC,y2:ya+10,stroke:'var(--accent)','stroke-width':'3'},g);
+    txt(g,(xs+XC)/2,ya+16,'keep smoke on side '+ks,'val halo',{'text-anchor':'middle','font-size':'11',style:'fill:var(--accent)'});}
+  /* detectors */
+  ['A','B'].forEach(function(s){
+    if(!p['p'+s])return;
+    var f=face[s],yc=yC[s];
+    if(p.type==='ceiling'){
+      var d=p['d'+s],x=f+sg[s]*Math.max(d*K,14),yy=yc+24;
+      svgEl('rect',{x:x-13,y:yc,width:26,height:8,rx:4,fill:'var(--surface)',stroke:col,'stroke-width':'2.5'},g);
+      svgEl('circle',{cx:x,cy:yc+4,r:2,fill:col},g);
+      svgEl('line',{x1:f,y1:yy,x2:x,y2:yy,stroke:col,'stroke-width':'1.5'},g);
+      svgEl('line',{x1:x,y1:yy-4,x2:x,y2:yy+4,stroke:col,'stroke-width':'1.5'},g);
+      txt(g,(f+x)/2,yy+14,fmt(d,1)+' ft out','val halo',{'text-anchor':'middle','font-size':'11',style:'fill:'+col});
+    }else if(p.type==='wall'){
+      var fits=yc+22<=yD;
+      svgEl('rect',{x:s==='A'?f-8:f,y:yc+6,width:8,height:15,rx:2,fill:'var(--surface)',stroke:col,'stroke-width':'2.5','stroke-dasharray':fits?'none':'3 2'},g);
+      if(!fits)txt(g,f+sg[s]*30,yc+30,'on the wall beside the door','val halo',{'text-anchor':s==='A'?'end':'start','font-size':'11',style:'fill:'+col});
+    }else{
+      svgEl('rect',{x:s==='A'?f-9:f,y:yD-12,width:9,height:12,rx:2,fill:'var(--surface)',stroke:col,'stroke-width':'2.5'},g);
+      txt(g,f+sg[s]*24,yD-3,'on the frame','val halo',{'text-anchor':s==='A'?'end':'start','font-size':'11',style:'fill:'+col});
+    }
+  });
+  /* plan at the doorway, 10 px per ft */
+  var P=10,py=384,pl=XC-3,pr=XC+3,ow=(p.leaf==='double'?6:3)*P,top=py-ow/2,bot=py+ow/2,pf={A:pl,B:pr};
+  txt(g,20,326,'Plan at the doorway','lbl');
+  txt(g,20,344,p.leaf==='double'?'Double door, a pair of 3 ft leaves':'Single door, 3 ft leaf','val',{'font-size':'12'});
+  txt(g,20,362,'Either way it is one doorway:','val',{'font-size':'12',style:'fill:var(--muted)'});
+  txt(g,20,378,'the same rules apply.','val',{'font-size':'12',style:'fill:var(--muted)'});
+  svgEl('rect',{x:pl,y:top-28,width:6,height:28,fill:'var(--muted)','fill-opacity':'.6',stroke:'var(--fg)','stroke-width':'1'},g);
+  svgEl('rect',{x:pl,y:bot,width:6,height:28,fill:'var(--muted)','fill-opacity':'.6',stroke:'var(--fg)','stroke-width':'1'},g);
+  var lw=p.leaf==='double'?ow/2:ow,leaves=p.leaf==='double'?[[top,py,1],[bot,py,0]]:[[top,bot,1]];
+  leaves.forEach(function(L){
+    svgEl('line',{x1:pr,y1:L[0],x2:pr+lw,y2:L[0],stroke:'var(--fg)','stroke-width':'3'},g);
+    svgEl('path',{d:'M'+(pr+lw)+' '+L[0]+' A'+lw+' '+lw+' 0 0 '+L[2]+' '+pr+' '+L[1],fill:'none',stroke:'var(--muted)','stroke-width':'1','stroke-dasharray':'3 3'},g);
+    svgEl('rect',{x:pr+lw,y:L[0]-3,width:6,height:6,fill:'var(--copper)'},g);
+  });
+  txt(g,pr+lw+2,top-8,'magnetic holder','val halo',{'font-size':'11',style:'fill:var(--copper)'});
+  svgEl('line',{x1:pl-8.5*P,y1:py,x2:pr+8.5*P,y2:py,stroke:'var(--accent)','stroke-width':'1.5','stroke-dasharray':'6 4'},g);
+  txt(g,pl-8.5*P,py-7,'centerline','val',{'font-size':'11',style:'fill:var(--accent)'});
+  txt(g,pl-8.5*P-6,py+4,'A','lbl',{'text-anchor':'end','font-size':'13'});txt(g,pr+8.5*P+6,py+4,'B','lbl',{'font-size':'13'});
+  if(ceil)['A','B'].forEach(function(s){var x=pf[s]+sg[s]*5*P;svgEl('line',{x1:x,y1:py-7,x2:x,y2:py+7,stroke:'var(--accent)','stroke-width':'1.5'},g);txt(g,x,py+20,'5 ft','val',{'text-anchor':'middle','font-size':'11',style:'fill:var(--accent)'});});
+  ['A','B'].forEach(function(s){
+    if(!p['p'+s])return;
+    if(ceil)svgEl('circle',{cx:pf[s]+sg[s]*Math.max(p['d'+s]*P,5),cy:py,r:4.5,fill:col},g);
+    else svgEl('rect',{x:s==='A'?pl-6:pr,y:py-4,width:6,height:8,fill:col},g);
+  });
+  var key=ceil?['Ceiling detectors, 17.7.6.6.5.1:','on the centerline of the doorway,','no more than 5 ft out, and no','closer than Figure','17.7.6.6.4.1(A) shows. Check','that figure in your book.']
+    :p.type==='wall'?['Wall detectors go on the wall,','one on each side of the doorway','whenever the rule asks for two.']
+    :['Listed door-frame detector, or a','listed detector and closer: one,','installed per the manufacturer\'s','published instructions.'];
+  key.forEach(function(t,k){txt(g,528,326+k*16,t,'val',{'font-size':'11',style:k?'':'fill:var(--accent)'});});
+}
+function drSync(){
+  $('#drHA').value=dr.hA;$('#drHB').value=dr.hB;$('#drDA').value=dr.dA;$('#drDB').value=dr.dB;
+  segSet($('#drLeaf'),dr.leaf);segSet($('#drDir'),dr.dir);segSet($('#drType'),dr.type);togSet($('#drPlace'),{A:dr.pA,B:dr.pB});
+  if(dr.job)segSet($('#drJobs'),dr.job);else $$('#drJobs button').forEach(function(b){b.setAttribute('aria-pressed','false');});
+}
+function drLeaveJob(){dr.job=null;dr.picked=false;$$('#drJobs button').forEach(function(b){b.setAttribute('aria-pressed','false');});}
+function drJobDone(j){
+  if(!state.puzzle.doors)state.puzzle.doors={};
+  if(state.puzzle.doors[j])return;
+  state.puzzle.doors[j]=true;
+  if(DR_IDS.every(function(k){return state.puzzle.doors[k];}))state.puzzle.doorfix=10;
+  save();updateScore();
+}
+function drJobNotes(){
+  var d=state.puzzle.doors||{},n=DR_IDS.filter(function(k){return d[k];}).length;
+  $$('#drJobs button').forEach(function(b){b.classList.toggle('solved',!!d[b.getAttribute('data-v')]);});
+  $('#drJobNote').textContent=state.puzzle.doorfix?'All five doors laid out. +10 points.':n+' of 5 jobs done. Lay out all five doors for 10 points.';
+}
+function drUpdate(){
+  var r=drSolve(dr),nd=r.nd,reveal=!dr.job||dr.picked,ceil=dr.type==='ceiling',msg,tone;
+  $('#drOutHA').textContent=dr.hA+' in.';$('#drOutHB').textContent=dr.hB+' in.';
+  $('#drOutDA').textContent=fmt(dr.dA,1)+' ft';$('#drOutDB').textContent=fmt(dr.dB,1)+' ft';
+  vis($('#drDACtl'),ceil&&dr.pA);vis($('#drDBCtl'),ceil&&dr.pB);
+  var lines=['Side A wall section: '+dr.hA+' in. · '+(dr.hA>24?'<b>over 24 in.</b>':'24 in. or less'),
+    'Side B wall section: '+dr.hB+' in. · '+(dr.hB>24?'<b>over 24 in.</b>':'24 in. or less'),
+    (dr.dir==='both'?'Smoke from either direction':'One direction: keep smoke on side '+dr.dir)+' · '+(dr.leaf==='double'?'double door, one doorway':'single door')];
+  if(reveal){
+    lines.push('Rule '+nd.sec+': '+drRuleTxt(nd));
+    lines.push('With '+DR_TYPE[dr.type]+' detectors: <b>'+drNeedTxt(nd,dr)+'</b>');
+    lines.push('Yours: '+drYours(dr)+' → <b class="'+(r.pass?'ok':'bad')+'">'+(r.pass?'PASS':'FAIL')+'</b>');
+    if(ceil&&r.placed)lines.push('Location: on the centerline · '+drDists(dr)+' out, 5 ft max · minimum: Figure 17.7.6.6.4.1(A), not scored here');
+  }
+  msg=drWhy(r,dr);tone=r.pass?'ok':'bad';
+  if(r.pass&&!r.best)msg=(dr.job?'It works, but ':'This works, but ')+(nd.n===1?'one detector':'two detectors')+' would meet the rule. '+msg;
+  if(dr.job){
+    if(!dr.picked){msg=DR_JOBS[dr.job].fix?'Job loaded. Fix the layout so it meets the code with the fewest detectors.':'Job loaded. Place the fewest detectors that meet the code.';tone='warn';}
+    else if(r.best){msg='Correct. '+msg;tone='ok';drJobDone(dr.job);}
+    else if(r.pass)tone='warn';
+    else msg='Not this one. '+msg;
+  }
+  $('#drBig').textContent=reveal?(nd.rule==='one'?'One way':'('+nd.rule+')'):'?';
+  $('#drCalc').innerHTML=lines.map(function(l){return '<div>'+l+'</div>';}).join('');
+  $('#drMsg').innerHTML='<span class="'+tone+'">'+msg+'</span>';
+  $('#drJobDesc').textContent=dr.job?DR_JOBS[dr.job].desc:'Load a job to set up a doorway. Then place the detectors.';
+  drJobNotes();
+  drDraw(r,dr,reveal?(r.pass?'var(--ok)':'var(--bad)'):'var(--wire)');
+}
+seg($('#drJobs'),function(v){var j=DR_JOBS[v];dr.job=v;dr.hA=j.hA;dr.hB=j.hB;dr.leaf=j.leaf;dr.dir=j.dir;dr.type=j.type;dr.pA=!!j.pA;dr.pB=!!j.pB;dr.dA=j.dA||3;dr.dB=j.dB||3;dr.picked=false;drSync();drUpdate();});
+$('#drHA').addEventListener('input',function(){dr.hA=+this.value;drLeaveJob();drUpdate();});
+$('#drHB').addEventListener('input',function(){dr.hB=+this.value;drLeaveJob();drUpdate();});
+seg($('#drLeaf'),function(v){dr.leaf=v;drLeaveJob();drUpdate();});
+seg($('#drDir'),function(v){dr.dir=v;drLeaveJob();drUpdate();});
+seg($('#drType'),function(v){dr.type=v;drLeaveJob();drUpdate();});
+tog($('#drPlace'),function(s,on){dr['p'+s]=on;if(dr.job)dr.picked=true;drUpdate();});
+$('#drDA').addEventListener('input',function(){dr.dA=+this.value;if(dr.job)dr.picked=true;drUpdate();});
+$('#drDB').addEventListener('input',function(){dr.dB=+this.value;if(dr.job)dr.picked=true;drUpdate();});
+
+/* ================= STATION 13: BEAM POCKETS ================= */
+/* NFPA 72-2022 17.7.4.2.4.2, spot-type smoke detectors on level ceilings with beams. H = ceiling height,
+   depth = how far a beam hangs below the ceiling, spacing = center to center. Smooth spacing is the nominal 30 ft. */
+var BM_JOBS={
+  A:{H:14,D:16,S:5,desc:'Job A: a level ceiling 14 ft high with beams 16 in. deep, 5 ft on center. Make the call for spot-type smoke detectors.'},
+  B:{H:10,D:18,S:6,desc:'Job B: a level ceiling 10 ft high with beams 18 in. deep, 6 ft on center.'},
+  C:{H:10,D:18,S:3,desc:'Job C: a level ceiling 10 ft high with beams 18 in. deep, 3 ft on center.'},
+  D:{H:12,D:20,S:6,x:true,desc:'Job D: a waffle ceiling 12 ft high, with pans 20 in. deep on 6 ft centers both ways. An old handout says waffles up to 24 in. deep and 12 ft on center have a rule of their own. Make the call under 2022.'},
+  E:{H:9,D:14,S:2.5,cor:true,desc:'Job E: a corridor 10 ft wide with a 9 ft ceiling. Solid joists 14 in. deep, 2.5 ft on center, run across the corridor.'}
+};
+var BM_IDS=['A','B','C','D','E'];
+var bm={H:10,D:18,S:6,x:false,cor:false,room:false,job:null,pick:null};
+function bmSolve(p){
+  var Hin=p.H*12,d01=0.1*Hin,s04=0.4*p.H,deep=p.D>=d01-1e-9,wide=p.S>=s04-1e-9;
+  var base=!deep?'1':wide?'2a':'2b',rule=p.cor?'4':p.room?'5':base;
+  var mount={'1':'the ceiling or the bottom of the beams','2a':'the ceiling, in each beam pocket','2b':'the ceiling or the bottom of the beams','4':'the ceiling, the sidewalls, or the bottom of the beams or joists','5':'the ceiling or the bottom of the beams'}[rule];
+  return {Hin:Hin,d01:d01,s04:s04,deep:deep,wide:wide,base:base,rule:rule,treat:rule==='2a'?'pocket':rule==='2b'?'half':'smooth',mount:mount};
+}
+function bmLabel(r,p){var L={'1':'(1)','2a':'(2)(a)','2b':'(2)(b)','4':'(4)','5':'(5)'}[r.rule];return p.x&&r.rule!=='4'&&r.rule!=='5'?'(3) → '+L:L;}
+function bmNum(v){return fmt(v,v%1?1:0);}
+function bmTreatTxt(t,x){
+  if(t==='pocket')return 'A detector on the ceiling in <b>every pocket</b>'+(x?'':', and along each pocket no more than the smooth spacing');
+  if(t==='half')return x?'<b>15 ft</b> both ways: every direction crosses beams':'Along the beams <b>30 ft</b> · across them <b>15 ft</b>';
+  return 'Smooth ceiling spacing: <b>30 ft</b> both ways';
+}
+function bmWhy(r,p){
+  var baseTxt={'1':'smooth spacing','2a':'a detector in every pocket','2b':'half spacing across the beams'}[r.base],m;
+  switch(r.rule){
+    case '1':m='The beams hang less than 0.1H, so smoke rolls under them and the ceiling counts as smooth. Detectors may go on the ceiling or on the bottom of the beams.';break;
+    case '2a':m='The beams are 0.1H or deeper and 0.4H or more apart. Each pocket fills with smoke like a small room before the smoke spills under the next beam, so every pocket gets a detector on its ceiling.';break;
+    case '2b':m=p.x?'The beams are 0.1H or deeper and closer than 0.4H, in both directions. Smoke crosses beams whichever way it moves, so this bench takes half spacing both ways. Detectors may go on the ceiling or the bottom of the beams.':'The beams are 0.1H or deeper but closer than 0.4H. Smoke runs easily along the channels between them and slowly across them, so keep smooth spacing along the beams and halve it across. Detectors may go on the ceiling or the bottom of the beams.';break;
+    case '4':m=(r.base==='1'?'These beams are shallow, so rule (1) already allows smooth spacing. ':'On their own, these beams call for '+baseTxt+'. ')+'Rule (4) permits smooth spacing in a corridor 15 ft wide or less with beams or solid joists across it, with detectors on the ceiling, the sidewalls, or the bottom of the beams or joists.';break;
+    default:m=(r.base==='1'?'These beams are shallow, so rule (1) already allows smooth spacing. ':'On their own, these beams call for '+baseTxt+'. ')+'Rule (5) permits smooth spacing in a room of 900 ft² or less, with detectors on the ceiling or the bottom of the beams.';
+  }
+  if(p.x)m+=' There is no separate waffle rule in 2022: intersecting beams use the same tests (rule (3)).';
+  return m;
+}
+function bmEven(len,s){var n=Math.max(1,Math.ceil(len/s-1e-9)),a=[];for(var i=0;i<n;i++)a.push((i+0.5)*len/n);return a;}
+function bmPockets(len,s){var a=[],x=0;while(x<len-1e-9){var e=Math.min(len,x+s);a.push((x+e)/2);x=e;}return a;}
+function bmDraw(r,show,col){
+  var g=$('#bmG');g.innerHTML='';
+  var H=bm.H,S=bm.S,D=bm.D,Dft=D/12,X0=50,X1=550,XC=300,y0=66;
+  /* A close-up of the ceiling zone, to scale; the floor is cut off. Wide enough for two pockets and for the 0.4H bar. */
+  var Wft=Math.max(2.2*S,0.4*H+S+1),Zft=Math.max(0.1*H,Dft)*1.4+0.25;
+  var sc=Math.min((X1-X0)/Wft,150/Zft),yz=y0+Zft*sc,bw=Math.max(4,(8/12)*sc),y01=y0+0.1*H*sc,yb=y0+Dft*sc;
+  txt(g,20,22,'Section across the beams, drawn to scale','lbl');
+  txt(g,20,42,'H = '+bmNum(H)+' ft · the floor is below, cut off'+(bm.x&&D>0?' · shaded: cross beams beyond':''),'val',{'font-size':'12'});
+  var defs=svgEl('defs',{},g),cp=svgEl('clipPath',{id:'bmClip'},defs);svgEl('rect',{x:X0,y:0,width:X1-X0,height:300},cp);
+  var cg=svgEl('g',{'clip-path':'url(#bmClip)'},g);
+  svgEl('rect',{x:X0,y:y0-10,width:X1-X0,height:10,fill:'var(--chip)'},cg);
+  if(bm.x&&D>0)svgEl('rect',{x:X0,y:y0,width:X1-X0,height:Dft*sc,fill:'var(--chip)','fill-opacity':'.6'},cg);
+  var beams=[];for(var k=-60;k<=60;k++){var bx=XC+(k+0.5)*S*sc;if(bx>X0-bw&&bx<X1+bw)beams.push(bx);}
+  if(D>0)beams.forEach(function(bx){svgEl('rect',{x:bx-bw/2,y:y0,width:bw,height:Dft*sc,fill:'var(--chip)',stroke:'var(--wire)','stroke-width':'1.5'},cg);});
+  svgEl('line',{x1:X0,y1:y0,x2:X1,y2:y0,stroke:'var(--fg)','stroke-width':'2.5'},cg);
+  svgEl('line',{x1:X0,y1:y01,x2:X1,y2:y01,stroke:'var(--accent)','stroke-width':'1.5','stroke-dasharray':'6 4'},cg);
+  var zz='M'+X0+' '+yz;for(var zx=X0+8,up=1;zx<=X1;zx+=8,up=-up)zz+=' L'+zx+' '+(yz+3*up);
+  svgEl('path',{d:zz,fill:'none',stroke:'var(--muted)','stroke-width':'1.5'},g);
+  /* detectors: on the ceiling in each pocket, or on the ceiling with the beam bottom as the other choice */
+  function sd(x,y,dash){svgEl('rect',{x:x-8,y:y,width:16,height:6,rx:3,fill:'var(--surface)',stroke:col,'stroke-width':'2','stroke-dasharray':dash?'3 2':'none'},cg);}
+  if(show==='pocket'&&D>0){for(var j=-60;j<=60;j++){var px=XC+j*S*sc;if(px>X0+8&&px<X1-8)sd(px,y0,false);}}
+  else if(show){sd(XC,y0,false);if(D>0){var bR=XC+0.5*S*sc,lt='or on the beam bottom',fitR=bR+12+lt.length*6.6<X1+8;sd(bR,yb,true);txt(g,fitR?bR+12:bR-12,yb+18,lt,'val halo',{'text-anchor':fitR?'start':'end','font-size':'11',style:'fill:'+col});}}
+  /* 0.1H, the beam depth, the spacing and 0.4H */
+  var above=0.1*H*sc>18;
+  txt(g,X1-6,above?y01-5:y01+15,'0.1H = '+fmt(r.d01,1)+' in.','val halo',{'text-anchor':'end','font-size':'12',style:'fill:var(--accent)'});
+  if(D>0){
+    var bL=XC-0.5*S*sc;txt(g,bL-bw/2-5,y0+Math.max(15,Dft*sc/2+5),D+' in. deep','val halo',{'text-anchor':'end','font-size':'12'});
+    var xa=null;for(var q=0;q<beams.length;q++)if(beams[q]>=X0+4){xa=beams[q];break;}
+    if(xa!=null){
+      var xb=xa+S*sc,yd=yz+24,x4=xa+r.s04*sc,lab='0.4H = '+fmt(r.s04,1)+' ft',right=x4+6+lab.length*7.2<X1+12;
+      dimH(g,xa,xb,yd,'var(--fg)');txt(g,(xa+xb)/2,yd-6,'spacing '+bmNum(S)+' ft','val halo',{'text-anchor':'middle','font-size':'12'});
+      svgEl('rect',{x:xa,y:yd+7,width:Math.max(1,x4-xa),height:5,fill:'var(--accent)'},g);
+      txt(g,right?x4+6:xa,right?yd+14:yd+28,lab,'val',{'text-anchor':'start','font-size':'12',style:'fill:var(--accent)'});
+    }
+  }else txt(g,XC,y0+Math.max(30,0.1*H*sc+20),'No beams: a smooth ceiling','val halo',{'text-anchor':'middle','font-size':'12'});
+  /* plan, 3 px per ft. Beams run up and down the plan, so "along the beams" is up and down. */
+  var PS=3,W=bm.cor?60:bm.room?30:60,L=bm.cor?10:bm.room?30:60,px0=660-W*PS/2,py0=56+(180-L*PS)/2;
+  txt(g,570,22,'Plan · '+(bm.cor?'corridor 10 × 60 ft':bm.room?'room 30 × 30 ft':'room 60 × 60 ft'),'lbl');
+  txt(g,570,42,bm.x?'beams both ways':'↕ is along the beams','val',{'font-size':'11',style:'fill:var(--muted)'});
+  svgEl('rect',{x:px0,y:py0,width:W*PS,height:L*PS,fill:'var(--bg)',stroke:'var(--fg)','stroke-width':'2'},g);
+  if(D>0){
+    for(var bxf=S;bxf<W-1e-9;bxf+=S)svgEl('line',{x1:px0+bxf*PS,y1:py0,x2:px0+bxf*PS,y2:py0+L*PS,stroke:'var(--muted)','stroke-width':'1.2'},g);
+    if(bm.x)for(var byf=S;byf<L-1e-9;byf+=S)svgEl('line',{x1:px0,y1:py0+byf*PS,x2:px0+W*PS,y2:py0+byf*PS,stroke:'var(--muted)','stroke-width':'1.2'},g);
+  }
+  var l1,l2,n=0;
+  if(show){
+    var xs,ys;
+    if(show==='pocket'&&D>0){xs=bmPockets(W,S);ys=bm.x?bmPockets(L,S):bmEven(L,30);}
+    else if(show==='half'){xs=bmEven(W,15);ys=bm.x?bmEven(L,15):bmEven(L,30);}
+    else{xs=bmEven(W,30);ys=bmEven(L,30);}
+    xs.forEach(function(xf){ys.forEach(function(yf){svgEl('circle',{cx:px0+xf*PS,cy:py0+yf*PS,r:3,fill:col},g);n++;});});
+    l1=n+' detector'+(n===1?'':'s');
+    l2=show==='pocket'&&D>0?(bm.x?'one in every pocket':'every pocket, 30 ft along'):show==='half'?(bm.x?'15 ft both ways':'15 ft across, 30 ft along'):'30 ft both ways';
+  }else{l1='Make your call';l2='to lay out the detectors';}
+  var yl=py0+L*PS+20;
+  txt(g,660,yl,l1,'val',{'text-anchor':'middle','font-size':'12',style:'fill:'+(show?col:'var(--muted)')});
+  txt(g,660,yl+16,l2,'val',{'text-anchor':'middle','font-size':'11',style:'fill:'+(show?col:'var(--muted)')});
+}
+function bmSync(){
+  $('#bmH').value=bm.H;$('#bmD').value=bm.D;$('#bmS').value=bm.S;
+  togSet($('#bmTog'),{x:bm.x,cor:bm.cor,room:bm.room});
+  if(bm.job)segSet($('#bmJobs'),bm.job);else $$('#bmJobs button').forEach(function(b){b.setAttribute('aria-pressed','false');});
+  segSet($('#bmPick'),bm.pick||'');vis($('#bmPickCtl'),!!bm.job);
+}
+function bmLeaveJob(){bm.job=null;bm.pick=null;$$('#bmJobs button').forEach(function(b){b.setAttribute('aria-pressed','false');});segSet($('#bmPick'),'');vis($('#bmPickCtl'),false);}
+function bmJobDone(j){
+  if(!state.puzzle.beams)state.puzzle.beams={};
+  if(state.puzzle.beams[j])return;
+  state.puzzle.beams[j]=true;
+  if(BM_IDS.every(function(k){return state.puzzle.beams[k];}))state.puzzle.beamfix=10;
+  save();updateScore();
+}
+function bmJobNotes(){
+  var d=state.puzzle.beams||{},n=BM_IDS.filter(function(k){return d[k];}).length;
+  $$('#bmJobs button').forEach(function(b){b.classList.toggle('solved',!!d[b.getAttribute('data-v')]);});
+  $('#bmJobNote').textContent=state.puzzle.beamfix?'All five ceilings called. +10 points.':n+' of 5 jobs done. Make the right call on all five for 10 points.';
+}
+function bmUpdate(){
+  var r=bmSolve(bm),reveal=!bm.job||!!bm.pick,right=bm.pick===r.treat,show=bm.job?bm.pick:r.treat,col=!bm.job?'var(--accent)':right?'var(--ok)':'var(--bad)',msg,tone='';
+  $('#bmOutH').textContent=bmNum(bm.H)+' ft';$('#bmOutD').textContent=bm.D+' in.';$('#bmOutS').textContent=bmNum(bm.S)+' ft';
+  var lines=['H = '+bmNum(bm.H)+' ft = '+fmt(r.Hin,0)+' in.'];
+  if(reveal){
+    lines.push('Depth '+bm.D+' in. vs 0.1H = '+fmt(r.d01,1)+' in. → <b>'+(r.deep?'0.1H or more':'under 0.1H')+'</b>');
+    lines.push(r.deep?'Spacing '+bmNum(bm.S)+' ft vs 0.4H = '+fmt(r.s04,1)+' ft → <b>'+(r.wide?'0.4H or more':'under 0.4H')+'</b>':'Spacing '+bmNum(bm.S)+' ft · 0.4H = '+fmt(r.s04,1)+' ft: not needed, the beams are shallow');
+    if(bm.x)lines.push('Beams cross both ways: rule (3) uses (1) or (2)');
+    if(bm.cor)lines.push('Corridor 15 ft wide or less, beams across it: rule (4)');
+    if(bm.room)lines.push('Room of 900 ft² or less: rule (5)'+(bm.cor?', and (4) applies too':''));
+    lines.push(bmTreatTxt(r.treat,bm.x));
+    lines.push('Mount on '+r.mount);
+  }else{
+    lines.push('Beam depth '+bm.D+' in. · 0.1H = '+fmt(r.d01,1)+' in.');
+    lines.push('Beam spacing '+bmNum(bm.S)+' ft · 0.4H = '+fmt(r.s04,1)+' ft');
+    if(bm.x)lines.push('Beams cross both ways');
+    if(bm.cor)lines.push('Corridor 15 ft wide or less, beams across it');
+    if(bm.room)lines.push('Room of 900 ft² or less');
+  }
+  msg=bmWhy(r,bm);
+  if(bm.job){
+    if(!bm.pick){msg='Job loaded. Compare the beam depth with 0.1H and the spacing with 0.4H, then make your call.';tone='warn';}
+    else if(right){msg='Correct. '+msg;tone='ok';bmJobDone(bm.job);}
+    else{msg='Not this one. '+msg;tone='bad';}
+  }
+  $('#bmBig').textContent=reveal?bmLabel(r,bm):'?';
+  $('#bmCalc').innerHTML=lines.map(function(l){return '<div>'+l+'</div>';}).join('');
+  $('#bmMsg').innerHTML='<span class="'+tone+'">'+msg+'</span>';
+  $('#bmJobDesc').textContent=bm.job?BM_JOBS[bm.job].desc:'Load a job to set up a ceiling. Then make the call.';
+  bmJobNotes();
+  bmDraw(r,show,col);
+}
+seg($('#bmJobs'),function(v){var j=BM_JOBS[v];bm.job=v;bm.H=j.H;bm.D=j.D;bm.S=j.S;bm.x=!!j.x;bm.cor=!!j.cor;bm.room=!!j.room;bm.pick=null;bmSync();bmUpdate();});
+seg($('#bmPick'),function(v){bm.pick=v;bmUpdate();});
+$('#bmH').addEventListener('input',function(){bm.H=+this.value;bmLeaveJob();bmUpdate();});
+$('#bmD').addEventListener('input',function(){bm.D=+this.value;bmLeaveJob();bmUpdate();});
+$('#bmS').addEventListener('input',function(){bm.S=+this.value;bmLeaveJob();bmUpdate();});
+tog($('#bmTog'),function(k,on){bm[k]=on;bmLeaveJob();bmUpdate();});
+
 /* ================= QUIZ ================= */
 var QUIZ={
 ohm:[
@@ -2196,14 +2668,41 @@ notify:[
  {type:"mc",q:"A corridor is 12 ft wide and 250 ft long with no doors or level changes. Using the corridor method with 15 cd strobes, what is the fewest strobes allowed?",opts:["3","4","5","2"],a:1,ex:"A strobe must be within 15 ft of each end, and strobes can be no more than 100 ft apart. Place them at 15 ft, 115 ft and 215 ft. The last one is 35 ft from the far end, so a fourth is needed. Dividing 250 by 100 and rounding up gives 3, which forgets the 15 ft end rule."},
  {type:"mc",q:"A wall-mounted strobe in a 20 ft × 20 ft room is moved 5 ft off the center of its wall. What minimum candela rating does it need now?",opts:["15 cd","30 cd","34 cd","60 cd"],a:2,ex:"Off center, the room size is the greater of two distances (18.5.5.7.4). One is the distance to the far wall. The other is double the distance to the farthest side wall. The farthest side wall is now 10 + 5 = 15 ft away, and 2 × 15 = 30 ft, so the 30 ft × 30 ft row applies: 34 cd."},
  {type:"num",q:"Two identical horns are each rated 87 dBA at 10 ft. A listener stands 40 ft from both. Using the 6 dB and 3 dB rules, what is the combined level, in dBA?",unit:"dBA",a:78,tol:0.5,ex:"Distance first: 10 ft to 40 ft is two doublings, so 87 − (2 × 6) = 75 dBA from each horn. Then two equal sources add 3 dB: 75 + 3 = 78 dBA. Using only one doubling gives 84 dBA. Forgetting the second horn gives 75 dBA."}
+],
+doors:[
+ {type:"mc",q:"A smoke door has to close for smoke from either direction. The wall section above the door is 18 in. deep on both sides. With ceiling-mounted detectors, what does the door need?",opts:["Two detectors, one on each side","One detector, on the higher side","One detector, on either side of the doorway","One detector on each side, plus one on the frame"],a:2,ex:"18 in. is 24 in. or less on both sides, so rule (A) applies (NFPA 72-2022 17.7.6.6.4.1(A)). One ceiling-mounted detector on one side of the doorway is enough. Smoke from either side banks down only 18 in. before it flows through the doorway. Two detectors, one on each side, is the answer for wall-mounted detectors under (A), or for wall sections over 24 in. on both sides."},
+ {type:"mc",q:"Smoke from either direction. The wall section above the door is 12 in. on side A and 36 in. on side B. Where does a single ceiling-mounted detector go?",opts:["On side A, where the wall section is shallower","On side B, where the wall section is deeper and the ceiling higher","On either side, because only one side is over 24 in.","On the door frame, centered over the door"],a:1,ex:"Rule (B), over 24 in. on one side only: one ceiling-mounted detector on the higher side (17.7.6.6.4.1(B)). The top of the door is the same on both sides, so the deeper wall section means the higher ceiling. Smoke on side B has to bank down 36 in. before it reaches the doorway, so a detector on side A would see it late. Smoke on side A banks down only 12 in., then spills through and rises to the side B ceiling. 'Either side' is rule (A), for 24 in. or less on both sides."},
+ {type:"mc",q:"The same door: 12 in. on side A, 36 in. on side B, smoke from either direction. The owner wants wall-mounted detectors instead. How many?",opts:["One, on the side B wall","One, on the side A wall","Three: one on each wall and one on the ceiling","Two, one wall-mounted detector on each side"],a:3,ex:"Rule (B) gives two choices: one ceiling-mounted detector on the higher side, or one wall-mounted detector on each side (17.7.6.6.4.1(B)). The one-detector choice belongs to ceiling mounting only. Switch to wall mounting and the count goes to two."},
+ {type:"mc",q:"For smoke from either direction, which wall-section depths call for a detector on each side, even with ceiling-mounted detectors?",opts:["Over 24 in. on both sides","Over 24 in. on either side","Over 12 in. on both sides","Any depth, once the doorway has a pair of doors"],a:0,ex:"Rule (C): where the wall section is over 24 in. on both sides, two detectors are needed, ceiling or wall mounted, one on each side (17.7.6.6.4.1(C)). Each deep wall section holds smoke on its own side. Over 24 in. on one side only is rule (B), where one ceiling detector on the higher side does it. A pair of doors in one opening follows the same rules as a single door."},
+ {type:"mc",q:"A listed combination smoke detector and door closer is mounted at the door and installed per its instructions. The wall section is 30 in. on both sides. How many door-release detectors does the doorway need?",opts:["Two, one on each side, because both sides are over 24 in.","Three: the unit plus a ceiling detector on each side","One, the combination unit","One, plus a ceiling detector on the higher side"],a:2,ex:"Rule (D): a detector listed for door-frame mounting, or a listed combination (integral) detector and door closer, needs only one detector, installed per the manufacturer's published instructions (17.7.6.6.4.1(D)). The wall-section depths that drive (A) to (C) don't change that. Two detectors would be right with ordinary ceiling or wall detectors."},
+ {type:"num",q:"A ceiling-mounted door-release detector is on a smooth ceiling at a single doorway. What is the farthest it may be from the doorway, measured along the ceiling at right angles to the doorway, in feet?",unit:"ft",a:5,tol:0.01,ex:"No more than 5 ft (17.7.6.6.5.1(2)). It also goes on the centerline of the doorway (item 1), and no closer than Figure 17.7.6.6.4.1(A) shows (item 3). The trap is 15 ft, half of the 30 ft area spacing. A door-release detector is placed for the doorway, not for area coverage."},
+ {type:"mc",q:"Doors at a storage room only have to keep the room's smoke out of the corridor. The wall section is 10 in. on the room side and 40 in. on the corridor side. Where do the ceiling detectors go?",opts:["In the corridor, the higher side","In the storage room, whatever the wall-section depth","One on each side, because one side is over 24 in.","In the corridor, where the people are"],a:1,ex:"When the doors only have to stop smoke moving one way, the detectors go in the space the smoke is to be confined to, regardless of the depth of the wall section (17.7.6.6.4.2). Here that is the storage room. Putting the detector on the higher corridor side is rule (B), which is for smoke from either direction. A listed door-frame detector, as in rule (D), is also allowed."},
+ {type:"mc",q:"Which ceiling location meets 17.7.6.6.5.1 for a door-release detector at a single doorway on a smooth ceiling?",opts:["2 ft off the centerline, 3 ft out from the doorway","On the centerline, 7 ft out from the doorway","Centered in the corridor, 15 ft from the door","On the centerline of the doorway, 3 ft out from it"],a:3,ex:"A ceiling-mounted detector goes on the centerline of the doorway, no more than 5 ft out measured along the ceiling at right angles to the doorway, and no closer than Figure 17.7.6.6.4.1(A) shows. 2 ft off the centerline fails in 2022. The 2025 edition allows 1 ft either side, and even that would not cover 2 ft. 7 ft and 15 ft are past the 5 ft limit."},
+ {type:"mc",q:"Two single smoke doors are in the same wall, 4 ft apart. The wall section is 12 in. on both sides, and smoke could come from either direction. How does NFPA 72-2022 treat them?",opts:["As one opening, so one detector between them covers both","As a pair of doors, with one detector on the centerline between them","Each doorway on its own, so each gets its own detector","Only the busier door needs a detector"],a:2,ex:"Doorways more than 24 in. apart are treated separately (17.7.6.6.4.3(A)). 4 ft is more than 24 in., so each door gets its own layout. With 12 in. on both sides, that is rule (A) at each door: one ceiling detector, or two wall detectors. For groups of doorways closer together, see the rest of 17.7.6.6.4.3."},
+ {type:"num",q:"At a smoke door, the ceiling on side A is 10 ft 6 in. high and the top of the door frame is 7 ft 6 in. above the floor. How deep is the wall section above the door on side A, in inches?",unit:"in.",a:36,tol:0.01,ex:"The wall section runs from the ceiling down to the top of the door frame: 10 ft 6 in. − 7 ft 6 in. = 3 ft = 36 in. That is over 24 in., so it holds smoke on side A. If side B is 24 in. or less, rule (B) puts one ceiling detector on side A, the higher side. Measuring from the floor, or using the full ceiling height, gives the wrong number."}
+],
+beams:[
+ {type:"num",q:"A level ceiling is 11 ft high with beams 20 in. deep. What is 0.4H, the beam spacing that decides between a detector in every pocket and half spacing, in feet?",unit:"ft",a:4.4,tol:0.05,ex:"0.4H = 0.4 × 11 ft = 4.4 ft. Check the depth first: 0.1H = 0.1 × 132 in. = 13.2 in., and 20 in. is more, so the spacing matters (17.7.4.2.4.2(2)). Beams 4.4 ft or more apart get a detector on the ceiling in each pocket. Closer than that, use 30 ft along the beams and 15 ft across. Taking 0.1H instead gives 1.1 ft, which is the wrong test."},
+ {type:"num",q:"A 12 ft level ceiling has beams 16 in. deep, 4 ft on center. The detectors use the nominal 30 ft spacing. What is the most the spot smoke detectors may be apart across the beams (at right angles to them), in feet?",unit:"ft",a:15,tol:0.01,ex:"Depth: 0.1H = 14.4 in., and 16 in. is more. Spacing: 0.4H = 4.8 ft, and 4 ft is less. That is rule (2)(b): smooth spacing, 30 ft, parallel to the beams and half of it, 15 ft, at right angles to them (17.7.4.2.4.2(2)(b)). Detectors may go on the ceiling or the bottom of the beams. Answering 30 ft skips the beam rules."},
+ {type:"mc",q:"Beams are 0.1H deep or more and spaced 0.4H or more apart. Where do spot-type smoke detectors go?",opts:["On the bottom of the beams, at smooth ceiling spacing","On the ceiling in each beam pocket","At half spacing in both directions","On the bottom of every other beam"],a:1,ex:"17.7.4.2.4.2(2)(a): deep beams spaced 0.4H or more apart need a detector on the ceiling in each beam pocket. Each pocket fills with smoke like a small room before the smoke spills under a beam into the next one. The bottom of the beams is allowed only in the other cases: shallow beams, deep beams close together, narrow corridors and small rooms."},
+ {type:"mc",q:"Under rule (2)(b), deep beams closer together than 0.4H, where may the detectors be mounted?",opts:["On the ceiling only, in every pocket","On the sidewalls only","On the ceiling or on the bottom of the beams","On the bottom of the beams only"],a:2,ex:"17.7.4.2.4.2(2)(b) permits detectors on the ceiling or the bottom of the beams, at smooth spacing along the beams and half spacing across them. Ceiling only, in every pocket, is (2)(a), for beams 0.4H or more apart. Sidewalls are allowed only in the corridor rule, (4)."},
+ {type:"mc",q:"A waffle ceiling is 12 ft high, with pans 20 in. deep on 6 ft centers. An old study guide says waffle ceilings with beams up to 24 in. deep and 12 ft on center have a rule of their own. What does NFPA 72-2022 say?",opts:["The old waffle rule still applies, since 20 in. and 6 ft are inside its limits","Smooth spacing, because the pans are less than 24 in. deep","Half spacing both ways","Use the 0.1H and 0.4H tests: a detector on the ceiling in each pocket"],a:3,ex:"2022 has no separate waffle rule. Pockets formed by intersecting beams, waffle and pan ceilings included, use rule (1) or (2) (17.7.4.2.4.2(3)). 0.1H = 14.4 in., and 20 in. is more. 0.4H = 4.8 ft, and 6 ft is more. So (2)(a): a detector on the ceiling in each pocket. The 24 in. and 12 ft limits come from an older edition."},
+ {type:"mc",q:"A corridor is 12 ft wide with a 9 ft ceiling. Solid joists 14 in. deep, 2 ft on center, run across the corridor. How may spot smoke detectors be spaced?",opts:["Smooth ceiling spacing, on the ceiling, the sidewalls or the bottom of the joists","30 ft along the joists and 15 ft across them","A detector between every pair of joists","Smooth spacing, but on the bottom of the joists only"],a:0,ex:"Without the corridor rule this would be (2)(b): 14 in. is over 0.1H (10.8 in.), and 2 ft is under 0.4H (3.6 ft). But rule (4) covers corridors 15 ft wide or less with beams or solid joists at right angles to the corridor length. Smooth spacing is permitted, with detectors on the ceiling, the sidewalls, or the bottom of the beams or joists (17.7.4.2.4.2(4))."},
+ {type:"mc",q:"A 25 × 30 ft office (750 ft²) has a 10 ft ceiling with beams 24 in. deep, 8 ft on center. Why may it use smooth ceiling spacing?",opts:["Beams 24 in. deep or less are ignored","Rooms of 900 ft² or less may use smooth spacing","Beams spaced more than 0.4H apart allow smooth spacing","Offices are exempt from the beam rules"],a:1,ex:"On their own the beams call for a detector in every pocket: 24 in. is over 0.1H (12 in.), and 8 ft is over 0.4H (4 ft) (17.7.4.2.4.2(2)(a)). But rule (5) permits smooth spacing in rooms of 900 ft² or less, with detectors on the ceiling or the bottom of the beams. 25 × 30 = 750 ft², so it qualifies. Wide spacing is what calls for every pocket; it never relaxes the rule."},
+ {type:"mc",q:"In these beam rules, how is beam spacing measured?",opts:["The clear gap between the beam faces","From the ceiling to the bottom of the beam","Center to center of the beams","From the bottom of the beam to the floor"],a:2,ex:"Beam spacing is center to center, and it is compared with 0.4H, in feet. The ceiling to the bottom of the beam is the beam depth, compared with 0.1H, in inches. Mixing the two up is the common slip on the job and on the exam."},
+ {type:"mc",q:"Rule (2)(b) applies to a ceiling whose beams run north to south. In which direction do the detectors get half spacing?",opts:["North to south, along the beams","Both directions","Neither: the spacing is the same both ways","East to west, across the beams"],a:3,ex:"Half spacing goes at right angles to the beams, and smooth spacing goes parallel to them (17.7.4.2.4.2(2)(b)). With beams running north to south, east to west is across them: 15 ft that way and 30 ft north to south. Smoke runs easily along the channels between the beams but has to spill under each beam to move across them."},
+ {type:"mc",q:"A 20 ft level ceiling has beams 22 in. deep, 10 ft on center. Which rule applies?",opts:["(1): the beams are under 0.1H, so smooth spacing, on the ceiling or the beam bottoms","(2)(a): a detector on the ceiling in each pocket","(2)(b): 30 ft along the beams and 15 ft across","Smooth spacing, but on the bottom of the beams only"],a:0,ex:"Do the depth test first. 0.1H = 0.1 × 240 in. = 24 in., and 22 in. is less, so rule (1) applies: smooth spacing, with detectors on the ceiling or the bottom of the beams (17.7.4.2.4.2(1)). The spacing test only counts once the beams are 0.1H or deeper. 10 ft is over 0.4H (8 ft), which tempts you into (2)(a)."}
 ]};
-var ST_NAMES={ohm:'1 · Ohm\'s law',series:'2 · Series',parallel:'3 · Parallel',builder:'4 · Build a circuit',drop:'5 · Voltage drop',supervision:'6 · Supervision',battery:'7 · Battery sizing',booster:'8 · Booster supply',colors:'9 · Color code',wire:'10 · Wire gauge',notify:'11 · Strobes & horns'};
-var ST_ORDER=['ohm','series','parallel','builder','drop','supervision','battery','booster','colors','wire','notify'];
+var ST_NAMES={ohm:'1 · Ohm\'s law',series:'2 · Series',parallel:'3 · Parallel',builder:'4 · Build a circuit',drop:'5 · Voltage drop',supervision:'6 · Supervision',battery:'7 · Battery sizing',booster:'8 · Booster supply',colors:'9 · Color code',wire:'10 · Wire gauge',notify:'11 · Strobes & horns',doors:'12 · Door release',beams:'13 · Beam pockets'};
+var ST_ORDER=['ohm','series','parallel','builder','drop','supervision','battery','booster','colors','wire','notify','doors','beams'];
+/* Stations with a puzzle or job set worth 10, and the state.puzzle key that holds those points. */
+var ST_PUZ={drop:'dropfix',battery:'batfix',booster:'boostfix',colors:'colorfix',wire:'wirefix',notify:'notifyfix',doors:'doorfix',beams:'beamfix'};
 function qKey(st,i){return st+'-'+i;}
-function maxScore(){var m=60;for(var s in QUIZ)m+=QUIZ[s].length*10;return m;}
-function stationPts(st){var p=0;QUIZ[st].forEach(function(_,i){var r=state.q[qKey(st,i)];if(r)p+=r.pts||0;});if(st==='drop')p+=state.puzzle.dropfix||0;if(st==='battery')p+=state.puzzle.batfix||0;if(st==='booster')p+=state.puzzle.boostfix||0;if(st==='colors')p+=state.puzzle.colorfix||0;if(st==='wire')p+=state.puzzle.wirefix||0;if(st==='notify')p+=state.puzzle.notifyfix||0;return p;}
-function stationMax(st){return QUIZ[st].length*10+(st==='drop'||st==='battery'||st==='booster'||st==='colors'||st==='wire'||st==='notify'?10:0);}
+function maxScore(){var m=0;for(var s in QUIZ)m+=stationMax(s);return m;}
+function stationPts(st){var p=0;QUIZ[st].forEach(function(_,i){var r=state.q[qKey(st,i)];if(r)p+=r.pts||0;});if(ST_PUZ[st])p+=state.puzzle[ST_PUZ[st]]||0;return p;}
+function stationMax(st){return QUIZ[st].length*10+(ST_PUZ[st]?10:0);}
 function stationDone(st){return QUIZ[st].every(function(_,i){var r=state.q[qKey(st,i)];return r&&r.done;});}
+function stationComplete(st){return stationDone(st)&&(!ST_PUZ[st]||!!state.puzzle[ST_PUZ[st]]);}
 function totalPts(){return ST_ORDER.reduce(function(s,st){return s+stationPts(st);},0);}
 function updateScore(){
   $('#scoreNow').textContent=totalPts();$('#scoreMax').textContent=maxScore();
@@ -2250,13 +2749,13 @@ document.addEventListener('keydown',function(e){if(e.key!=='Enter')return;var in
 /* ================= SCOREBOARD ================= */
 function paintScoreboard(){
   $('#boardTotal').textContent=totalPts()+' / '+maxScore();
-  $('#boardTable tbody').innerHTML=ST_ORDER.map(function(st){var done=stationDone(st)&&(st!=='drop'||state.puzzle.dropfix)&&(st!=='battery'||state.puzzle.batfix)&&(st!=='booster'||state.puzzle.boostfix)&&(st!=='colors'||state.puzzle.colorfix)&&(st!=='wire'||state.puzzle.wirefix)&&(st!=='notify'||state.puzzle.notifyfix);return '<tr><td>'+ST_NAMES[st]+'</td><td class="num">'+stationPts(st)+' / '+stationMax(st)+'</td><td><span class="badge'+(done?' done':'')+'">'+(done?'Complete':'In progress')+'</span></td></tr>';}).join('');
+  $('#boardTable tbody').innerHTML=ST_ORDER.map(function(st){var done=stationComplete(st);return '<tr><td>'+ST_NAMES[st]+'</td><td class="num">'+stationPts(st)+' / '+stationMax(st)+'</td><td><span class="badge'+(done?' done':'')+'">'+(done?'Complete':'In progress')+'</span></td></tr>';}).join('');
 }
 $('#resetBtn').addEventListener('click',function(){$('#resetYes').hidden=false;this.textContent='Really reset?';});
-$('#resetYes').addEventListener('click',function(){state={q:{},puzzle:{}};save();ST_ORDER.forEach(function(st){QUIZ[st].forEach(function(q,i){var d=$('#q-'+st+'-'+i);$$('.opts button',d).forEach(function(b){b.className='';b.disabled=false;});var inp=$('input',d);if(inp){inp.disabled=false;inp.value='';}var cb=$('button[data-check]',d);if(cb)cb.disabled=false;var fb=$('.fb',d);fb.className='fb';fb.textContent='';});});updateScore();paintScoreboard();$('#resetYes').hidden=true;$('#resetBtn').textContent='Reset my progress';if(drop.puzzle)dropUpdate();bszUpdate();bstUpdate();clr.streak=0;clrChalPaint();wirUpdate();stbUpdate();hrnUpdate();});
+$('#resetYes').addEventListener('click',function(){state={q:{},puzzle:{}};save();ST_ORDER.forEach(function(st){QUIZ[st].forEach(function(q,i){var d=$('#q-'+st+'-'+i);$$('.opts button',d).forEach(function(b){b.className='';b.disabled=false;});var inp=$('input',d);if(inp){inp.disabled=false;inp.value='';}var cb=$('button[data-check]',d);if(cb)cb.disabled=false;var fb=$('.fb',d);fb.className='fb';fb.textContent='';});});updateScore();paintScoreboard();$('#resetYes').hidden=true;$('#resetBtn').textContent='Reset my progress';if(drop.puzzle)dropUpdate();bszUpdate();bstUpdate();clr.streak=0;clrChalPaint();wirUpdate();stbUpdate();hrnUpdate();drLeaveJob();drUpdate();bmLeaveJob();bmUpdate();});
 
 /* ================= ROUTING ================= */
-var STATIONS=['ohm','series','parallel','builder','drop','supervision','battery','booster','colors','wire','notify','scoreboard'];
+var STATIONS=['ohm','series','parallel','builder','drop','supervision','battery','booster','colors','wire','notify','doors','beams','scoreboard'];
 function show(id){
   if(STATIONS.indexOf(id)<0)id='ohm';
   $$('.station').forEach(function(s){s.classList.toggle('show',s.id===id);});
@@ -2268,7 +2767,7 @@ window.addEventListener('hashchange',function(){show(location.hash.slice(1));win
 /* ================= BOOT ================= */
 function start(){
   renderQuiz();updateScore();
-  ohmUpdate();serRenderCtls();serUpdate();parUpdate();bldUpdate();dropUpdate();supUpdate();bszSyncInputs();bszUpdate();bstSyncInputs();bstUpdate();clrInit();wirSync();wirUpdate();stbSync();stbUpdate();hrnInit();hrnSync();hrnUpdate();
+  ohmUpdate();serRenderCtls();serUpdate();parUpdate();bldUpdate();dropUpdate();supUpdate();bszSyncInputs();bszUpdate();bstSyncInputs();bstUpdate();clrInit();wirSync();wirUpdate();stbSync();stbUpdate();hrnInit();hrnSync();hrnUpdate();drSync();drUpdate();bmSync();bmUpdate();
   show(location.hash.slice(1)||'ohm');
 }
 if(window.claude&&window.claude.hot&&window.claude.hot.ready){window.claude.hot.ready(start);}else start();
