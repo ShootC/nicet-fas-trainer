@@ -14,7 +14,7 @@ export const LEVELS = [
     experience: '6 months fire detection and signaling work, plus 5 supervisor-verified performance measures.',
     domains: [
       { id: '1.1', name: 'Installation', weight: [44, 54], tasks: [
-        { id: '1.1.1', name: 'Mount and terminate peripherals', blurb: 'Initiating and notification devices: where they go, how high, how they land on the circuit.', lab: ['supervision', 'notify'] },
+        { id: '1.1.1', name: 'Mount and terminate peripherals', blurb: 'Initiating and notification devices: where they go, how high, how they land on the circuit.', lab: ['supervision', 'notify', 'doors', 'beams'] },
         { id: '1.1.2', name: 'Install cabling and infrastructure', blurb: 'NEC Article 760 cable types, support, separation, raceways, wire size and voltage drop.', lab: ['drop', 'wire', 'colors'] },
         { id: '1.1.3', name: 'Job site safety', blurb: 'OSHA ladders, fall protection, lockout/tagout, PPE, electrical safety and first aid basics.' }
       ]},
@@ -51,7 +51,7 @@ export const LEVELS = [
       ]},
       { id: '2.3', name: 'Submittal preparation and system layout', weight: [20, 30], tasks: [
         { id: '2.3.1', name: 'Shop drawing information', blurb: 'What NFPA 72 Chapter 7 requires on shop drawings, riser diagrams and sequence matrices.' },
-        { id: '2.3.2', name: 'Site survey against the design', blurb: 'Ceiling heights, beams, ambient sound, room sizes and occupancy that change the layout.', lab: ['notify'] },
+        { id: '2.3.2', name: 'Site survey against the design', blurb: 'Ceiling heights, beams, ambient sound, room sizes and occupancy that change the layout.', lab: ['notify', 'beams'] },
         { id: '2.3.3', name: 'Basic technical drawings', blurb: 'Symbols, scales, floor plans, risers and point-to-point wiring diagrams.' },
         { id: '2.3.4', name: 'Power supply and loading', blurb: 'Battery calculations, NAC loading, voltage drop and booster power supplies.', lab: ['battery', 'booster', 'drop'] }
       ]},

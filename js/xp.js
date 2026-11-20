@@ -2,7 +2,7 @@
 // so changing point values or adding questions never corrupts a saved profile.
 import { CONFIG } from '../data/config.js';
 import { LEVELS } from '../data/levels.js';
-import { LAB_STATIONS } from '../data/lab.js';
+import { LAB_STATIONS, LAB_QUESTIONS_PER_STATION } from '../data/lab.js';
 import { QUESTIONS } from '../data/questions/index.js';
 import { LOOKUPS } from '../data/lookups/index.js';
 import { BADGES, badgeXP } from '../data/badges.js';
@@ -15,6 +15,8 @@ export function labPoints() {
   for (const s of LAB_STATIONS) if (s.puzzle) p += (L.puzzle && L.puzzle[s.puzzle]) || 0;
   return p;
 }
+// Most points the lab can give: 10 per question at every station, plus 10 for each puzzle or job set.
+export const labMaxPoints = () => LAB_STATIONS.reduce((t, s) => t + LAB_QUESTIONS_PER_STATION * 10 + (s.puzzle ? 10 : 0), 0);
 export function labStation(st) {
   const L = labState(); let p = 0, done = 0;
   for (let i = 0; i < 10; i++) { const r = L.q && L.q[st.id + '-' + i]; if (r) { p += r.pts || 0; done++; } }

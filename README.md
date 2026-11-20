@@ -10,9 +10,9 @@ A study app for NICET Fire Alarm Systems candidates, starting with Levels I and 
 - **Badges.** Forty-one achievements in groups (study habits, questions, mastery, code lookup, Cite it, practice exams, Review, Circuit Lab), at bronze 10 XP, silver 25 or gold 50. Two are hidden until earned. Once earned, a badge is kept, even if new questions later pull a task back under mastery. Edit them in `data/badges.js`.
 - **Code lookup drills** for NFPA 72-2022, NEC 2020 and IBC 2021. There are two drill types, "which chapter?" and "exact section", each timed against exam pace. A book map and a printable tab list come from the same data.
 - **Review.** Spaced repetition brings back every miss after 1, 3 and 7 days until it sticks.
-- **Circuit Lab.** These are the 11 hands-on stations from `FAS-Circuit-Lab.html`, and their points count as XP.
+- **Circuit Lab.** Hands-on stations in `lab/index.html`, and their points count as XP. It started as a copy of the `FAS-Circuit-Lab.html` handout and is now the app's own version.
 
-The standalone `FAS-Circuit-Lab.html` handout still works on its own. This app is the bigger study tool.
+The standalone `FAS-Circuit-Lab.html` handout still works on its own and stays as it is. This app is the bigger study tool.
 
 ## Running it
 
@@ -65,13 +65,7 @@ Lookups live in `data/lookups/` (`nfpa72.js`, `nec.js`, `ibc.js`). Each item loo
 
 ## Updating the Circuit Lab
 
-After editing `FAS-Circuit-Lab.html` in the training folder, run this from this folder:
-
-```
-node tools/sync-lab.mjs ../FAS-Circuit-Lab.html
-```
-
-It copies the lab to `lab/index.html` and adds the "back to the trainer" bar.
+Edit `lab/index.html` directly. Since November 2026 the app's lab is separate from the free `FAS-Circuit-Lab.html` handout: the handout keeps its 11 stations, and new stations go into the app only. The `<script src="../js/lab-bridge.js">` line near the end adds the "back to the trainer" bar; keep it. When you add a station, also add it to `data/lab.js` so its points count as XP.
 
 ## Code editions
 

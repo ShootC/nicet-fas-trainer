@@ -26,7 +26,7 @@ export const BADGES = [
   { id: 'review-10', group: 'Review', icon: '🔁', name: 'It Stuck', desc: 'Graduate 10 items out of Review.', test: s => s.graduated >= 10 },
   { id: 'streak-7', group: 'Study habits', icon: '🔥', name: 'On Shift', desc: 'Study 7 days in a row.', test: s => s.streak >= 7 },
   { id: 'lab-500', group: 'Circuit Lab', icon: '🔌', name: 'Bench Tech', desc: 'Earn 500 Circuit Lab points.', test: s => s.lab >= 500 },
-  { id: 'lab-all', group: 'Circuit Lab', icon: '⚡', name: 'Every Bench', desc: 'Score points at all 11 Circuit Lab stations.', test: s => s.labStations >= 11 },
+  { id: 'lab-all', group: 'Circuit Lab', icon: '⚡', name: 'Every Bench', desc: 'Score points at every Circuit Lab station.', test: s => s.labStations >= s.labStationCount },
 
   // Study habits
   { id: 'days-50', group: 'Study habits', xp: 10, icon: '📅', name: 'Regular', desc: 'Study on 50 different days.', test: s => s.days >= 50 },
